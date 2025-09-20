@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import MainPage from "./pages/main/page.tsx";
+import MainPage from './pages/main/page.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
