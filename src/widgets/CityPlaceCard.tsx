@@ -1,4 +1,4 @@
-import {CityPlaceInfo} from '../../shared/CityPlace';
+import {CityPlaceInfo} from '../shared/CityPlace';
 
 export default function CityPlaceCard({title, imageHref, price, type, rating, bookmark, mark}: CityPlaceInfo) {
   return (
@@ -15,7 +15,7 @@ export default function CityPlaceCard({title, imageHref, price, type, rating, bo
       <div className='place-card__info'>
         <div className='place-card__price-wrapper'>
           <div className='place-card__price'>
-            <b className='place-card__price-value'>&euro;{price}</b>
+            <b className='place-card__price-value'>&euro;{price} </b>
             <span className='place-card__price-text'>&#47;&nbsp;night</span>
           </div>
           <button
