@@ -1,4 +1,4 @@
-import {CityPlaceInfo} from "../shared/CityPlace";
+import {CityPlaceInfo} from '../shared/CityPlace';
 
 const places: CityPlaceInfo[] = [
   {
