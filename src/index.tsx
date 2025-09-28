@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import MainPage from './pages/main/page.tsx';
-import {CityContext, PlacesContext} from './shared/contexts.ts';
-import getPlaces from './api/tempGetPlaces.tsx';
+import MainPage from './pages/main/main.tsx';
+import {CityContext, PlacesContext} from './components/shared/contexts.ts';
+import getPlaces from './api/temp-get-places.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

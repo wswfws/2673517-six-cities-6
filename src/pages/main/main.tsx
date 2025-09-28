@@ -1,8 +1,8 @@
-import CityPlaceCard from '../../widgets/CityPlaceCard.tsx';
-import Header from '../../widgets/Header.tsx';
-import LocationsTabs from '../../widgets/LocationsTabs.tsx';
+import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
+import Header from '../../components/widgets/header.tsx';
+import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
 import {useContext} from 'react';
-import {CityContext, PlacesContext} from '../../shared/contexts.ts';
+import {CityContext, PlacesContext} from '../../components/shared/contexts.ts';
 
 export default function MainPage() {
 

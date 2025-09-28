@@ -1,5 +1,5 @@
-import Header from '../../widgets/Header.tsx';
-import LocationsTabs from '../../widgets/LocationsTabs.tsx';
+import Header from '../../components/widgets/header.tsx';
+import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
 
 export default function EmptyMainPage({location}: { location: string }) {
   return (

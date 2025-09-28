@@ -1,4 +1,4 @@
-import TabList, {ITabList} from '../shared/TabList.tsx';
+import TabList, {ITabList} from '../shared/tab-list.tsx';
 
 const locations: ITabList = [
   {

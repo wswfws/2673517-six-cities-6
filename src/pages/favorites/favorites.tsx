@@ -1,4 +1,4 @@
-import Header from '../../widgets/Header.tsx';
+import Header from '../../components/widgets/header.tsx';
 
 export default function FavoritesPage() {
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import {CityPlaceInfo} from './CityPlace';
+import {CityPlaceInfo} from './city-place';
 
 const CityContext = React.createContext('');
 

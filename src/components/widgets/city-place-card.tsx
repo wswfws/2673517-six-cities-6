@@ -1,4 +1,4 @@
-import {CityPlaceInfo} from '../shared/CityPlace';
+import {CityPlaceInfo} from '../shared/city-place';
 
 export default function CityPlaceCard({title, imageHref, price, type, rating, bookmark, mark}: CityPlaceInfo) {
   return (
