@@ -50,6 +50,6 @@ const places: CityPlaceInfo[] = [
   },
 ];
 
-const getPlaces = (city: string): CityPlaceInfo[] => city === "Amsterdam" ? places : [];
+const getPlaces = (city: string): CityPlaceInfo[] => city === 'Amsterdam' ? places : [];
 
 export default getPlaces;

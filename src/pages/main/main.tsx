@@ -1,9 +1,9 @@
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
 import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
-import getPlaces from "../../api/temp-get-places.tsx";
-import {useParams} from "react-router-dom";
-import EmptyMainPage from "./empty-page.tsx";
-import Header from "../../components/widgets/header.tsx";
+import getPlaces from '../../api/temp-get-places.tsx';
+import {useParams} from 'react-router-dom';
+import EmptyMainPage from './empty-page.tsx';
+import Header from '../../components/widgets/header.tsx';
 
 export default function MainPage() {
 
@@ -16,12 +16,12 @@ export default function MainPage() {
   const places = getPlaces(city);
 
   if (!places || places.length === 0) {
-    return <EmptyMainPage location={city}/>
+    return <EmptyMainPage location={city}/>;
   }
 
   return (
     <div className='page page--gray page--main'>
-      <Header tempLoginStatus={"login"}/>
+      <Header tempLoginStatus={'login'}/>
       <main className='page__main page__main--index'>
         <h1 className='visually-hidden'>Cities</h1>
         <LocationsTabs/>

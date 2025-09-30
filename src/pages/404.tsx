@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
 
 export default function Error404Page() {
   return (
@@ -8,11 +8,11 @@ export default function Error404Page() {
     >
       <h1>Страница не найдена</h1>
       <Link
-        className="header__nav-link header__nav-link--profile" to="/"
+        className='header__nav-link header__nav-link--profile' to='/'
         style={{fontSize: 32}}
       >
         Домой
       </Link>
     </div>
-  )
+  );
 }

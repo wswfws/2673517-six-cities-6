@@ -1,10 +1,10 @@
-import Header from "../../components/widgets/header.tsx";
-import Footer from "../../components/widgets/footer.tsx";
+import Header from '../../components/widgets/header.tsx';
+import Footer from '../../components/widgets/footer.tsx';
 
 export default function FavoritesPage() {
   return (
-    <div className="page">
-      <Header tempLoginStatus={"login"}/>
+    <div className='page'>
+      <Header tempLoginStatus={'login'}/>
       <main className='page__main page__main--favorites'>
         <div className='page__favorites-container container'>
           <section className='favorites'>

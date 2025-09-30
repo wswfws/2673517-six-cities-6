@@ -1,33 +1,13 @@
 import TabList, {ITabList} from '../shared/tab-list.tsx';
+import useAppRoutes from '../app/use-app-routes.ts';
 
-const locations: ITabList = [
-  {
-    text: 'Paris',
-    href: '/Paris'
-  },
-  {
-    text: 'Cologne',
-    href: '/Cologne'
-  },
-  {
-    text: 'Brussels',
-    href: '/Brussels'
-  },
-  {
-    text: 'Amsterdam',
-    href: '/Amsterdam',
-  },
-  {
-    text: 'Hamburg',
-    href: '/Hamburg'
-  },
-  {
-    text: 'Dusseldorf',
-    href: '/Dusseldorf'
-  },
-];
+const cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export default function LocationsTabs() {
+
+  const {getCityPath} = useAppRoutes();
+  const locations: ITabList = cities.map((city) => ({text: city, href: getCityPath(city)}));
+
   return (
     <section className='locations container'>
       <TabList tabs={locations}/>
