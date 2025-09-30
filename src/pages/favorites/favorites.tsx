@@ -1,10 +1,10 @@
-import Header from '../../components/widgets/header.tsx';
+import Header from "../../components/widgets/header.tsx";
+import Footer from "../../components/widgets/footer.tsx";
 
 export default function FavoritesPage() {
   return (
-    <div className='page'>
-      <Header isLogin/>
-
+    <div className="page">
+      <Header tempLoginStatus={"login"}/>
       <main className='page__main page__main--favorites'>
         <div className='page__favorites-container container'>
           <section className='favorites'>
@@ -159,11 +159,7 @@ export default function FavoritesPage() {
           </section>
         </div>
       </main>
-      <footer className='footer container'>
-        <a className='footer__logo-link' href='/'>
-          <img className='footer__logo' src='/img/logo.svg' alt='6 cities logo' width='64' height='33'/>
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 }

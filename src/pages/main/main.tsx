@@ -3,6 +3,7 @@ import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
 import getPlaces from "../../api/temp-get-places.tsx";
 import {useParams} from "react-router-dom";
 import EmptyMainPage from "./empty-page.tsx";
+import Header from "../../components/widgets/header.tsx";
 
 export default function MainPage() {
 
@@ -20,7 +21,7 @@ export default function MainPage() {
 
   return (
     <div className='page page--gray page--main'>
-
+      <Header tempLoginStatus={"login"}/>
       <main className='page__main page__main--index'>
         <h1 className='visually-hidden'>Cities</h1>
         <LocationsTabs/>
