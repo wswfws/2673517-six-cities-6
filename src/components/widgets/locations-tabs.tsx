@@ -3,28 +3,27 @@ import TabList, {ITabList} from '../shared/tab-list.tsx';
 const locations: ITabList = [
   {
     text: 'Paris',
-    href: '#'
+    href: '/Paris'
   },
   {
     text: 'Cologne',
-    href: '#'
+    href: '/Cologne'
   },
   {
     text: 'Brussels',
-    href: '#'
+    href: '/Brussels'
   },
   {
     text: 'Amsterdam',
-    href: '#'
+    href: '/Amsterdam',
   },
   {
     text: 'Hamburg',
-    href: '#'
+    href: '/Hamburg'
   },
   {
     text: 'Dusseldorf',
-    href: '#',
-    isSelected: true
+    href: '/Dusseldorf'
   },
 ];
 

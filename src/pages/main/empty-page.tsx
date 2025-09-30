@@ -1,10 +1,8 @@
-import Header from '../../components/widgets/header.tsx';
 import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
 
 export default function EmptyMainPage({location}: { location: string }) {
   return (
     <div className='page page--gray page--main'>
-      <Header isLogin/>
 
       <main className='page__main page__main--index page__main--index-empty'>
         <h1 className='visually-hidden'>Cities</h1>
