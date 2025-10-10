@@ -1,18 +1,27 @@
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
-import Header from '../../components/widgets/header.tsx';
 import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
-import {useContext} from 'react';
-import {CityContext, PlacesContext} from '../../components/shared/contexts.ts';
+import getPlaces from '../../api/temp-get-places.tsx';
+import {useParams} from 'react-router-dom';
+import EmptyMainPage from './empty-page.tsx';
+import Header from '../../components/widgets/header.tsx';
 
 export default function MainPage() {
 
-  const city = useContext(CityContext);
-  const places = useContext(PlacesContext);
+  const params = useParams();
+  if (!params.city) {
+    return <h1> Город не найден</h1>;
+  }
+
+  const city = params.city;
+  const places = getPlaces(city);
+
+  if (!places || places.length === 0) {
+    return <EmptyMainPage location={city}/>;
+  }
 
   return (
     <div className='page page--gray page--main'>
-      <Header isLogin/>
-
+      <Header tempLoginStatus={'login'}/>
       <main className='page__main page__main--index'>
         <h1 className='visually-hidden'>Cities</h1>
         <LocationsTabs/>

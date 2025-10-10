@@ -1,9 +1,9 @@
 import Header from '../../components/widgets/header.tsx';
 
-export default function LoginPage({city}:{city: string}) {
+export default function LoginPage() {
   return (
     <div className='page page--gray page--login'>
-      <Header isLogin={false}/>
+      <Header tempLoginStatus={'onLoginPage'}/>
 
       <main className='page__main page__main--login'>
         <div className='page__login-container container'>
@@ -28,7 +28,7 @@ export default function LoginPage({city}:{city: string}) {
           <section className='locations locations--login locations--current'>
             <div className='locations__item'>
               <a className='locations__item-link' href='#'>
-                <span>{city}</span>
+                <span>Amsterdam</span>
               </a>
             </div>
           </section>
