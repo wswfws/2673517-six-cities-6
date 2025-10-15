@@ -8,7 +8,7 @@ import PrivateRoute from './private-route.tsx';
 import useAppRoutes, {ROUTE_CONFIG} from './use-app-routes.ts';
 
 
-const hasAccess = false;
+const hasAccess = true;
 
 const AppRoutes = () => {
   const {getCityPath} = useAppRoutes();

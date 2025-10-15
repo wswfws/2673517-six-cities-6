@@ -18,7 +18,7 @@ const places: CityPlaceInfo[] = [
       "longitude": 2.342499,
       "zoom": 16
     },
-    "isFavorite": false,
+    "isFavorite": true,
     "isPremium": true,
     "rating": 3
   },
@@ -41,7 +41,7 @@ const places: CityPlaceInfo[] = [
       "longitude": 2.330499,
       "zoom": 16
     },
-    "isFavorite": false,
+    "isFavorite": true,
     "isPremium": false,
     "rating": 1.6
   },
@@ -110,7 +110,7 @@ const places: CityPlaceInfo[] = [
       "longitude": 2.375499,
       "zoom": 16
     },
-    "isFavorite": false,
+    "isFavorite": true,
     "isPremium": true,
     "rating": 2.3
   },
@@ -156,7 +156,7 @@ const places: CityPlaceInfo[] = [
       "longitude": 2.364499,
       "zoom": 16
     },
-    "isFavorite": false,
+    "isFavorite": true,
     "isPremium": false,
     "rating": 1.1
   },
@@ -2134,7 +2134,7 @@ const places: CityPlaceInfo[] = [
       "longitude": 10.025654000000001,
       "zoom": 16
     },
-    "isFavorite": false,
+    "isFavorite": true,
     "isPremium": true,
     "rating": 3
   },
@@ -2762,5 +2762,7 @@ const places: CityPlaceInfo[] = [
 ]
 
 const getPlaces = (city: string): CityPlaceInfo[] => places.filter(p => p.city.name === city);
+
+export const getCities = () => ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export default getPlaces;
