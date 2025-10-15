@@ -1,8 +1,8 @@
 import Header from '../../components/widgets/header.tsx';
 import Footer from '../../components/widgets/footer.tsx';
-import getPlaces, {getCities} from "../../api/temp-get-places.tsx";
-import useAppRoutes from "../../components/app/use-app-routes.ts";
-import CityPlaceCardFavorites from "../../components/widgets/city-place-card-favorites.tsx";
+import getPlaces, {getCities} from '../../api/temp-get-places.tsx';
+import useAppRoutes from '../../components/app/use-app-routes.ts';
+import CityPlaceCardFavorites from '../../components/widgets/city-place-card-favorites.tsx';
 
 export default function FavoritesPage() {
 
@@ -17,7 +17,7 @@ export default function FavoritesPage() {
             <h1 className='favorites__title'>Saved listing</h1>
             <ul className='favorites__list'>
               {getCities().map((city) => {
-                const places = getPlaces(city).filter(p => p.isFavorite);
+                const places = getPlaces(city).filter((p) => p.isFavorite);
                 if (places && places.length > 0) {
                   return (
                     <li className='favorites__locations-items' key={city}>
@@ -29,10 +29,10 @@ export default function FavoritesPage() {
                         </div>
                       </div>
                       <div className='favorites__places'>
-                        {places.map((place) => <CityPlaceCardFavorites cityPlaceInfo={place}/>)}
+                        {places.map((place) => <CityPlaceCardFavorites key={place.id} cityPlaceInfo={place}/>)}
                       </div>
                     </li>
-                  )
+                  );
                 }
               })}
             </ul>

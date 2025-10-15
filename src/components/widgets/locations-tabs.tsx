@@ -1,6 +1,6 @@
 import TabList, {ITabList} from '../shared/tab-list.tsx';
 import useAppRoutes from '../app/use-app-routes.ts';
-import {getCities} from "../../api/temp-get-places.tsx";
+import {getCities} from '../../api/temp-get-places.tsx';
 
 const cities = getCities();
 

@@ -1,5 +1,5 @@
 export default function CityPlaceCardFavorites({cityPlaceInfo}: {
-  cityPlaceInfo: CityPlaceInfo,
+  cityPlaceInfo: CityPlaceInfo;
 }) {
   return (
     <article className='favorites__card place-card'>
@@ -10,7 +10,8 @@ export default function CityPlaceCardFavorites({cityPlaceInfo}: {
       <div className='favorites__image-wrapper place-card__image-wrapper'>
         <a href='#'>
           <img className='place-card__image' src={cityPlaceInfo.previewImage} width='260' height='200'
-               alt='Place image'/>
+            alt='Place image'
+          />
         </a>
       </div>
       <div className='favorites__card-info place-card__info'>

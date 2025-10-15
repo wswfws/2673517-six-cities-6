@@ -1,8 +1,8 @@
 import Header from '../../components/widgets/header.tsx';
-import CityPlaceCard from "../../components/widgets/city-place-card.tsx";
-import getPlaces, {getPlaceById} from "../../api/temp-get-places.tsx";
-import {useParams} from "react-router-dom";
-import Error404Page from "../404.tsx";
+import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
+import getPlaces, {getPlaceById} from '../../api/temp-get-places.tsx';
+import {useParams} from 'react-router-dom';
+import Error404Page from '../404.tsx';
 import ReviewForm from '../../components/widgets/review-form.tsx'; // Добавлен импорт
 
 export default function OfferPage() {
@@ -11,7 +11,7 @@ export default function OfferPage() {
   if (!params.id) {
     return <Error404Page/>;
   }
-  const offerId = params.id as string;
+  const offerId = params.id ;
   const place = getPlaceById(offerId);
 
   if (!place) {
@@ -124,7 +124,7 @@ export default function OfferPage() {
                 <div className='offer__host-user user'>
                   <div className='offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper'>
                     <img className='offer__avatar user__avatar' src='/img/avatar-angelina.jpg' width='74' height='74'
-                         alt='Host avatar'
+                      alt='Host avatar'
                     />
                   </div>
                   <span className='offer__user-name'>
@@ -152,7 +152,7 @@ export default function OfferPage() {
                     <div className='reviews__user user'>
                       <div className='reviews__avatar-wrapper user__avatar-wrapper'>
                         <img className='reviews__avatar user__avatar' src='/img/avatar-max.jpg' width='54' height='54'
-                             alt='Reviews avatar'
+                          alt='Reviews avatar'
                         />
                       </div>
                       <span className='reviews__user-name'>
@@ -184,9 +184,9 @@ export default function OfferPage() {
           <section className='near-places places'>
             <h2 className='near-places__title'>Other places in the neighbourhood</h2>
             <div className='near-places__list places__list'>
-              <CityPlaceCard cityPlaceInfo={getPlaces("Amsterdam")[0]}/>
-              <CityPlaceCard cityPlaceInfo={getPlaces("Amsterdam")[1]}/>
-              <CityPlaceCard cityPlaceInfo={getPlaces("Amsterdam")[2]}/>
+              <CityPlaceCard cityPlaceInfo={getPlaces('Amsterdam')[0]}/>
+              <CityPlaceCard cityPlaceInfo={getPlaces('Amsterdam')[1]}/>
+              <CityPlaceCard cityPlaceInfo={getPlaces('Amsterdam')[2]}/>
             </div>
           </section>
         </div>

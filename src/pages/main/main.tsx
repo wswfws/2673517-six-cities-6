@@ -4,7 +4,7 @@ import getPlaces from '../../api/temp-get-places.tsx';
 import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
-import {useState} from "react";
+import {useState} from 'react';
 
 export default function MainPage() {
 

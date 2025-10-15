@@ -28,7 +28,6 @@ export default function ReviewForm() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Здесь будет логика отправки данных на сервер
-    console.log('Отправляемые данные:', formData);
   };
 
   const isSubmitDisabled = formData.rating === 0 || formData.review.length < 50;

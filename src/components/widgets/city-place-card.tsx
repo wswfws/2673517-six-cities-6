@@ -1,12 +1,12 @@
-import useAppRoutes from "../app/use-app-routes.ts";
-import {Link} from "react-router-dom";
+import useAppRoutes from '../app/use-app-routes.ts';
+import {Link} from 'react-router-dom';
 
 export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
-  cityPlaceInfo: CityPlaceInfo,
-  onSelect?: (id: string) => void
+  cityPlaceInfo: CityPlaceInfo;
+  onSelect?: (id: string) => void;
 }) {
 
-  const {getOfferPath} = useAppRoutes()
+  const {getOfferPath} = useAppRoutes();
 
   return (
     <article className='cities__card place-card' onSelect={() => onSelect && onSelect(cityPlaceInfo.id)}>
@@ -17,7 +17,8 @@ export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
       <div className='cities__image-wrapper place-card__image-wrapper'>
         <Link to={getOfferPath(cityPlaceInfo.id)}>
           <img className='place-card__image' src={cityPlaceInfo.previewImage} width='260' height='200'
-               alt='Place image'/>
+            alt='Place image'
+          />
         </Link>
       </div>
       <div className='place-card__info'>

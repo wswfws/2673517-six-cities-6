@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import {ROUTE_CONFIG} from "../app/use-app-routes.ts";
+import {ROUTE_CONFIG} from '../app/use-app-routes.ts';
 
 function HeaderNavigation({tempLoginStatus}: { tempLoginStatus: 'login' | 'onLoginPage' | 'unLogin' }) {
   if (tempLoginStatus === 'login') { // Для авторизованых
