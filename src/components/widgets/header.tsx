@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import {ROUTE_CONFIG} from "../app/use-app-routes.ts";
 
 function HeaderNavigation({tempLoginStatus}: { tempLoginStatus: 'login' | 'onLoginPage' | 'unLogin' }) {
   if (tempLoginStatus === 'login') { // Для авторизованых
@@ -14,9 +15,9 @@ function HeaderNavigation({tempLoginStatus}: { tempLoginStatus: 'login' | 'onLog
             </Link>
           </li>
           <li className='header__nav-item'>
-            <a className='header__nav-link' href='#'>
+            <Link className='header__nav-link' to={ROUTE_CONFIG.LOGIN}>
               <span className='header__signout'>Sign out</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
@@ -27,7 +28,7 @@ function HeaderNavigation({tempLoginStatus}: { tempLoginStatus: 'login' | 'onLog
       <nav className='header__nav'>
         <ul className='header__nav-list'>
           <li className='header__nav-item user'>
-            <Link className='header__nav-link header__nav-link--profile' to='/login'>
+            <Link className='header__nav-link header__nav-link--profile' to={ROUTE_CONFIG.LOGIN}>
               <div className='header__avatar-wrapper user__avatar-wrapper'>
               </div>
               <span className='header__login'>Sign in</span>

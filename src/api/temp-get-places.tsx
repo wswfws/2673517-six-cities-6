@@ -2765,4 +2765,6 @@ const getPlaces = (city: string): CityPlaceInfo[] => places.filter(p => p.city.n
 
 export const getCities = () => ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
+export const getPlaceById = (id: string) => places.find(p => p.id === id);
+
 export default getPlaces;

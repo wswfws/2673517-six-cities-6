@@ -1,7 +1,13 @@
+import useAppRoutes from "../app/use-app-routes.ts";
+import {Link} from "react-router-dom";
+
 export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
   cityPlaceInfo: CityPlaceInfo,
   onSelect?: (id: string) => void
 }) {
+
+  const {getOfferPath} = useAppRoutes()
+
   return (
     <article className='cities__card place-card' onSelect={() => onSelect && onSelect(cityPlaceInfo.id)}>
       {cityPlaceInfo.isPremium &&
@@ -9,10 +15,10 @@ export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
           <span>Premium</span>
         </div>}
       <div className='cities__image-wrapper place-card__image-wrapper'>
-        <a href='#'>
+        <Link to={getOfferPath(cityPlaceInfo.id)}>
           <img className='place-card__image' src={cityPlaceInfo.previewImage} width='260' height='200'
                alt='Place image'/>
-        </a>
+        </Link>
       </div>
       <div className='place-card__info'>
         <div className='place-card__price-wrapper'>
@@ -37,7 +43,7 @@ export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
           </div>
         </div>
         <h2 className='place-card__name'>
-          <a href='#'>{cityPlaceInfo.title}</a>
+          <Link to={getOfferPath(cityPlaceInfo.id)}>{cityPlaceInfo.title}</Link>
         </h2>
         <p className='place-card__type'>{cityPlaceInfo.type}</p>
       </div>
