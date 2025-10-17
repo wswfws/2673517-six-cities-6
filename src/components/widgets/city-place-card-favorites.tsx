@@ -1,27 +1,20 @@
-import useAppRoutes from '../app/use-app-routes.ts';
-import {Link} from 'react-router-dom';
-
-export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
+export default function CityPlaceCardFavorites({cityPlaceInfo}: {
   cityPlaceInfo: CityPlaceInfo;
-  onSelect?: (id: string) => void;
 }) {
-
-  const {getOfferPath} = useAppRoutes();
-
   return (
-    <article className='cities__card place-card' onSelect={() => onSelect && onSelect(cityPlaceInfo.id)}>
+    <article className='favorites__card place-card'>
       {cityPlaceInfo.isPremium &&
         <div className='place-card__mark'>
           <span>Premium</span>
         </div>}
-      <div className='cities__image-wrapper place-card__image-wrapper'>
-        <Link to={getOfferPath(cityPlaceInfo.id)}>
+      <div className='favorites__image-wrapper place-card__image-wrapper'>
+        <a href='#'>
           <img className='place-card__image' src={cityPlaceInfo.previewImage} width='260' height='200'
             alt='Place image'
           />
-        </Link>
+        </a>
       </div>
-      <div className='place-card__info'>
+      <div className='favorites__card-info place-card__info'>
         <div className='place-card__price-wrapper'>
           <div className='place-card__price'>
             <b className='place-card__price-value'>&euro;{cityPlaceInfo.price} </b>
@@ -44,7 +37,7 @@ export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
           </div>
         </div>
         <h2 className='place-card__name'>
-          <Link to={getOfferPath(cityPlaceInfo.id)}>{cityPlaceInfo.title}</Link>
+          <a href='#'>{cityPlaceInfo.title}</a>
         </h2>
         <p className='place-card__type'>{cityPlaceInfo.type}</p>
       </div>

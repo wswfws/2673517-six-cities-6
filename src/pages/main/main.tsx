@@ -4,10 +4,13 @@ import getPlaces from '../../api/temp-get-places.tsx';
 import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
+import {useState} from 'react';
 
 export default function MainPage() {
 
   const params = useParams();
+  const [, setSelectedPlace] = useState<string>();
+
   if (!params.city) {
     return <h1> Город не найден</h1>;
   }
@@ -48,7 +51,7 @@ export default function MainPage() {
               <div className='cities__places-list places__list tabs__content'>
 
                 {places.map((place) => (
-                  <CityPlaceCard {...place} key={place.id}/>
+                  <CityPlaceCard cityPlaceInfo={place} key={place.id} onSelect={setSelectedPlace}/>
                 ))}
 
               </div>

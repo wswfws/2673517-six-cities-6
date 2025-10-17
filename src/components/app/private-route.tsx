@@ -1,9 +1,14 @@
 import {Navigate} from 'react-router-dom';
 import React from 'react';
+import {ROUTE_CONFIG} from './use-app-routes.ts';
 
-export default function PrivateRoute({children}: { children: React.ReactNode }) {
-  const hasAccess = false;
+type PrivateRouteProps = {
+    children: React.ReactNode;
+    hasAccess: boolean;
+}
 
-  return hasAccess ? children : <Navigate to={'/login'}/>;
+export default function PrivateRoute({children, hasAccess}: PrivateRouteProps) {
+
+  return hasAccess ? children : <Navigate to={ROUTE_CONFIG.LOGIN}/>;
 }
 

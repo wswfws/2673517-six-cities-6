@@ -1,5 +1,5 @@
 import MainPage from '../../pages/main/main.tsx';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import FavoritesPage from '../../pages/favorites/favorites.tsx';
 import LoginPage from '../../pages/login/login.tsx';
 import OfferPage from '../../pages/offer/offer.tsx';
@@ -8,8 +8,10 @@ import PrivateRoute from './private-route.tsx';
 import useAppRoutes, {ROUTE_CONFIG} from './use-app-routes.ts';
 
 
+const hasAccess = true;
+
 const AppRoutes = () => {
-  const { getCityPath } = useAppRoutes();
+  const {getCityPath} = useAppRoutes();
 
   return (
     <Routes>
@@ -25,28 +27,28 @@ const AppRoutes = () => {
         />
         <Route
           path={ROUTE_CONFIG.CITY}
-          element={<MainPage />}
+          element={<MainPage/>}
         />
         <Route
           path={ROUTE_CONFIG.FAVORITES}
           element={
-            <PrivateRoute>
-              <FavoritesPage />
+            <PrivateRoute hasAccess={hasAccess}>
+              <FavoritesPage/>
             </PrivateRoute>
           }
         />
         <Route
           path={ROUTE_CONFIG.LOGIN}
-          element={<LoginPage />}
+          element={<LoginPage/>}
         />
         <Route
           path={ROUTE_CONFIG.OFFER}
-          element={<OfferPage />}
+          element={<OfferPage/>}
         />
       </Route>
       <Route
         path={ROUTE_CONFIG.WILDCARD}
-        element={<Error404Page />}
+        element={<Error404Page/>}
       />
     </Routes>
   );
@@ -55,7 +57,7 @@ const AppRoutes = () => {
 export default function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <AppRoutes/>
     </BrowserRouter>
   );
 }
