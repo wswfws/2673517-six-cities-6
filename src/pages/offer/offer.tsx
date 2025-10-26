@@ -3,9 +3,9 @@ import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
 import {getPlaceById} from '../../api/temp-get-places.tsx';
 import {useParams} from 'react-router-dom';
 import Error404Page from '../404.tsx';
-import ReviewList from "../../components/widgets/reviews/review-list.tsx";
-import MapOffer from "../../components/shared/map-offer.tsx";
-import {useNeighborsPlaces} from "../../components/hocs/use-neighbors-places.ts"; // Добавлен импорт
+import ReviewList from '../../components/widgets/reviews/review-list.tsx';
+import MapOffer from '../../components/shared/map-offer.tsx';
+import {useNeighborsPlaces} from '../../components/hocs/use-neighbors-places.ts'; // Добавлен импорт
 
 export default function OfferPage() {
 
@@ -23,17 +23,17 @@ export default function OfferPage() {
 
   const reviews = [
     {
-      "id": "b67ddfd5-b953-4a30-8c8d-bd083cd6b62a",
-      "date": "2019-05-08T14:13:56.569Z",
-      "user": {
-        "name": "Oliver Conner",
-        "avatarUrl": "https://url-to-image/image.png",
-        "isPro": false
+      'id': 'b67ddfd5-b953-4a30-8c8d-bd083cd6b62a',
+      'date': '2019-05-08T14:13:56.569Z',
+      'user': {
+        'name': 'Oliver Conner',
+        'avatarUrl': 'https://url-to-image/image.png',
+        'isPro': false
       },
-      "comment": "A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.",
-      "rating": 4
+      'comment': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+      'rating': 4
     }
-  ]
+  ];
 
   return (
     <div className='page'>
@@ -141,7 +141,7 @@ export default function OfferPage() {
                 <div className='offer__host-user user'>
                   <div className='offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper'>
                     <img className='offer__avatar user__avatar' src='/img/avatar-angelina.jpg' width='74' height='74'
-                         alt='Host avatar'
+                      alt='Host avatar'
                     />
                   </div>
                   <span className='offer__user-name'>
@@ -168,18 +168,19 @@ export default function OfferPage() {
           <MapOffer
             city={place.city}
             mainPoint={{id: place.id, ...place.location}}
-            neighborPoint={neighborsPlaces.map(p => ({
+            neighborPoint={neighborsPlaces.map((p) => ({
               id: p.id,
               longitude: p.location.latitude,
               latitude: p.location.longitude
-            }))}/>
+            }))}
+          />
         </section>
         <div className='container'>
           <section className='near-places places'>
             <h2 className='near-places__title'>Other places in the neighbourhood</h2>
             <div className='near-places__list places__list'>
-              {neighborsPlaces.map(place => (
-                <CityPlaceCard cityPlaceInfo={place}/>
+              {neighborsPlaces.map((p) => (
+                <CityPlaceCard cityPlaceInfo={p} key={p.id}/>
               ))}
             </div>
           </section>

@@ -1,4 +1,4 @@
-import {Review} from "./review-types.ts";
+import {Review} from './review-types.ts';
 
 export default function ReviewItem({review}: { review: Review }) {
   return (
@@ -27,5 +27,5 @@ export default function ReviewItem({review}: { review: Review }) {
         <time className='reviews__time' dateTime={review.date}>{review.date}</time>
       </div>
     </li>
-  )
+  );
 }
