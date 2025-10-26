@@ -3,7 +3,7 @@ import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
 import getPlaces, {getPlaceById} from '../../api/temp-get-places.tsx';
 import {useParams} from 'react-router-dom';
 import Error404Page from '../404.tsx';
-import ReviewForm from '../../components/widgets/review-form.tsx'; // Добавлен импорт
+import ReviewList from "../../components/widgets/reviews/review-list.tsx"; // Добавлен импорт
 
 export default function OfferPage() {
 
@@ -11,12 +11,26 @@ export default function OfferPage() {
   if (!params.id) {
     return <Error404Page/>;
   }
-  const offerId = params.id ;
+  const offerId = params.id;
   const place = getPlaceById(offerId);
 
   if (!place) {
     return <Error404Page/>;
   }
+
+  const reviews = [
+    {
+      "id": "b67ddfd5-b953-4a30-8c8d-bd083cd6b62a",
+      "date": "2019-05-08T14:13:56.569Z",
+      "user": {
+        "name": "Oliver Conner",
+        "avatarUrl": "https://url-to-image/image.png",
+        "isPro": false
+      },
+      "comment": "A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.",
+      "rating": 4
+    }
+  ]
 
   return (
     <div className='page'>
@@ -124,7 +138,7 @@ export default function OfferPage() {
                 <div className='offer__host-user user'>
                   <div className='offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper'>
                     <img className='offer__avatar user__avatar' src='/img/avatar-angelina.jpg' width='74' height='74'
-                      alt='Host avatar'
+                         alt='Host avatar'
                     />
                   </div>
                   <span className='offer__user-name'>
@@ -145,37 +159,7 @@ export default function OfferPage() {
                   </p>
                 </div>
               </div>
-              <section className='offer__reviews reviews'>
-                <h2 className='reviews__title'>Reviews &middot; <span className='reviews__amount'>1</span></h2>
-                <ul className='reviews__list'>
-                  <li className='reviews__item'>
-                    <div className='reviews__user user'>
-                      <div className='reviews__avatar-wrapper user__avatar-wrapper'>
-                        <img className='reviews__avatar user__avatar' src='/img/avatar-max.jpg' width='54' height='54'
-                          alt='Reviews avatar'
-                        />
-                      </div>
-                      <span className='reviews__user-name'>
-                        Max
-                      </span>
-                    </div>
-                    <div className='reviews__info'>
-                      <div className='reviews__rating rating'>
-                        <div className='reviews__stars rating__stars'>
-                          <span style={{width: '80%'}}></span>
-                          <span className='visually-hidden'>Rating</span>
-                        </div>
-                      </div>
-                      <p className='reviews__text'>
-                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
-                        The building is green and from 18th century.
-                      </p>
-                      <time className='reviews__time' dateTime='2019-04-24'>April 2019</time>
-                    </div>
-                  </li>
-                </ul>
-                <ReviewForm />
-              </section>
+              <ReviewList reviews={reviews}/>
             </div>
           </div>
           <section className='offer__map map'></section>
