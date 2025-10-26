@@ -1,3 +1,5 @@
+import {City} from "../components/shared/map-types.ts";
+
 const places: CityPlaceInfo[] = [
   {
     'id': '2ef9a0f0-ea8d-4bcf-9b31-f123b7511e9f',
@@ -2763,7 +2765,19 @@ const places: CityPlaceInfo[] = [
 
 const getPlaces = (city: string): CityPlaceInfo[] => places.filter((p) => p.city.name === city);
 
-export const getCities = () => ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+export const getCities = () => {
+  const citiesNames = new Set<string>();
+  const cities = new Set<City>();
+  places.forEach((place) => {
+    if (!citiesNames.has(place.city.name)) {
+      citiesNames.add(place.city.name);
+      cities.add(place.city);
+    }
+  });
+  return [...cities];
+};
+
+export const cities = getCities();
 
 export const getPlaceById = (id: string) => places.find((p) => p.id === id);
 

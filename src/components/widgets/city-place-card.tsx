@@ -9,7 +9,7 @@ export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
   const {getOfferPath} = useAppRoutes();
 
   return (
-    <article className='cities__card place-card' onSelect={() => onSelect && onSelect(cityPlaceInfo.id)}>
+    <article className='cities__card place-card' onMouseEnter={() => onSelect && onSelect(cityPlaceInfo.id)}>
       {cityPlaceInfo.isPremium &&
         <div className='place-card__mark'>
           <span>Premium</span>

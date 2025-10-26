@@ -1,25 +1,52 @@
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
 import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
-import getPlaces from '../../api/temp-get-places.tsx';
+import getPlaces, {cities} from '../../api/temp-get-places.tsx';
 import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import Map from "../../components/shared/map.tsx";
+import {City, Point} from "../../components/shared/map-types.ts";
 
 export default function MainPage() {
 
   const params = useParams();
-  const [, setSelectedPlace] = useState<string>();
+  const [selectedPlaceId, setSelectedPlaceId] = useState<string>();
+  const [places, setPlaces] = useState<CityPlaceInfo[]>([]);
+  const [cityInfo, setCityInfo] = useState<City>();
 
-  if (!params.city) {
+  const city = params.city;
+
+  useEffect(() => {
+    if (!city) {
+      return;
+    }
+    setCityInfo(cities.find(c => c.name === city))
+    const places = getPlaces(city);
+    setPlaces(places);
+    if (places.length > 0) {
+      setSelectedPlaceId(places[0].id);
+    }
+
+    return ()=>{
+      setSelectedPlaceId(undefined);
+      setPlaces([]);
+    }
+  }, [city])
+
+  if (!city) {
     return <h1> Город не найден</h1>;
   }
 
-  const city = params.city;
-  const places = getPlaces(city);
-
   if (!places || places.length === 0) {
     return <EmptyMainPage location={city}/>;
+  }
+
+  const selectedPlace = places.find(t => t.id === selectedPlaceId);
+  const selectedPlacePoint: Point | undefined = selectedPlace && {
+    id: selectedPlace.id,
+    latitude: selectedPlace.location.latitude,
+    longitude: selectedPlace.location.longitude,
   }
 
   return (
@@ -51,14 +78,25 @@ export default function MainPage() {
               <div className='cities__places-list places__list tabs__content'>
 
                 {places.map((place) => (
-                  <CityPlaceCard cityPlaceInfo={place} key={place.id} onSelect={setSelectedPlace}/>
+                  <CityPlaceCard cityPlaceInfo={place} key={place.id} onSelect={setSelectedPlaceId}/>
                 ))}
 
               </div>
             </section>
-            <div className='cities__right-section'>
-              <section className='cities__map map'></section>
-            </div>
+            {selectedPlacePoint && cityInfo &&
+              <div className='cities__right-section'>
+                <Map
+                  key={city} // Добавляем ключ для принудительного пересоздания
+                  city={cityInfo}
+                  points={places.map(t => ({
+                    id: t.id,
+                    latitude: t.location.latitude,
+                    longitude: t.location.longitude,
+                  }))}
+                  selectedPoint={selectedPlacePoint}
+                />
+              </div>
+            }
           </div>
         </div>
       </main>
