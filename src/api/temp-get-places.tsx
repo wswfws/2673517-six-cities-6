@@ -1,4 +1,4 @@
-import {City} from "../components/shared/map-types.ts";
+import {City} from '../components/shared/map-types.ts';
 
 const places: CityPlaceInfo[] = [
   {

@@ -1,8 +1,9 @@
 import Header from '../../components/widgets/header.tsx';
 import Footer from '../../components/widgets/footer.tsx';
-import getPlaces, {getCities} from '../../api/temp-get-places.tsx';
+import getPlaces, {cities} from '../../api/temp-get-places.tsx';
 import useAppRoutes from '../../components/app/use-app-routes.ts';
 import CityPlaceCardFavorites from '../../components/widgets/city-place-card-favorites.tsx';
+import {Link} from 'react-router-dom';
 
 export default function FavoritesPage() {
 
@@ -16,16 +17,16 @@ export default function FavoritesPage() {
           <section className='favorites'>
             <h1 className='favorites__title'>Saved listing</h1>
             <ul className='favorites__list'>
-              {getCities().map((city) => {
-                const places = getPlaces(city).filter((p) => p.isFavorite);
+              {cities.map((city) => {
+                const places = getPlaces(city.name).filter((p) => p.isFavorite);
                 if (places && places.length > 0) {
                   return (
-                    <li className='favorites__locations-items' key={city}>
+                    <li className='favorites__locations-items' key={city.name}>
                       <div className='favorites__locations locations locations--current'>
                         <div className='locations__item'>
-                          <a className='locations__item-link' href={getCityPath(city)}>
-                            <span>{city}</span>
-                          </a>
+                          <Link className='locations__item-link' to={getCityPath(city.name)}>
+                            <span>{city.name}</span>
+                          </Link>
                         </div>
                       </div>
                       <div className='favorites__places'>

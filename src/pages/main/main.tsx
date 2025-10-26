@@ -5,8 +5,8 @@ import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
 import {useEffect, useState} from 'react';
-import Map from "../../components/shared/map.tsx";
-import {City, Point} from "../../components/shared/map-types.ts";
+import Map from '../../components/shared/map.tsx';
+import {City, Point} from '../../components/shared/map-types.ts';
 
 export default function MainPage() {
 
@@ -21,18 +21,18 @@ export default function MainPage() {
     if (!city) {
       return;
     }
-    setCityInfo(cities.find(c => c.name === city))
-    const places = getPlaces(city);
-    setPlaces(places);
-    if (places.length > 0) {
-      setSelectedPlaceId(places[0].id);
+    setCityInfo(cities.find((c) => c.name === city));
+    const _places = getPlaces(city);
+    setPlaces(_places);
+    if (_places.length > 0) {
+      setSelectedPlaceId(_places[0].id);
     }
 
     return ()=>{
       setSelectedPlaceId(undefined);
       setPlaces([]);
-    }
-  }, [city])
+    };
+  }, [city]);
 
   if (!city) {
     return <h1> Город не найден</h1>;
@@ -42,12 +42,12 @@ export default function MainPage() {
     return <EmptyMainPage location={city}/>;
   }
 
-  const selectedPlace = places.find(t => t.id === selectedPlaceId);
+  const selectedPlace = places.find((t) => t.id === selectedPlaceId);
   const selectedPlacePoint: Point | undefined = selectedPlace && {
     id: selectedPlace.id,
     latitude: selectedPlace.location.latitude,
     longitude: selectedPlace.location.longitude,
-  }
+  };
 
   return (
     <div className='page page--gray page--main'>
@@ -88,15 +88,14 @@ export default function MainPage() {
                 <Map
                   key={city} // Добавляем ключ для принудительного пересоздания
                   city={cityInfo}
-                  points={places.map(t => ({
+                  points={places.map((t) => ({
                     id: t.id,
                     latitude: t.location.latitude,
                     longitude: t.location.longitude,
                   }))}
                   selectedPoint={selectedPlacePoint}
                 />
-              </div>
-            }
+              </div>}
           </div>
         </div>
       </main>
