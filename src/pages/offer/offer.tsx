@@ -1,13 +1,16 @@
 import Header from '../../components/widgets/header.tsx';
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
-import getPlaces, {getPlaceById} from '../../api/temp-get-places.tsx';
+import {getPlaceById} from '../../api/temp-get-places.tsx';
 import {useParams} from 'react-router-dom';
 import Error404Page from '../404.tsx';
-import ReviewList from "../../components/widgets/reviews/review-list.tsx"; // Добавлен импорт
+import ReviewList from "../../components/widgets/reviews/review-list.tsx";
+import MapOffer from "../../components/shared/map-offer.tsx";
+import {useNeighborsPlaces} from "../../components/hocs/use-neighbors-places.ts"; // Добавлен импорт
 
 export default function OfferPage() {
 
   const params = useParams();
+  const neighborsPlaces = useNeighborsPlaces(params.id);
   if (!params.id) {
     return <Error404Page/>;
   }
@@ -162,15 +165,22 @@ export default function OfferPage() {
               <ReviewList reviews={reviews}/>
             </div>
           </div>
-          <section className='offer__map map'></section>
+          <MapOffer
+            city={place.city}
+            mainPoint={{id: place.id, ...place.location}}
+            neighborPoint={neighborsPlaces.map(p => ({
+              id: p.id,
+              longitude: p.location.latitude,
+              latitude: p.location.longitude
+            }))}/>
         </section>
         <div className='container'>
           <section className='near-places places'>
             <h2 className='near-places__title'>Other places in the neighbourhood</h2>
             <div className='near-places__list places__list'>
-              <CityPlaceCard cityPlaceInfo={getPlaces('Amsterdam')[0]}/>
-              <CityPlaceCard cityPlaceInfo={getPlaces('Amsterdam')[1]}/>
-              <CityPlaceCard cityPlaceInfo={getPlaces('Amsterdam')[2]}/>
+              {neighborsPlaces.map(place => (
+                <CityPlaceCard cityPlaceInfo={place}/>
+              ))}
             </div>
           </section>
         </div>

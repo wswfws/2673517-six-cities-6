@@ -5,7 +5,7 @@ import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
 import {useEffect, useState} from 'react';
-import Map from '../../components/shared/map.tsx';
+import MapCities from '../../components/shared/map-cities.tsx';
 import {City, Point} from '../../components/shared/map-types.ts';
 
 export default function MainPage() {
@@ -85,7 +85,7 @@ export default function MainPage() {
             </section>
             {selectedPlacePoint && cityInfo &&
               <div className='cities__right-section'>
-                <Map
+                <MapCities
                   key={city} // Добавляем ключ для принудительного пересоздания
                   city={cityInfo}
                   points={places.map((t) => ({
