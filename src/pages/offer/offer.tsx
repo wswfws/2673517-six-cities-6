@@ -1,22 +1,39 @@
 import Header from '../../components/widgets/header.tsx';
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
-import getPlaces, {getPlaceById} from '../../api/temp-get-places.tsx';
+import {getPlaceById} from '../../api/temp-get-places.tsx';
 import {useParams} from 'react-router-dom';
 import Error404Page from '../404.tsx';
-import ReviewForm from '../../components/widgets/review-form.tsx'; // Добавлен импорт
+import ReviewList from '../../components/widgets/reviews/review-list.tsx';
+import MapOffer from '../../components/shared/map-offer.tsx';
+import {useNeighborsPlaces} from '../../components/hocs/use-neighbors-places.ts'; // Добавлен импорт
 
 export default function OfferPage() {
 
   const params = useParams();
+  const neighborsPlaces = useNeighborsPlaces(params.id);
   if (!params.id) {
     return <Error404Page/>;
   }
-  const offerId = params.id ;
+  const offerId = params.id;
   const place = getPlaceById(offerId);
 
   if (!place) {
     return <Error404Page/>;
   }
+
+  const reviews = [
+    {
+      'id': 'b67ddfd5-b953-4a30-8c8d-bd083cd6b62a',
+      'date': '2019-05-08T14:13:56.569Z',
+      'user': {
+        'name': 'Oliver Conner',
+        'avatarUrl': 'https://url-to-image/image.png',
+        'isPro': false
+      },
+      'comment': 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
+      'rating': 4
+    }
+  ];
 
   return (
     <div className='page'>
@@ -145,48 +162,26 @@ export default function OfferPage() {
                   </p>
                 </div>
               </div>
-              <section className='offer__reviews reviews'>
-                <h2 className='reviews__title'>Reviews &middot; <span className='reviews__amount'>1</span></h2>
-                <ul className='reviews__list'>
-                  <li className='reviews__item'>
-                    <div className='reviews__user user'>
-                      <div className='reviews__avatar-wrapper user__avatar-wrapper'>
-                        <img className='reviews__avatar user__avatar' src='/img/avatar-max.jpg' width='54' height='54'
-                          alt='Reviews avatar'
-                        />
-                      </div>
-                      <span className='reviews__user-name'>
-                        Max
-                      </span>
-                    </div>
-                    <div className='reviews__info'>
-                      <div className='reviews__rating rating'>
-                        <div className='reviews__stars rating__stars'>
-                          <span style={{width: '80%'}}></span>
-                          <span className='visually-hidden'>Rating</span>
-                        </div>
-                      </div>
-                      <p className='reviews__text'>
-                        A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
-                        The building is green and from 18th century.
-                      </p>
-                      <time className='reviews__time' dateTime='2019-04-24'>April 2019</time>
-                    </div>
-                  </li>
-                </ul>
-                <ReviewForm />
-              </section>
+              <ReviewList reviews={reviews}/>
             </div>
           </div>
-          <section className='offer__map map'></section>
+          <MapOffer
+            city={place.city}
+            mainPoint={{id: place.id, ...place.location}}
+            neighborPoint={neighborsPlaces.map((p) => ({
+              id: p.id,
+              longitude: p.location.latitude,
+              latitude: p.location.longitude
+            }))}
+          />
         </section>
         <div className='container'>
           <section className='near-places places'>
             <h2 className='near-places__title'>Other places in the neighbourhood</h2>
             <div className='near-places__list places__list'>
-              <CityPlaceCard cityPlaceInfo={getPlaces('Amsterdam')[0]}/>
-              <CityPlaceCard cityPlaceInfo={getPlaces('Amsterdam')[1]}/>
-              <CityPlaceCard cityPlaceInfo={getPlaces('Amsterdam')[2]}/>
+              {neighborsPlaces.map((p) => (
+                <CityPlaceCard cityPlaceInfo={p} key={p.id}/>
+              ))}
             </div>
           </section>
         </div>

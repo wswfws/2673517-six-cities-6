@@ -23,7 +23,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map(props: MapProps) {
+function MapCities(props: MapProps) {
   const {city, points, selectedPoint} = props;
 
   const mapRef = useRef(null);
@@ -57,4 +57,4 @@ function Map(props: MapProps) {
   return <section className='cities__map map' ref={mapRef}></section>;
 }
 
-export default Map;
+export default MapCities;
