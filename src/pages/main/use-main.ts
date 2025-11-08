@@ -10,7 +10,6 @@ export default function useMain(cityParam?: string) {
   const places = useAppSelector((state) => state.offers.places);
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | undefined>(undefined);
 
-  // При смене маршрута — обновляем текущее значение города в сторе
   useEffect(() => {
     if (!cityParam) {
       return;
@@ -18,7 +17,6 @@ export default function useMain(cityParam?: string) {
     dispatch(setCity(cityParam));
   }, [cityParam, dispatch]);
 
-  // При изменении списка мест автоматически выбираем первый элемент
   useEffect(() => {
     if (places && places.length > 0) {
       setSelectedPlaceId(places[0].id);
