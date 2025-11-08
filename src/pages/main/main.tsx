@@ -43,7 +43,7 @@ export default function MainPage() {
   }
 
   if (!places || places.length === 0) {
-    return <EmptyMainPage location={city}/>;
+    return <EmptyMainPage location={currentCity}/>
   }
 
   const selectedPlace = places.find((t) => t.id === selectedPlaceId);
@@ -65,7 +65,7 @@ export default function MainPage() {
           <div className='cities__places-container container'>
             <section className='cities__places places'>
               <h2 className='visually-hidden'>Places</h2>
-              <b className='places__found'>{places.length} places to stay in {city}</b>
+              <b className='places__found'>{places.length} places to stay in {currentCity}</b>
               <form className='places__sorting' action='#' method='get'>
                 <span className='places__sorting-caption'>Sort by</span>
                 <span className='places__sorting-type' tabIndex={0}>

@@ -8,7 +8,7 @@ const ROUTE_CONFIG = {
 } as const;
 
 const APP_CONFIG = {
-  DEFAULT_CITY: 'Amsterdam',
+  DEFAULT_CITY: 'Paris',
 } as const;
 
 export default function useAppRoutes() {
