@@ -5,7 +5,7 @@ import {useParams} from 'react-router-dom';
 import Error404Page from '../404.tsx';
 import ReviewList from '../../components/widgets/reviews/review-list.tsx';
 import MapOffer from '../../components/shared/map-offer.tsx';
-import {useNeighborsPlaces} from '../../components/hocs/use-neighbors-places.ts'; // Добавлен импорт
+import {useNeighborsPlaces} from '../../components/hooks/use-neighbors-places.ts'; // Добавлен импорт
 
 export default function OfferPage() {
 
