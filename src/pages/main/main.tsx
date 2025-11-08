@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
 import MapCities from '../../components/shared/map-cities.tsx';
-import useMain from "./use-main.ts";
+import useMain from './use-main.ts';
 
 export default function MainPage() {
   const params = useParams();
@@ -15,7 +15,7 @@ export default function MainPage() {
   }
 
   if (!places || places.length === 0) {
-    return <EmptyMainPage location={currentCity}/>
+    return <EmptyMainPage location={currentCity}/>;
   }
 
   return (

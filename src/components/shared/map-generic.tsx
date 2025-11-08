@@ -42,7 +42,9 @@ export default function MapGeneric(props: MapGenericProps) {
   const map = useMap(mapRef, city);
 
   useEffect(() => {
-    if (!map) return;
+    if (!map) {
+      return;
+    }
 
     const markerLayer = layerGroup().addTo(map);
 
@@ -61,5 +63,5 @@ export default function MapGeneric(props: MapGenericProps) {
     };
   }, [map, points, activeId, defaultIcon, activeIcon, getId]);
 
-  return <section className={className} ref={mapRef as any}></section>;
+  return <section className={className} ref={mapRef}></section>;
 }
