@@ -1,19 +1,24 @@
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
 import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
-import getPlaces, {cities} from '../../api/temp-get-places.tsx';
+import {cities} from '../../api/temp-get-places.tsx';
 import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
 import {useEffect, useState} from 'react';
 import MapCities from '../../components/shared/map-cities.tsx';
-import {City, Point} from '../../components/shared/map-types.ts';
+import type {Point} from '../../components/shared/map-types.ts';
+
+import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
+import {setCity} from '../../store/action.ts';
 
 export default function MainPage() {
 
   const params = useParams();
+  const dispatch = useAppDispatch();
   const [selectedPlaceId, setSelectedPlaceId] = useState<string>();
-  const [places, setPlaces] = useState<CityPlaceInfo[]>([]);
-  const [cityInfo, setCityInfo] = useState<City>();
+
+  const currentCity = useAppSelector((state) => state.offers.city);
+  const places = useAppSelector((state) => state.offers.places);
 
   const city = params.city;
 
@@ -21,18 +26,17 @@ export default function MainPage() {
     if (!city) {
       return;
     }
-    setCityInfo(cities.find((c) => c.name === city));
-    const _places = getPlaces(city);
-    setPlaces(_places);
-    if (_places.length > 0) {
-      setSelectedPlaceId(_places[0].id);
-    }
+    dispatch(setCity(city));
 
-    return ()=>{
+  }, [city, dispatch]);
+
+  useEffect(() => {
+    if (places && places.length > 0) {
+      setSelectedPlaceId(places[0].id);
+    } else {
       setSelectedPlaceId(undefined);
-      setPlaces([]);
-    };
-  }, [city]);
+    }
+  }, [places]);
 
   if (!city) {
     return <h1> Город не найден</h1>;
@@ -48,6 +52,8 @@ export default function MainPage() {
     latitude: selectedPlace.location.latitude,
     longitude: selectedPlace.location.longitude,
   };
+
+  const cityInfo = cities.find((c) => c.name === currentCity);
 
   return (
     <div className='page page--gray page--main'>
