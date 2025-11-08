@@ -1,59 +1,22 @@
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
 import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
-import {cities} from '../../api/temp-get-places.tsx';
 import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
-import {useEffect, useState} from 'react';
 import MapCities from '../../components/shared/map-cities.tsx';
-import type {Point} from '../../components/shared/map-types.ts';
-
-import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
-import {setCity} from '../../store/action.ts';
+import useMain from "./use-main.ts";
 
 export default function MainPage() {
-
   const params = useParams();
-  const dispatch = useAppDispatch();
-  const [selectedPlaceId, setSelectedPlaceId] = useState<string>();
+  const {currentCity, places, selectedPlacePoint, setSelectedPlaceId, cityInfo} = useMain(params.city);
 
-  const currentCity = useAppSelector((state) => state.offers.city);
-  const places = useAppSelector((state) => state.offers.places);
-
-  const city = params.city;
-
-  useEffect(() => {
-    if (!city) {
-      return;
-    }
-    dispatch(setCity(city));
-
-  }, [city, dispatch]);
-
-  useEffect(() => {
-    if (places && places.length > 0) {
-      setSelectedPlaceId(places[0].id);
-    } else {
-      setSelectedPlaceId(undefined);
-    }
-  }, [places]);
-
-  if (!city) {
+  if (!params.city) {
     return <h1> Город не найден</h1>;
   }
 
   if (!places || places.length === 0) {
     return <EmptyMainPage location={currentCity}/>
   }
-
-  const selectedPlace = places.find((t) => t.id === selectedPlaceId);
-  const selectedPlacePoint: Point | undefined = selectedPlace && {
-    id: selectedPlace.id,
-    latitude: selectedPlace.location.latitude,
-    longitude: selectedPlace.location.longitude,
-  };
-
-  const cityInfo = cities.find((c) => c.name === currentCity);
 
   return (
     <div className='page page--gray page--main'>
@@ -92,7 +55,7 @@ export default function MainPage() {
             {selectedPlacePoint && cityInfo &&
               <div className='cities__right-section'>
                 <MapCities
-                  key={city} // Добавляем ключ для принудительного пересоздания
+                  key={currentCity}
                   city={cityInfo}
                   points={places.map((t) => ({
                     id: t.id,
