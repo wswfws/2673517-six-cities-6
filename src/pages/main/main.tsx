@@ -1,53 +1,22 @@
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
 import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
-import getPlaces, {cities} from '../../api/temp-get-places.tsx';
 import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
-import {useEffect, useState} from 'react';
 import MapCities from '../../components/shared/map-cities.tsx';
-import {City, Point} from '../../components/shared/map-types.ts';
+import useMain from './use-main.ts';
 
 export default function MainPage() {
-
   const params = useParams();
-  const [selectedPlaceId, setSelectedPlaceId] = useState<string>();
-  const [places, setPlaces] = useState<CityPlaceInfo[]>([]);
-  const [cityInfo, setCityInfo] = useState<City>();
+  const {currentCity, places, selectedPlacePoint, setSelectedPlaceId, cityInfo} = useMain(params.city);
 
-  const city = params.city;
-
-  useEffect(() => {
-    if (!city) {
-      return;
-    }
-    setCityInfo(cities.find((c) => c.name === city));
-    const _places = getPlaces(city);
-    setPlaces(_places);
-    if (_places.length > 0) {
-      setSelectedPlaceId(_places[0].id);
-    }
-
-    return ()=>{
-      setSelectedPlaceId(undefined);
-      setPlaces([]);
-    };
-  }, [city]);
-
-  if (!city) {
+  if (!params.city) {
     return <h1> Город не найден</h1>;
   }
 
   if (!places || places.length === 0) {
-    return <EmptyMainPage location={city}/>;
+    return <EmptyMainPage location={currentCity}/>;
   }
-
-  const selectedPlace = places.find((t) => t.id === selectedPlaceId);
-  const selectedPlacePoint: Point | undefined = selectedPlace && {
-    id: selectedPlace.id,
-    latitude: selectedPlace.location.latitude,
-    longitude: selectedPlace.location.longitude,
-  };
 
   return (
     <div className='page page--gray page--main'>
@@ -59,7 +28,7 @@ export default function MainPage() {
           <div className='cities__places-container container'>
             <section className='cities__places places'>
               <h2 className='visually-hidden'>Places</h2>
-              <b className='places__found'>{places.length} places to stay in {city}</b>
+              <b className='places__found'>{places.length} places to stay in {currentCity}</b>
               <form className='places__sorting' action='#' method='get'>
                 <span className='places__sorting-caption'>Sort by</span>
                 <span className='places__sorting-type' tabIndex={0}>
@@ -86,7 +55,7 @@ export default function MainPage() {
             {selectedPlacePoint && cityInfo &&
               <div className='cities__right-section'>
                 <MapCities
-                  key={city} // Добавляем ключ для принудительного пересоздания
+                  key={currentCity}
                   city={cityInfo}
                   points={places.map((t) => ({
                     id: t.id,
