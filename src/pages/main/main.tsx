@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
 import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
 import {useParams} from 'react-router-dom';
@@ -5,10 +6,15 @@ import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
 import MapCities from '../../components/shared/map-cities.tsx';
 import useMain from './use-main.ts';
+import SortOptions from "../../components/widgets/sort-options.tsx";
+import useSorterPlaces, {SortOption} from "./use-sorter-places.ts";
 
 export default function MainPage() {
   const params = useParams();
   const {currentCity, places, selectedPlacePoint, setSelectedPlaceId, cityInfo} = useMain(params.city);
+
+  const [sortType, setSortType] = useState<SortOption>('Popular');
+  const sortedPlaces = useSorterPlaces(places, sortType)
 
   if (!params.city) {
     return <h1> Город не найден</h1>;
@@ -28,28 +34,14 @@ export default function MainPage() {
           <div className='cities__places-container container'>
             <section className='cities__places places'>
               <h2 className='visually-hidden'>Places</h2>
-              <b className='places__found'>{places.length} places to stay in {currentCity}</b>
-              <form className='places__sorting' action='#' method='get'>
-                <span className='places__sorting-caption'>Sort by</span>
-                <span className='places__sorting-type' tabIndex={0}>
-                  Popular
-                  <svg className='places__sorting-arrow' width='7' height='4'>
-                    <use xlinkHref='#icon-arrow-select'></use>
-                  </svg>
-                </span>
-                <ul className='places__options places__options--custom places__options--opened'>
-                  <li className='places__option places__option--active' tabIndex={0}>Popular</li>
-                  <li className='places__option' tabIndex={0}>Price: low to high</li>
-                  <li className='places__option' tabIndex={0}>Price: high to low</li>
-                  <li className='places__option' tabIndex={0}>Top rated first</li>
-                </ul>
-              </form>
-              <div className='cities__places-list places__list tabs__content'>
+              <b className='places__found'>{sortedPlaces.length} places to stay in {currentCity}</b>
 
-                {places.map((place) => (
+              <SortOptions current={sortType} onChange={(opt) => setSortType(opt)}/>
+
+              <div className='cities__places-list places__list tabs__content'>
+                {sortedPlaces.map((place) => (
                   <CityPlaceCard cityPlaceInfo={place} key={place.id} onSelect={setSelectedPlaceId}/>
                 ))}
-
               </div>
             </section>
             {selectedPlacePoint && cityInfo &&
