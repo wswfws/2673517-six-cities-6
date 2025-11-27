@@ -2,7 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import offersFetcher from "../api/offersFetch.ts";
 import {AxiosInstance} from "axios";
 import {AppDispatch, RootState} from "./index.ts";
-import {setPlaces} from "./action.ts";
+import {setIsLoadingPlaces, setPlaces} from "./action.ts";
 
 export const fetchOffersAction = createAsyncThunk<void, void,
   {
@@ -13,7 +13,12 @@ export const fetchOffersAction = createAsyncThunk<void, void,
 >(
   'data/fetchOffers',
   async (_, {dispatch, extra: api}) => {
-    const data = await offersFetcher(api);
-    dispatch(setPlaces(data));
+    try {
+      dispatch(setIsLoadingPlaces(true));
+      const data = await offersFetcher(api);
+      dispatch(setPlaces(data));
+    } finally {
+      dispatch(setIsLoadingPlaces(false));
+    }
   }
 )

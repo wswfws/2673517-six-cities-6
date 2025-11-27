@@ -1,0 +1,12 @@
+.SimpleLoader {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: repeating-conic-gradient(rgb(68, 129, 195) 0 90deg, rgb(245, 245, 245) 0 180deg);
+  animation: l21 1s infinite linear;
+}
+
+@keyframes l21 {
+  100% {
+    transform: rotate(.5turn)
+  }
+}

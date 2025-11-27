@@ -9,6 +9,7 @@ export default function useMain(cityParam?: string) {
 
   const dispatch = useAppDispatch();
   const currentCity = useAppSelector((state) => state.offers.city);
+  const isLoadingPlaces = useAppSelector((state) => state.offers.isLoadingPlaces);
   const places = useAppSelector((state) => state.offers.places);
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | undefined>(undefined);
 
@@ -37,6 +38,7 @@ export default function useMain(cityParam?: string) {
   const cityInfo = cities.find((c) => c.name === currentCity);
 
   return {
+    isLoadingPlaces,
     currentCity,
     places,
     selectedPlaceId,
