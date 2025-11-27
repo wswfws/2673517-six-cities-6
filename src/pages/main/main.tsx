@@ -6,15 +6,15 @@ import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
 import MapCities from '../../components/shared/map-cities.tsx';
 import useMain from './use-main.ts';
-import SortOptions from "../../components/widgets/sort-options.tsx";
-import useSorterPlaces, {SortOption} from "./use-sorter-places.ts";
+import SortOptions from '../../components/widgets/sort-options.tsx';
+import useSorterPlaces, {SortOption} from './use-sorter-places.ts';
 
 export default function MainPage() {
   const params = useParams();
   const {currentCity, places, selectedPlacePoint, setSelectedPlaceId, cityInfo} = useMain(params.city);
 
   const [sortType, setSortType] = useState<SortOption>('Popular');
-  const sortedPlaces = useSorterPlaces(places, sortType)
+  const sortedPlaces = useSorterPlaces(places, sortType);
 
   if (!params.city) {
     return <h1> Город не найден</h1>;

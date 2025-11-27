@@ -13,7 +13,9 @@ export default function useSorterPlaces<T extends { price?: number | string; rat
   }, [places]);
 
   return useMemo(() => {
-    if (!places) return [];
+    if (!places) {
+      return [];
+    }
 
     if (sortType === 'Popular') {
       return originalRef.current ? [...originalRef.current] : [...places];

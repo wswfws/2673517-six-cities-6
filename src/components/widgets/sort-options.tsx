@@ -20,7 +20,9 @@ export default function SortOptions({current, onChange}: Props) {
         role='button'
         onClick={() => setOpen((s) => !s)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') setOpen((s) => !s);
+          if (e.key === 'Enter' || e.key === ' ') {
+            setOpen((s) => !s);
+          }
         }}
       >
         {current}
