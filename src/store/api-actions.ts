@@ -3,9 +3,9 @@ import offersFetcher from '../api/offers-fetcher.ts';
 import {AxiosInstance} from 'axios';
 import {AppDispatch, RootState} from './index.ts';
 import {setAuthorizationStatus, setIsLoadingPlaces, setPlaces} from './action.ts';
-import loginFetch, {AuthData} from "../api/login-fetch.ts";
-import {saveToken} from "../services/token.ts";
-import {AuthorizationStatus} from "../const.ts";
+import loginFetch, {AuthData} from '../api/login-fetch.ts';
+import {saveToken} from '../services/token.ts';
+import {AuthorizationStatus} from '../const.ts';
 
 export const fetchOffersAction = createAsyncThunk<void, void,
   {
@@ -26,15 +26,24 @@ export const fetchOffersAction = createAsyncThunk<void, void,
   }
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
-  dispatch: AppDispatch;
-  state: RootState;
-  extra: AxiosInstance;
-}>(
+export const loginAction = createAsyncThunk<
+  void,
+  AuthData,
+  {
+    dispatch: AppDispatch;
+    state: RootState;
+    extra: AxiosInstance;
+  }
+>(
   'user/login',
-  async ({email, password}, {dispatch, extra: api}) => {
-    const data = await loginFetch(api, {email, password});
-    saveToken(data.token);
-    dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+  async ({email, password}, {dispatch, extra: api, rejectWithValue}) => {
+    try {
+      const data = await loginFetch(api, {email, password});
+      saveToken(data.token);
+      dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+    } catch (e) {
+      const error = e as { response?: { data?: { message?: string } } };
+      return rejectWithValue(error.response?.data?.message || 'Login failed');
+    }
   },
 );

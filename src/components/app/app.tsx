@@ -6,12 +6,14 @@ import OfferPage from '../../pages/offer/offer.tsx';
 import Error404Page from '../../pages/404.tsx';
 import PrivateRoute from './private-route.tsx';
 import useAppRoutes, {ROUTE_CONFIG} from './use-app-routes.ts';
-import {useAppSelector} from "../../store/hooks.ts";
-import {AuthorizationStatus} from "../../const.ts";
+import {useAuthorizationStatus} from '../../store/hooks.ts';
+import {AuthorizationStatus} from '../../const.ts';
 
 const AppRoutes = () => {
   const {getCityPath} = useAppRoutes();
-  const hasAccess = useAppSelector(state => state.offers.authorizationStatus) === AuthorizationStatus.Auth;
+  const authorizationStatus = useAuthorizationStatus();
+
+  const hasAccess = authorizationStatus === AuthorizationStatus.Auth;
 
   return (
     <Routes>

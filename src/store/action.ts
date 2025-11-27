@@ -1,5 +1,5 @@
 import type {Action} from './reducer.ts';
-import {AuthorizationStatus} from "../const.ts";
+import {AuthorizationStatus} from '../const.ts';
 
 export const setCity = (city: string): Action => ({
   type: 'setCity',
