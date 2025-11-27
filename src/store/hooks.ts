@@ -1,12 +1,12 @@
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import type {AppDispatch, RootState} from './index';
-import {City} from "../components/shared/map-types.ts";
+import {City} from '../components/shared/map-types.ts';
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const useCities = () => {
-  const places = useAppSelector(state => state.offers.places);
+  const places = useAppSelector((state) => state.offers.places);
   const citiesNames = new Set<string>();
   const cities = new Set<City>();
 

@@ -1,6 +1,6 @@
 import CitiesList from './cities-list.tsx';
 import useAppRoutes from '../app/use-app-routes.ts';
-import {STATIC_CITIES} from "../../const.ts";
+import {STATIC_CITIES} from '../../const.ts';
 
 
 export default function LocationsTabs() {

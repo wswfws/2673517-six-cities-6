@@ -8,7 +8,7 @@ import MapCities from '../../components/shared/map-cities.tsx';
 import useMain from './use-main.ts';
 import SortOptions from '../../components/widgets/sort-options.tsx';
 import useSorterPlaces, {SortOption} from './use-sorter-places.ts';
-import SimpleLoader from "../../components/shared/loader";
+import SimpleLoader from '../../components/shared/loader';
 
 export default function MainPage() {
   const params = useParams();
@@ -22,7 +22,7 @@ export default function MainPage() {
   }
 
   if (isLoadingPlaces) {
-    return <SimpleLoader height={70} width={70}/>
+    return <SimpleLoader height={70} width={70}/>;
   }
 
   if (!places || places.length === 0) {

@@ -1,5 +1,5 @@
 import axios, {AxiosInstance} from 'axios';
-import {BACKEND_URL, REQUEST_TIMEOUT} from "../const.ts";
+import {BACKEND_URL, REQUEST_TIMEOUT} from '../const.ts';
 // import {StatusCodes} from 'http-status-codes';
 
 // type DetailMessageType = {
@@ -11,9 +11,7 @@ import {BACKEND_URL, REQUEST_TIMEOUT} from "../const.ts";
 //
 // const shouldDisplayError = (response: AxiosResponse) => ErrorStatusCode.has(response.status);
 
-export const createAPI = (): AxiosInstance => {
-  return axios.create({
-    baseURL: BACKEND_URL,
-    timeout: REQUEST_TIMEOUT,
-  });
-};
+export const createAPI = (): AxiosInstance => axios.create({
+  baseURL: BACKEND_URL,
+  timeout: REQUEST_TIMEOUT,
+});

@@ -4,7 +4,7 @@ import getPlaces from '../../api/temp-get-places.tsx';
 import useAppRoutes from '../../components/app/use-app-routes.ts';
 import CityPlaceCardFavorites from '../../components/widgets/city-place-card-favorites.tsx';
 import {Link} from 'react-router-dom';
-import {useCities} from "../../store/hooks.ts";
+import {useCities} from '../../store/hooks.ts';
 
 export default function FavoritesPage() {
 
