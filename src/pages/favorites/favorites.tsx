@@ -1,13 +1,15 @@
 import Header from '../../components/widgets/header.tsx';
 import Footer from '../../components/widgets/footer.tsx';
-import getPlaces, {cities} from '../../api/temp-get-places.tsx';
+import getPlaces from '../../api/temp-get-places.tsx';
 import useAppRoutes from '../../components/app/use-app-routes.ts';
 import CityPlaceCardFavorites from '../../components/widgets/city-place-card-favorites.tsx';
 import {Link} from 'react-router-dom';
+import {useCities} from '../../store/hooks.ts';
 
 export default function FavoritesPage() {
 
   const {getCityPath} = useAppRoutes();
+  const cities = useCities();
 
   return (
     <div className='page'>

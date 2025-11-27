@@ -1,8 +1,7 @@
 import CitiesList from './cities-list.tsx';
 import useAppRoutes from '../app/use-app-routes.ts';
+import {STATIC_CITIES} from '../../const.ts';
 
-// Статический список городов согласно ТЗ
-const STATIC_CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export default function LocationsTabs() {
   const {getCityPath} = useAppRoutes();
