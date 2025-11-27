@@ -1,26 +1,27 @@
-import getPlaces, {cities} from '../api/temp-get-places.tsx';
-
 export type State = {
   city: string;
   places: CityPlaceInfo[];
 };
 
-export type Action = { type: 'setCity'; payload: string };
+type setCityAction = { type: 'setCity'; payload: string };
+type setPlacesAction = { type: 'setPlaces'; payload: CityPlaceInfo[] };
+
+export type Action = setCityAction | setPlacesAction;
 
 export const initialState: State = {
-  city: (cities && cities.length > 0 ? cities[0].name : 'Paris'),
-  places: (cities && cities.length > 0 ? getPlaces(cities[0].name) : [])
+  city: 'Paris',
+  places: [],
 };
 
 export function offers(state: State = initialState, action: Action): State {
   switch (action.type) {
     case 'setCity': {
       const newCity = action.payload;
-      return {
-        ...state,
-        city: newCity,
-        places: getPlaces(newCity)
-      };
+      return {...state, city: newCity};
+    }
+    case 'setPlaces': {
+      const newPlaces = action.payload;
+      return {...state, places: newPlaces};
     }
     default:
       return state;

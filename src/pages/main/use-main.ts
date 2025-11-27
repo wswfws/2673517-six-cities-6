@@ -1,10 +1,12 @@
 import {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
+import {useAppDispatch, useAppSelector, useCities} from '../../store/hooks.ts';
 import {setCity} from '../../store/action.ts';
-import {cities as TEST_CITIES} from '../../api/temp-get-places.tsx';
 import type {Point} from '../../components/shared/map-types.ts';
 
 export default function useMain(cityParam?: string) {
+
+  const cities = useCities();
+
   const dispatch = useAppDispatch();
   const currentCity = useAppSelector((state) => state.offers.city);
   const places = useAppSelector((state) => state.offers.places);
@@ -32,7 +34,7 @@ export default function useMain(cityParam?: string) {
     longitude: selectedPlace.location.longitude,
   };
 
-  const cityInfo = TEST_CITIES.find((c) => c.name === currentCity);
+  const cityInfo = cities.find((c) => c.name === currentCity);
 
   return {
     currentCity,

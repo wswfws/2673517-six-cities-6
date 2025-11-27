@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef} from 'react';
+import { useEffect, useState } from 'react';
 
 export type SortOption = 'Popular' | 'Price: low to high' | 'Price: high to low' | 'Top rated first';
 
@@ -6,31 +6,30 @@ export default function useSorterPlaces<T extends { price?: number | string; rat
   places: T[] | undefined,
   sortType: SortOption
 ): T[] {
-  const originalRef = useRef<T[] | null>(null);
+  const [sortedPlaces, setSortedPlaces] = useState<T[]>([]);
 
   useEffect(() => {
-    originalRef.current = places ? [...places] : [];
-  }, [places]);
-
-  return useMemo(() => {
     if (!places) {
-      return [];
+      setSortedPlaces([]);
+      return;
     }
+
+    let sorted: T[];
 
     if (sortType === 'Popular') {
-      return originalRef.current ? [...originalRef.current] : [...places];
-    }
-
-    const list = [...(originalRef.current ?? places)];
-
-    if (sortType === 'Price: low to high') {
-      list.sort((a, b) => Number(a.price ?? 0) - Number(b.price ?? 0));
+      sorted = [...places];
+    } else if (sortType === 'Price: low to high') {
+      sorted = [...places].sort((a, b) => Number(a.price ?? 0) - Number(b.price ?? 0));
     } else if (sortType === 'Price: high to low') {
-      list.sort((a, b) => Number(b.price ?? 0) - Number(a.price ?? 0));
+      sorted = [...places].sort((a, b) => Number(b.price ?? 0) - Number(a.price ?? 0));
     } else if (sortType === 'Top rated first') {
-      list.sort((a, b) => Number(b.rating ?? 0) - Number(a.rating ?? 0));
+      sorted = [...places].sort((a, b) => Number(b.rating ?? 0) - Number(a.rating ?? 0));
+    } else {
+      sorted = [...places];
     }
 
-    return list;
+    setSortedPlaces(sorted);
   }, [places, sortType]);
+
+  return sortedPlaces;
 }
