@@ -1,19 +1,24 @@
+import {AuthorizationStatus} from "../const.ts";
+
 export type State = {
   city: string;
   isLoadingPlaces: boolean;
   places: CityPlaceInfo[];
+  authorizationStatus: AuthorizationStatus
 };
 
 type setCityAction = { type: 'setCity'; payload: string };
 type setIsLoadingPlacesAction = { type: 'setIsLoadingPlaces'; payload: boolean };
 type setPlacesAction = { type: 'setPlaces'; payload: CityPlaceInfo[] };
+type setAuthorizationStatusAction = { type: 'setAuthorizationStatus'; payload: AuthorizationStatus };
 
-export type Action = setCityAction | setPlacesAction | setIsLoadingPlacesAction;
+export type Action = setCityAction | setPlacesAction | setIsLoadingPlacesAction | setAuthorizationStatusAction;
 
 export const initialState: State = {
   city: 'Paris',
   isLoadingPlaces: false,
   places: [],
+  authorizationStatus: AuthorizationStatus.Unknown
 };
 
 export function offers(state: State = initialState, action: Action): State {
@@ -29,6 +34,10 @@ export function offers(state: State = initialState, action: Action): State {
     case 'setIsLoadingPlaces': {
       const newIsLoading = action.payload;
       return {...state, isLoadingPlaces: newIsLoading};
+    }
+    case 'setAuthorizationStatus': {
+      const newIsLoading = action.payload;
+      return {...state, authorizationStatus: newIsLoading};
     }
     default:
       return state;

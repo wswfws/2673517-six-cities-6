@@ -8,3 +8,16 @@ export const BACKEND_URL = 'https://14.design.htmlacademy.pro/six-cities';
 export const REQUEST_TIMEOUT = 5000;
 
 export const STATIC_CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
+export enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
+
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+}
