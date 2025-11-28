@@ -19,3 +19,6 @@ export const useCities = () => {
 
   return [...cities];
 };
+
+export const useAuthorizationStatus = () =>
+  useAppSelector((state) => state.user.authorizationStatus);

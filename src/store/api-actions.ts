@@ -1,8 +1,11 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import offersFetcher from '../api/offersFetch.ts';
+import offersFetcher from '../api/offers-fetcher.ts';
 import {AxiosInstance} from 'axios';
 import {AppDispatch, RootState} from './index.ts';
-import {setIsLoadingPlaces, setPlaces} from './action.ts';
+import {setAuthorizationStatus, setIsLoadingPlaces, setPlaces} from './action.ts';
+import loginFetch, {AuthData} from '../api/login-fetch.ts';
+import {saveToken} from '../services/token.ts';
+import {AuthorizationStatus} from '../const.ts';
 
 export const fetchOffersAction = createAsyncThunk<void, void,
   {
@@ -21,4 +24,26 @@ export const fetchOffersAction = createAsyncThunk<void, void,
       dispatch(setIsLoadingPlaces(false));
     }
   }
+);
+
+export const loginAction = createAsyncThunk<
+  void,
+  AuthData,
+  {
+    dispatch: AppDispatch;
+    state: RootState;
+    extra: AxiosInstance;
+  }
+>(
+  'user/login',
+  async ({email, password}, {dispatch, extra: api, rejectWithValue}) => {
+    try {
+      const data = await loginFetch(api, {email, password});
+      saveToken(data.token);
+      dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+    } catch (e) {
+      const error = e as { response?: { data?: { message?: string } } };
+      return rejectWithValue(error.response?.data?.message || 'Login failed');
+    }
+  },
 );

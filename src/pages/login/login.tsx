@@ -1,6 +1,39 @@
+import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {loginAction} from '../../store/api-actions';
 import Header from '../../components/widgets/header.tsx';
+import {FormEvent, useState} from 'react';
+import {AppDispatch} from '../../store';
+import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
 
 export default function LoginPage() {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    const formData = new FormData(evt.currentTarget);
+    const authData = {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+    };
+
+    dispatch(loginAction(authData)).unwrap()
+      .then(() => {
+        navigate(ROUTE_CONFIG.ROOT);
+      })
+      .catch((err: string) => {
+        setError(err);
+      }).finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   return (
     <div className='page page--gray page--login'>
       <Header tempLoginStatus={'onLoginPage'}/>
@@ -9,20 +42,39 @@ export default function LoginPage() {
         <div className='page__login-container container'>
           <section className='login'>
             <h1 className='login__title'>Sign in</h1>
-            <form className='login__form form' action='#' method='post'>
+            <form
+              className='login__form form'
+              onSubmit={handleSubmit}
+              method='post'
+            >
               <div className='login__input-wrapper form__input-wrapper'>
                 <label className='visually-hidden'>E-mail</label>
-                <input className='login__input form__input' type='email' name='email' placeholder='Email' required/>
+                <input
+                  className='login__input form__input'
+                  type='email'
+                  name='email'
+                  placeholder='Email'
+                  required
+                />
               </div>
               <div className='login__input-wrapper form__input-wrapper'>
                 <label className='visually-hidden'>Password</label>
                 <input
-                  className='login__input form__input' required
-                  type='password' name='password'
+                  className='login__input form__input'
+                  required
+                  type='password'
+                  name='password'
                   placeholder='Password'
                 />
               </div>
-              <button className='login__submit form__submit button' type='submit'>Sign in</button>
+              {error && <div style={{color: 'red'}}>{error}</div>}
+              <button
+                className='login__submit form__submit button'
+                type='submit'
+                disabled={isLoading}
+              >
+                {isLoading ? 'Signing in...' : 'Sign in'}
+              </button>
             </form>
           </section>
           <section className='locations locations--login locations--current'>
