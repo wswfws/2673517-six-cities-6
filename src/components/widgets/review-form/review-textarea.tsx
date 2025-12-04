@@ -1,4 +1,4 @@
-import {ChangeEvent, memo, useCallback} from 'react';
+import {ChangeEvent, NamedExoticComponent, memo, useCallback} from 'react';
 
 interface ReviewTextareaProps {
   value: string;
@@ -22,7 +22,10 @@ function ReviewTextarea({value, onChange}: ReviewTextareaProps) {
   );
 }
 
-export default memo(
+const MemoReviewTextarea: NamedExoticComponent<ReviewTextareaProps> = memo(
   ReviewTextarea,
   (prevProps, nextProps) => prevProps.value === nextProps.value
 );
+MemoReviewTextarea.displayName = 'ReviewTextarea';
+
+export default MemoReviewTextarea;

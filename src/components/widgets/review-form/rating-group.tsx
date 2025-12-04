@@ -1,4 +1,4 @@
-import {ChangeEvent, memo, useCallback, useMemo} from 'react';
+import {ChangeEvent, NamedExoticComponent, memo, useCallback, useMemo} from 'react';
 import RatingInput from './rating-input.tsx';
 
 const RATING_OPTIONS = [
@@ -20,16 +20,16 @@ function RatingGroup({ value, onChange }: RatingGroupProps) {
   }, [onChange]);
 
   const ratingInputs = useMemo(() =>
-      RATING_OPTIONS.map(({ value: optionValue, label }) => (
-        <RatingInput
-          key={optionValue}
-          value={optionValue}
-          label={label}
-          checked={value === optionValue}
-          onChange={handleRatingChange}
-        />
-      )),
-    [value, handleRatingChange]
+    RATING_OPTIONS.map(({ value: optionValue, label }) => (
+      <RatingInput
+        key={optionValue}
+        value={optionValue}
+        label={label}
+        checked={value === optionValue}
+        onChange={handleRatingChange}
+      />
+    )),
+  [value, handleRatingChange]
   );
 
   return (
@@ -39,7 +39,10 @@ function RatingGroup({ value, onChange }: RatingGroupProps) {
   );
 }
 
-export default memo(
+const RatingGroupMemo: NamedExoticComponent<RatingGroupProps> = memo(
   RatingGroup,
   (prevProps, nextProps) => prevProps.value === nextProps.value
 );
+RatingGroupMemo.displayName = 'RatingGroup';
+
+export default RatingGroupMemo;

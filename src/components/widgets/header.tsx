@@ -1,13 +1,13 @@
+import {memo, NamedExoticComponent} from 'react';
 import {Link} from 'react-router-dom';
 import {ROUTE_CONFIG} from '../app/use-app-routes.ts';
-import {useAuthorizationStatus} from "../../store/hooks.ts";
-import {memo} from "react";
+import {useAuthorizationStatus} from '../../store/hooks.ts';
+import {AuthorizationStatus} from '../../const.ts';
 
 function HeaderNavigation() {
   const authorizationStatus = useAuthorizationStatus();
-  console.log(authorizationStatus);
 
-  if (authorizationStatus === "AUTH") {
+  if (authorizationStatus === AuthorizationStatus.Auth) {
     return (
       <nav className='header__nav'>
         <ul className='header__nav-list'>
@@ -28,7 +28,7 @@ function HeaderNavigation() {
       </nav>
     );
   }
-  if (authorizationStatus === "NO_AUTH") {
+  if (authorizationStatus === AuthorizationStatus.NoAuth) {
     return (
       <nav className='header__nav'>
         <ul className='header__nav-list'>
@@ -46,7 +46,7 @@ function HeaderNavigation() {
   return null;
 }
 
-const Header = memo(() => {
+function HeaderComponent() {
   return (
     <header className='header'>
       <div className='container'>
@@ -61,6 +61,9 @@ const Header = memo(() => {
       </div>
     </header>
   );
-})
+}
+
+const Header: NamedExoticComponent = memo(HeaderComponent);
+Header.displayName = 'Header';
 
 export default Header;

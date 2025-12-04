@@ -8,7 +8,7 @@ import useMain from './use-main.ts';
 import SortOptions from '../../components/widgets/sort-options.tsx';
 import useSorterPlaces, {SortOption} from './use-sorter-places.ts';
 import SimpleLoader from '../../components/shared/loader';
-import CityPlacesList from "../../components/widgets/city-places-list.tsx";
+import CityPlacesList from '../../components/widgets/city-places-list.tsx';
 
 export default function MainPage() {
   const params = useParams();

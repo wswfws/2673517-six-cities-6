@@ -1,4 +1,4 @@
-import { useState, FormEvent, memo, useCallback, useMemo } from 'react';
+import {useState, FormEvent, memo, useCallback, useMemo, NamedExoticComponent} from 'react';
 import {useAppDispatch, useAppSelector} from '../../../store/hooks.ts';
 import {useParams} from 'react-router-dom';
 import {postCommentAction} from '../../../store/api-actions.ts';
@@ -6,7 +6,7 @@ import {toast} from 'react-toastify';
 import RatingGroup from './rating-group.tsx';
 import ReviewTextarea from './review-textarea.tsx';
 
-function ReviewForm() {
+function ReviewFormComponent() {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
 
@@ -38,17 +38,20 @@ function ReviewForm() {
   }, [dispatch, offerId, rating, review]);
 
   const isSubmitDisabled = useMemo(() =>
-      rating === 0 || review.length < 50 || isPosting,
-    [rating, review.length, isPosting]
+    rating === 0 || review.length < 50 || isPosting,
+  [rating, review.length, isPosting]
   );
 
   const buttonText = useMemo(() =>
-      isPosting ? 'Posting...' : 'Submit',
-    [isPosting]
+    isPosting ? 'Posting...' : 'Submit',
+  [isPosting]
   );
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={(e) => {
+      void handleSubmit(e);
+    }}
+    >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -80,4 +83,7 @@ function ReviewForm() {
   );
 }
 
-export default memo(ReviewForm);
+const ReviewForm: NamedExoticComponent<Record<string, never>> = memo(ReviewFormComponent);
+ReviewForm.displayName = 'ReviewForm';
+
+export default ReviewForm;

@@ -1,4 +1,4 @@
-import {ChangeEvent, memo} from 'react';
+import {ChangeEvent, memo, NamedExoticComponent} from 'react';
 
 interface RatingInputProps {
   value: number;
@@ -30,4 +30,7 @@ function RatingInput({value, label, checked, onChange}: RatingInputProps) {
   );
 }
 
-export default memo(RatingInput);
+const MemoRatingInput: NamedExoticComponent<RatingInputProps> = memo(RatingInput);
+MemoRatingInput.displayName = 'RatingInput';
+
+export default MemoRatingInput;

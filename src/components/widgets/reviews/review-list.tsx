@@ -1,15 +1,15 @@
-import { memo, useMemo } from 'react';
+import { memo, NamedExoticComponent, useMemo } from 'react';
 import ReviewForm from '../review-form';
 import {Review} from './review-types.ts';
 import ReviewItem from './review-item.tsx';
 import {useAuthorizationStatus} from '../../../store/hooks.ts';
 import {AuthorizationStatus} from '../../../const.ts';
 
-const ReviewsContent = memo(({ reviews }: { reviews: Review[] }) => {
+function ReviewsContentComponent({ reviews }: { reviews: Review[] }) {
   return (
     <>
       <h2 className='reviews__title'>
-        Reviews &middot; <span className='reviews__amount'>{reviews.length}</span>
+          Reviews &middot; <span className='reviews__amount'>{reviews.length}</span>
       </h2>
       <ul className='reviews__list'>
         {reviews.map((review) => (
@@ -18,7 +18,9 @@ const ReviewsContent = memo(({ reviews }: { reviews: Review[] }) => {
       </ul>
     </>
   );
-}, (prevProps, nextProps) => {
+}
+
+const ReviewsContent: NamedExoticComponent<{ reviews: Review[] }> = memo(ReviewsContentComponent, (prevProps, nextProps) => {
   if (prevProps.reviews.length !== nextProps.reviews.length) {
     return false;
   }
@@ -27,8 +29,9 @@ const ReviewsContent = memo(({ reviews }: { reviews: Review[] }) => {
     review.id === nextProps.reviews[index].id
   );
 });
+ReviewsContent.displayName = 'ReviewsContent';
 
-const AuthReviewForm = memo(() => {
+function AuthReviewFormComponent() {
   const authorizationStatus = useAuthorizationStatus();
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
@@ -36,9 +39,12 @@ const AuthReviewForm = memo(() => {
   }
 
   return null;
-});
+}
 
-function ReviewList({reviews}: { reviews: Review[] }) {
+const AuthReviewForm: NamedExoticComponent<Record<string, never>> = memo(AuthReviewFormComponent);
+AuthReviewForm.displayName = 'AuthReviewForm';
+
+function ReviewListComponent({reviews}: { reviews: Review[] }) {
   const reviewsContent = useMemo(
     () => <ReviewsContent reviews={reviews} />,
     [reviews]
@@ -52,7 +58,7 @@ function ReviewList({reviews}: { reviews: Review[] }) {
   );
 }
 
-export default memo(ReviewList, (prevProps, nextProps) => {
+const ReviewList: NamedExoticComponent<{ reviews: Review[] }> = memo(ReviewListComponent, (prevProps, nextProps) => {
   if (prevProps.reviews.length !== nextProps.reviews.length) {
     return false;
   }
@@ -61,3 +67,6 @@ export default memo(ReviewList, (prevProps, nextProps) => {
     review.id === nextProps.reviews[index].id
   );
 });
+ReviewList.displayName = 'ReviewList';
+
+export default ReviewList;

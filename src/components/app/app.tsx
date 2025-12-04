@@ -8,8 +8,8 @@ import PrivateRoute from './private-route.tsx';
 import useAppRoutes, {ROUTE_CONFIG} from './use-app-routes.ts';
 import {useAuthorizationStatus} from '../../store/hooks.ts';
 import {AuthorizationStatus} from '../../const.ts';
-import store from "../../store";
-import {checkAuthAction} from "../../store/api-actions.ts";
+import store from '../../store';
+import {checkAuthAction} from '../../store/api-actions.ts';
 
 const AppRoutes = () => {
   const {getCityPath} = useAppRoutes();

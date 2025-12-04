@@ -11,6 +11,7 @@ import {fetchOffer} from '../api/offer-fetcher.ts';
 import {fetchNearbyOffers} from '../api/offers-nearby-fetcher.ts';
 import {fetchComments, postComment} from '../api/comments-api.ts';
 import {setOfferDetail, setNeighbors, setComments, setIsLoadingOffer, setOfferNotFound, setIsPostingComment} from './action.ts';
+import {AuthInfo} from './AuthInfo.ts';
 
 export const fetchOffersAction = createAsyncThunk<void, void,
   {
@@ -98,7 +99,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   'user/checkAuth',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      const {data} = await api.get(APIRoute.Login);
+      const {data} = await api.get<AuthInfo>(APIRoute.Login);
       dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
       dispatch(setUserData(data));
     } catch {

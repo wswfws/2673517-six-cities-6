@@ -1,4 +1,4 @@
-import {memo, useCallback, useState} from 'react';
+import React, { memo, NamedExoticComponent, useCallback, useState } from 'react';
 
 type SortOption = 'Popular' | 'Price: low to high' | 'Price: high to low' | 'Top rated first';
 
@@ -7,7 +7,7 @@ type Props = {
   onChange: (option: SortOption) => void;
 };
 
-function SortOptions({current, onChange}: Props) {
+function SortOptionsComponent({current, onChange}: Props) {
   const [open, setOpen] = useState(false);
   const options: SortOption[] = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
 
@@ -68,6 +68,7 @@ function SortOptions({current, onChange}: Props) {
   );
 }
 
-export default memo(SortOptions, (prevProps, nextProps) => {
-  return prevProps.current === nextProps.current;
-});
+const SortOptions: NamedExoticComponent<Props> = memo(SortOptionsComponent, (prevProps, nextProps) => prevProps.current === nextProps.current);
+SortOptions.displayName = 'SortOptions';
+
+export default SortOptions;
