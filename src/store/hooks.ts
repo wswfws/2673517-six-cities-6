@@ -20,5 +20,10 @@ export const useCities = () => {
   return [...cities];
 };
 
+export const usePlacesByCity = (cityName: string) =>
+  useAppSelector((state) =>
+    state.offers.places.filter((place) => place.city.name === cityName)
+  );
+
 export const useAuthorizationStatus = () =>
   useAppSelector((state) => state.user.authorizationStatus);

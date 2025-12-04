@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import {CityPlaceInfo} from '../shared/city-place';
 
 export const useNeighborsPlaces = (fromPlaceId: string | undefined) => {
 
