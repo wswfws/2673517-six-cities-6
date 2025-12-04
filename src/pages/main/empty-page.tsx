@@ -4,7 +4,7 @@ import Header from '../../components/widgets/header.tsx';
 export default function EmptyMainPage({location}: { location: string }) {
   return (
     <div className='page page--gray page--main'>
-      <Header tempLoginStatus={'login'}/>
+      <Header/>
       <main className='page__main page__main--index page__main--index-empty'>
         <h1 className='visually-hidden'>Cities</h1>
         <LocationsTabs/>

@@ -1,11 +1,14 @@
+import {memo, NamedExoticComponent} from 'react';
 import useAppRoutes from '../app/use-app-routes.ts';
 import {Link} from 'react-router-dom';
 import {CityPlaceInfo} from '../shared/city-place';
 
-export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
+type CityPlaceCardProps = {
   cityPlaceInfo: CityPlaceInfo;
   onSelect?: (id: string) => void;
-}) {
+};
+
+function CityPlaceCard({cityPlaceInfo, onSelect}: CityPlaceCardProps) {
 
   const {getOfferPath} = useAppRoutes();
 
@@ -52,3 +55,8 @@ export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
     </article>
   );
 }
+
+const MemoizedCityPlaceCard: NamedExoticComponent<CityPlaceCardProps> = memo(CityPlaceCard);
+MemoizedCityPlaceCard.displayName = 'CityPlaceCard';
+
+export default MemoizedCityPlaceCard;

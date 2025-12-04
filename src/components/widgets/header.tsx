@@ -1,8 +1,13 @@
+import {memo, NamedExoticComponent} from 'react';
 import {Link} from 'react-router-dom';
 import {ROUTE_CONFIG} from '../app/use-app-routes.ts';
+import {useAuthorizationStatus} from '../../store/hooks.ts';
+import {AuthorizationStatus} from '../../const.ts';
 
-function HeaderNavigation({tempLoginStatus}: { tempLoginStatus: 'login' | 'onLoginPage' | 'unLogin' }) {
-  if (tempLoginStatus === 'login') { // Для авторизованых
+function HeaderNavigation() {
+  const authorizationStatus = useAuthorizationStatus();
+
+  if (authorizationStatus === AuthorizationStatus.Auth) {
     return (
       <nav className='header__nav'>
         <ul className='header__nav-list'>
@@ -23,7 +28,7 @@ function HeaderNavigation({tempLoginStatus}: { tempLoginStatus: 'login' | 'onLog
       </nav>
     );
   }
-  if (tempLoginStatus === 'unLogin') {
+  if (authorizationStatus === AuthorizationStatus.NoAuth) {
     return (
       <nav className='header__nav'>
         <ul className='header__nav-list'>
@@ -41,7 +46,7 @@ function HeaderNavigation({tempLoginStatus}: { tempLoginStatus: 'login' | 'onLog
   return null;
 }
 
-export default function Header({tempLoginStatus}: { tempLoginStatus: 'login' | 'onLoginPage' | 'unLogin' }) {
+function HeaderComponent() {
   return (
     <header className='header'>
       <div className='container'>
@@ -51,9 +56,14 @@ export default function Header({tempLoginStatus}: { tempLoginStatus: 'login' | '
               <img className='header__logo' src='/img/logo.svg' alt='6 cities logo' width='81' height='41'/>
             </Link>
           </div>
-          <HeaderNavigation tempLoginStatus={tempLoginStatus}/>
+          <HeaderNavigation/>
         </div>
       </div>
     </header>
   );
 }
+
+const Header: NamedExoticComponent = memo(HeaderComponent);
+Header.displayName = 'Header';
+
+export default Header;

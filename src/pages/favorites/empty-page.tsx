@@ -3,7 +3,7 @@ import Header from '../../components/widgets/header.tsx';
 export default function EmptyMainPage() {
   return (
     <div className="page page--favorites-empty">
-      <Header tempLoginStatus={'login'} />
+      <Header />
 
       <main className="page__main page__main--favorites page__main--favorites-empty">
         <div className="page__favorites-container container">
