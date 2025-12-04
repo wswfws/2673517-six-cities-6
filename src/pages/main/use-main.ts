@@ -1,41 +1,58 @@
-import {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector, useCities} from '../../store/hooks.ts';
+import {useEffect, useMemo, useState} from 'react';
+import {useAppDispatch, useAppSelector, useCities, usePlacesByCity} from '../../store/hooks.ts';
 import {setCity} from '../../store/action.ts';
 import type {Point} from '../../components/shared/map-types.ts';
 
 export default function useMain(cityParam?: string) {
-
-  const cities = useCities();
-
   const dispatch = useAppDispatch();
+  const cities = useCities();
   const currentCity = useAppSelector((state) => state.offers.city);
   const isLoadingPlaces = useAppSelector((state) => state.offers.isLoadingPlaces);
-  const places = useAppSelector((state) => state.offers.places);
+
+  useEffect(() => {
+    if (cityParam) {
+      dispatch(setCity(cityParam));
+    }
+  }, [cityParam, dispatch]);
+
+  const fallbackCity = cityParam ?? currentCity ?? 'Paris';
+  const places = usePlacesByCity(fallbackCity);
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (!cityParam) {
+    if (!places || places.length === 0) {
+      setSelectedPlaceId(undefined);
       return;
     }
-    dispatch(setCity(cityParam));
-  }, [cityParam, dispatch]);
 
-  useEffect(() => {
-    if (places && places.length > 0) {
-      setSelectedPlaceId(places[0].id);
-    } else {
-      setSelectedPlaceId(undefined);
-    }
+    setSelectedPlaceId((prev) => {
+      if (prev && places.some((place) => place.id === prev)) {
+        return prev;
+      }
+      return places[0].id;
+    });
   }, [places]);
 
-  const selectedPlace = places.find((p) => p.id === selectedPlaceId);
-  const selectedPlacePoint: Point | undefined = selectedPlace && {
-    id: selectedPlace.id,
-    latitude: selectedPlace.location.latitude,
-    longitude: selectedPlace.location.longitude,
-  };
+  const selectedPlace = useMemo(() => places.find((p) => p.id === selectedPlaceId), [places, selectedPlaceId]);
 
-  const cityInfo = cities.find((c) => c.name === currentCity);
+  const selectedPlacePoint: Point | undefined = useMemo(() => {
+    if (!selectedPlace) {
+      return undefined;
+    }
+    return {
+      id: selectedPlace.id,
+      latitude: selectedPlace.location.latitude,
+      longitude: selectedPlace.location.longitude,
+    };
+  }, [selectedPlace]);
+
+  const cityInfo = useMemo(() => cities.find((c) => c.name === currentCity), [cities, currentCity]);
+
+  const mapPoints = useMemo(() => places.map((place) => ({
+    id: place.id,
+    latitude: place.location.latitude,
+    longitude: place.location.longitude,
+  })), [places]);
 
   return {
     isLoadingPlaces,
@@ -45,6 +62,7 @@ export default function useMain(cityParam?: string) {
     setSelectedPlaceId,
     selectedPlacePoint,
     cityInfo,
+    mapPoints,
   };
 }
 

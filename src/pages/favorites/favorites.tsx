@@ -8,6 +8,7 @@ import {City} from '../../components/shared/map-types.ts';
 import {CityPlaceInfo} from '../../components/shared/city-place';
 
 function CityFavoritesBlock({city, getCityPath}: {city: City; getCityPath: (name: string) => string}) {
+
   const places = usePlacesByCity(city.name);
   const favoritePlaces = places.filter((place: CityPlaceInfo) => place.isFavorite);
   if (favoritePlaces.length === 0) {

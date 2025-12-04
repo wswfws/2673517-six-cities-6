@@ -1,32 +1,38 @@
 import {memo, NamedExoticComponent} from 'react';
 import {Link} from 'react-router-dom';
 import {ROUTE_CONFIG} from '../app/use-app-routes.ts';
-import {useAuthorizationStatus} from '../../store/hooks.ts';
+import {useAuthorizationStatus, useAppSelector} from '../../store/hooks.ts';
 import {AuthorizationStatus} from '../../const.ts';
+
+const HeaderNavigationAuth = () => {
+  const userData = useAppSelector((state) => state.user.userData);
+  const favoriteCount = useAppSelector((state) => state.offers.places.filter((p) => p.isFavorite).length);
+  return (
+    <nav className='header__nav'>
+      <ul className='header__nav-list'>
+        <li className='header__nav-item user'>
+          <Link className='header__nav-link header__nav-link--profile' to='/favorites'>
+            <div className='header__avatar-wrapper user__avatar-wrapper'>
+            </div>
+            <span className='header__user-name user__name'>{userData?.email ?? ''}</span>
+            <span className='header__favorite-count'>{favoriteCount}</span>
+          </Link>
+        </li>
+        <li className='header__nav-item'>
+          <Link className='header__nav-link' to={ROUTE_CONFIG.LOGIN}>
+            <span className='header__signout'>Sign out</span>
+          </Link>
+        </li>
+      </ul>
+    </nav>
+  );
+};
 
 function HeaderNavigation() {
   const authorizationStatus = useAuthorizationStatus();
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
-    return (
-      <nav className='header__nav'>
-        <ul className='header__nav-list'>
-          <li className='header__nav-item user'>
-            <Link className='header__nav-link header__nav-link--profile' to='/favorites'>
-              <div className='header__avatar-wrapper user__avatar-wrapper'>
-              </div>
-              <span className='header__user-name user__name'>Oliver.conner@gmail.com</span>
-              <span className='header__favorite-count'>3</span>
-            </Link>
-          </li>
-          <li className='header__nav-item'>
-            <Link className='header__nav-link' to={ROUTE_CONFIG.LOGIN}>
-              <span className='header__signout'>Sign out</span>
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    );
+    return <HeaderNavigationAuth />
   }
   if (authorizationStatus === AuthorizationStatus.NoAuth) {
     return (

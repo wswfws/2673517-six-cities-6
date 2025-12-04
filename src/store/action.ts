@@ -10,6 +10,7 @@ export const {
   setIsLoadingOffer,
   setOfferNotFound,
   setIsPostingComment,
+  updatePlace,
 } = offersActions;
 
 export const { setAuthorizationStatus, setUserData } = userActions;

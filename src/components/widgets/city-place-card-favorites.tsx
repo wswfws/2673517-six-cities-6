@@ -1,8 +1,15 @@
 import {CityPlaceInfo} from '../shared/city-place';
+import useHandleFavoriteClick from "../hooks/use-handle-favorite-click.ts";
+import useAppRoutes from "../app/use-app-routes.ts";
+import { Link } from 'react-router-dom';
 
 export default function CityPlaceCardFavorites({cityPlaceInfo}: {
   cityPlaceInfo: CityPlaceInfo;
 }) {
+
+  const {getOfferPath} = useAppRoutes();
+  const handleFavoriteClick = useHandleFavoriteClick(cityPlaceInfo);
+
   return (
     <article className='favorites__card place-card'>
       {cityPlaceInfo.isPremium &&
@@ -10,11 +17,11 @@ export default function CityPlaceCardFavorites({cityPlaceInfo}: {
           <span>Premium</span>
         </div>}
       <div className='favorites__image-wrapper place-card__image-wrapper'>
-        <a href='#'>
+        <Link to={getOfferPath(cityPlaceInfo.id)}>
           <img className='place-card__image' src={cityPlaceInfo.previewImage} width='260' height='200'
-            alt='Place image'
+               alt='Place image'
           />
-        </a>
+        </Link>
       </div>
       <div className='favorites__card-info place-card__info'>
         <div className='place-card__price-wrapper'>
@@ -24,6 +31,7 @@ export default function CityPlaceCardFavorites({cityPlaceInfo}: {
           </div>
           <button
             type='button'
+            onClick={handleFavoriteClick}
             className={`place-card__bookmark-button ${cityPlaceInfo.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
           >
             <svg className='place-card__bookmark-icon' width='18' height='19'>
@@ -39,7 +47,7 @@ export default function CityPlaceCardFavorites({cityPlaceInfo}: {
           </div>
         </div>
         <h2 className='place-card__name'>
-          <a href='#'>{cityPlaceInfo.title}</a>
+          <Link to={getOfferPath(cityPlaceInfo.id)}>{cityPlaceInfo.title}</Link>
         </h2>
         <p className='place-card__type'>{cityPlaceInfo.type}</p>
       </div>

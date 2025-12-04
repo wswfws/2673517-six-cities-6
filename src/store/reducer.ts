@@ -69,6 +69,14 @@ const offersSlice = createSlice({
     setIsPostingComment(state, action: PayloadAction<boolean>) {
       state.isPostingComment = action.payload;
     },
+    updatePlace(state, action: PayloadAction<CityPlaceInfo>) {
+      const updated = action.payload;
+      state.places = state.places.map((p) => p.id === updated.id ? updated : p);
+      state.neighbors = state.neighbors.map((n) => n.id === updated.id ? updated : n);
+      if (state.offerDetail && state.offerDetail.id === updated.id) {
+        state.offerDetail = {...state.offerDetail, isFavorite: updated.isFavorite} as PlaceFullInfo;
+      }
+    },
   },
 });
 
