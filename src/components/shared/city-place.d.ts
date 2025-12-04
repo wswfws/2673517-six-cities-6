@@ -21,3 +21,16 @@ type CityPlaceInfo = {
   rating: number;
   previewImage: string;
 }
+
+export type PlaceFullInfo = CityPlaceInfo & {
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  images: string[];
+  maxAdults: number;
+}

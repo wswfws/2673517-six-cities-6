@@ -1,3 +1,5 @@
+import {CityPlaceInfo} from '../shared/city-place';
+
 export default function CityPlaceCardFavorites({cityPlaceInfo}: {
   cityPlaceInfo: CityPlaceInfo;
 }) {

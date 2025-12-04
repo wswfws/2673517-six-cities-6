@@ -1,5 +1,6 @@
 import useAppRoutes from '../app/use-app-routes.ts';
 import {Link} from 'react-router-dom';
+import {CityPlaceInfo} from '../shared/city-place';
 
 export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
   cityPlaceInfo: CityPlaceInfo;

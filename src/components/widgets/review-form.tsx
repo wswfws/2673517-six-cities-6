@@ -1,4 +1,8 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
+import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
+import {useParams} from 'react-router-dom';
+import {postCommentAction} from '../../store/api-actions.ts';
+import {toast} from 'react-toastify';
 
 interface ReviewFormData {
   rating: number;
@@ -10,6 +14,11 @@ export default function ReviewForm() {
     rating: 0,
     review: ''
   });
+
+  const dispatch = useAppDispatch();
+  const params = useParams();
+  const offerId = params.id ?? '';
+  const isPosting = useAppSelector((state) => state.offers.isPostingComment);
 
   const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -25,15 +34,23 @@ export default function ReviewForm() {
     });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Здесь будет логика отправки данных на сервер
+    if (!offerId) {
+      return;
+    }
+    try {
+      await dispatch(postCommentAction({offerId, rating: formData.rating, comment: formData.review})).unwrap();
+      setFormData({rating: 0, review: ''});
+    } catch (e) {
+      toast.error('Failed to post review. Please try again later.');
+    }
   };
 
-  const isSubmitDisabled = formData.rating === 0 || formData.review.length < 50;
+  const isSubmitDisabled = formData.rating === 0 || formData.review.length < 50 || isPosting;
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={(e) => void handleSubmit(e)}>
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -131,7 +148,7 @@ export default function ReviewForm() {
           type="submit"
           disabled={isSubmitDisabled}
         >
-          Submit
+          {isPosting ? 'Posting...' : 'Submit'}
         </button>
       </div>
     </form>

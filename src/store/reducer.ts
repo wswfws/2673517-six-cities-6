@@ -1,32 +1,49 @@
 import {AuthorizationStatus} from '../const.ts';
+import type {Review} from '../components/widgets/reviews/review-types.ts';
+import {CityPlaceInfo, PlaceFullInfo} from '../components/shared/city-place';
 
 export type OffersState = {
   city: string;
   isLoadingPlaces: boolean;
   places: CityPlaceInfo[];
+  offerDetail: PlaceFullInfo | null;
+  neighbors: CityPlaceInfo[];
+  comments: Review[];
+  isLoadingOffer: boolean;
+  offerNotFound: boolean;
+  isPostingComment: boolean;
 };
 
 export type UserState = {
   authorizationStatus: AuthorizationStatus;
 };
 
-export type State = {
-  offers: OffersState;
-  user: UserState;
-};
-
 type SetCityAction = { type: 'setCity'; payload: string };
 type SetIsLoadingPlacesAction = { type: 'setIsLoadingPlaces'; payload: boolean };
 type SetPlacesAction = { type: 'setPlaces'; payload: CityPlaceInfo[] };
 
+type SetOfferDetailAction = { type: 'setOfferDetail'; payload: PlaceFullInfo | null };
+type SetNeighborsAction = { type: 'setNeighbors'; payload: CityPlaceInfo[] };
+type SetCommentsAction = { type: 'setComments'; payload: Review[] };
+type SetIsLoadingOfferAction = { type: 'setIsLoadingOffer'; payload: boolean };
+type SetOfferNotFoundAction = { type: 'setOfferNotFound'; payload: boolean };
+type SetIsPostingCommentAction = { type: 'setIsPostingComment'; payload: boolean };
+
 type SetAuthorizationStatusAction = { type: 'setAuthorizationStatus'; payload: AuthorizationStatus };
 
-export type Action = SetCityAction | SetPlacesAction | SetIsLoadingPlacesAction | SetAuthorizationStatusAction;
+export type Action = SetCityAction | SetPlacesAction | SetIsLoadingPlacesAction | SetAuthorizationStatusAction
+  | SetOfferDetailAction | SetNeighborsAction | SetCommentsAction | SetIsLoadingOfferAction | SetOfferNotFoundAction | SetIsPostingCommentAction;
 
 export const initialOffersState: OffersState = {
   city: 'Paris',
   isLoadingPlaces: false,
   places: [],
+  offerDetail: null,
+  neighbors: [],
+  comments: [],
+  isLoadingOffer: false,
+  offerNotFound: false,
+  isPostingComment: false,
 };
 
 export const initialUserState: UserState = {
@@ -46,6 +63,24 @@ export function offers(state: OffersState = initialOffersState, action: Action):
     case 'setIsLoadingPlaces': {
       const newIsLoading = action.payload;
       return {...state, isLoadingPlaces: newIsLoading};
+    }
+    case 'setOfferDetail': {
+      return {...state, offerDetail: action.payload};
+    }
+    case 'setNeighbors': {
+      return {...state, neighbors: action.payload};
+    }
+    case 'setComments': {
+      return {...state, comments: action.payload};
+    }
+    case 'setIsLoadingOffer': {
+      return {...state, isLoadingOffer: action.payload};
+    }
+    case 'setOfferNotFound': {
+      return {...state, offerNotFound: action.payload};
+    }
+    case 'setIsPostingComment': {
+      return {...state, isPostingComment: action.payload};
     }
     default:
       return state;
