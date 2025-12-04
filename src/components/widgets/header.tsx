@@ -1,12 +1,13 @@
 import {Link} from 'react-router-dom';
 import {ROUTE_CONFIG} from '../app/use-app-routes.ts';
 import {useAuthorizationStatus} from "../../store/hooks.ts";
+import {memo} from "react";
 
 function HeaderNavigation() {
   const authorizationStatus = useAuthorizationStatus();
   console.log(authorizationStatus);
 
-  if (authorizationStatus === "AUTH"){
+  if (authorizationStatus === "AUTH") {
     return (
       <nav className='header__nav'>
         <ul className='header__nav-list'>
@@ -45,7 +46,7 @@ function HeaderNavigation() {
   return null;
 }
 
-export default function Header() {
+const Header = memo(() => {
   return (
     <header className='header'>
       <div className='container'>
@@ -60,4 +61,6 @@ export default function Header() {
       </div>
     </header>
   );
-}
+})
+
+export default Header;

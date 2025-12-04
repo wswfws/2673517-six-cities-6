@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {memo, useCallback, useState} from 'react';
 
 type SortOption = 'Popular' | 'Price: low to high' | 'Price: high to low' | 'Top rated first';
 
@@ -7,9 +7,33 @@ type Props = {
   onChange: (option: SortOption) => void;
 };
 
-export default function SortOptions({current, onChange}: Props) {
+function SortOptions({current, onChange}: Props) {
   const [open, setOpen] = useState(false);
   const options: SortOption[] = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'];
+
+  const handleToggle = useCallback(() => {
+    setOpen((s) => !s);
+  }, []);
+
+  const handleKeyToggle = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setOpen((s) => !s);
+    }
+  }, []);
+
+  const handleOptionSelect = useCallback((opt: SortOption) => {
+    onChange(opt);
+    setOpen(false);
+  }, [onChange]);
+
+  const handleOptionKeySelect = useCallback((e: React.KeyboardEvent, opt: SortOption) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onChange(opt);
+      setOpen(false);
+    }
+  }, [onChange]);
 
   return (
     <form className='places__sorting' action='#' method='get' onSubmit={(e) => e.preventDefault()}>
@@ -18,12 +42,8 @@ export default function SortOptions({current, onChange}: Props) {
         className='places__sorting-type'
         tabIndex={0}
         role='button'
-        onClick={() => setOpen((s) => !s)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            setOpen((s) => !s);
-          }
-        }}
+        onClick={handleToggle}
+        onKeyDown={handleKeyToggle}
       >
         {current}
         <svg className='places__sorting-arrow' width='7' height='4'>
@@ -37,16 +57,8 @@ export default function SortOptions({current, onChange}: Props) {
             className={`places__option ${opt === current ? 'places__option--active' : ''}`}
             tabIndex={0}
             role='button'
-            onClick={() => {
-              onChange(opt);
-              setOpen(false);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                onChange(opt);
-                setOpen(false);
-              }
-            }}
+            onClick={() => handleOptionSelect(opt)}
+            onKeyDown={(e) => handleOptionKeySelect(e, opt)}
           >
             {opt}
           </li>
@@ -55,3 +67,7 @@ export default function SortOptions({current, onChange}: Props) {
     </form>
   );
 }
+
+export default memo(SortOptions, (prevProps, nextProps) => {
+  return prevProps.current === nextProps.current;
+});
