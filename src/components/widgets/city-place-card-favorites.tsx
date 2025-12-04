@@ -1,6 +1,6 @@
 import {CityPlaceInfo} from '../shared/city-place';
-import useHandleFavoriteClick from "../hooks/use-handle-favorite-click.ts";
-import useAppRoutes from "../app/use-app-routes.ts";
+import useHandleFavoriteClick from '../hooks/use-handle-favorite-click.ts';
+import useAppRoutes from '../app/use-app-routes.ts';
 import { Link } from 'react-router-dom';
 
 export default function CityPlaceCardFavorites({cityPlaceInfo}: {
@@ -19,7 +19,7 @@ export default function CityPlaceCardFavorites({cityPlaceInfo}: {
       <div className='favorites__image-wrapper place-card__image-wrapper'>
         <Link to={getOfferPath(cityPlaceInfo.id)}>
           <img className='place-card__image' src={cityPlaceInfo.previewImage} width='260' height='200'
-               alt='Place image'
+            alt='Place image'
           />
         </Link>
       </div>

@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 import {useCities} from '../../store/hooks.ts';
 import {CityPlaceInfo} from '../../components/shared/city-place';
 import {api} from '../../store';
-import {toast} from "react-toastify";
+import {toast} from 'react-toastify';
 
 export default function FavoritesPage() {
   const {getCityPath} = useAppRoutes();
@@ -36,7 +36,9 @@ export default function FavoritesPage() {
         }
       }
     })();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const favoritesByCity = useMemo(() => {

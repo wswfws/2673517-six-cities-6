@@ -1,7 +1,7 @@
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import type {AppDispatch, RootState} from './index';
 import {City} from '../components/shared/map-types.ts';
-import {useMemo} from "react";
+import {useMemo} from 'react';
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -25,8 +25,8 @@ export const usePlacesByCity = (cityName: string) => {
   const places = useAppSelector((state) => state.offers.places);
 
   return useMemo(() =>
-      places.filter((place) => place.city.name === cityName),
-    [places, cityName]
+    places.filter((place) => place.city.name === cityName),
+  [places, cityName]
   );
 };
 

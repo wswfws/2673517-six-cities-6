@@ -32,7 +32,7 @@ function HeaderNavigation() {
   const authorizationStatus = useAuthorizationStatus();
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
-    return <HeaderNavigationAuth />
+    return <HeaderNavigationAuth />;
   }
   if (authorizationStatus === AuthorizationStatus.NoAuth) {
     return (
