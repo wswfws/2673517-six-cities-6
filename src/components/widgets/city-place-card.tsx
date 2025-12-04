@@ -1,11 +1,12 @@
 import useAppRoutes from '../app/use-app-routes.ts';
 import {Link} from 'react-router-dom';
 import {CityPlaceInfo} from '../shared/city-place';
+import {memo} from "react";
 
-export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
+const CityPlaceCard = ({cityPlaceInfo, onSelect}: {
   cityPlaceInfo: CityPlaceInfo;
   onSelect?: (id: string) => void;
-}) {
+}) => {
 
   const {getOfferPath} = useAppRoutes();
 
@@ -18,7 +19,7 @@ export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
       <div className='cities__image-wrapper place-card__image-wrapper'>
         <Link to={getOfferPath(cityPlaceInfo.id)}>
           <img className='place-card__image' src={cityPlaceInfo.previewImage} width='260' height='200'
-            alt='Place image'
+               alt='Place image'
           />
         </Link>
       </div>
@@ -52,3 +53,5 @@ export default function CityPlaceCard({cityPlaceInfo, onSelect}: {
     </article>
   );
 }
+
+export default memo(CityPlaceCard);

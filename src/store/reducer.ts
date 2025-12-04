@@ -1,6 +1,7 @@
 import {AuthorizationStatus} from '../const.ts';
 import type {Review} from '../components/widgets/reviews/review-types.ts';
 import {CityPlaceInfo, PlaceFullInfo} from '../components/shared/city-place';
+import {AuthInfo} from "./AuthInfo.ts";
 
 export type OffersState = {
   city: string;
@@ -16,6 +17,7 @@ export type OffersState = {
 
 export type UserState = {
   authorizationStatus: AuthorizationStatus;
+  userData: AuthInfo | null;
 };
 
 type SetCityAction = { type: 'setCity'; payload: string };
@@ -30,9 +32,12 @@ type SetOfferNotFoundAction = { type: 'setOfferNotFound'; payload: boolean };
 type SetIsPostingCommentAction = { type: 'setIsPostingComment'; payload: boolean };
 
 type SetAuthorizationStatusAction = { type: 'setAuthorizationStatus'; payload: AuthorizationStatus };
+type SetUserDataAction = { type: "setUserData", payload: AuthInfo }
 
-export type Action = SetCityAction | SetPlacesAction | SetIsLoadingPlacesAction | SetAuthorizationStatusAction
-  | SetOfferDetailAction | SetNeighborsAction | SetCommentsAction | SetIsLoadingOfferAction | SetOfferNotFoundAction | SetIsPostingCommentAction;
+export type Action = SetCityAction | SetPlacesAction | SetIsLoadingPlacesAction
+  | SetAuthorizationStatusAction | SetUserDataAction
+  | SetOfferDetailAction | SetNeighborsAction | SetCommentsAction
+  | SetIsLoadingOfferAction | SetOfferNotFoundAction | SetIsPostingCommentAction;
 
 export const initialOffersState: OffersState = {
   city: 'Paris',
@@ -47,7 +52,8 @@ export const initialOffersState: OffersState = {
 };
 
 export const initialUserState: UserState = {
-  authorizationStatus: AuthorizationStatus.Unknown
+  authorizationStatus: AuthorizationStatus.Unknown,
+  userData: null
 };
 
 export function offers(state: OffersState = initialOffersState, action: Action): OffersState {

@@ -2,6 +2,7 @@ import type {Action} from './reducer.ts';
 import {AuthorizationStatus} from '../const.ts';
 import type {Review} from '../components/widgets/reviews/review-types.ts';
 import {CityPlaceInfo, PlaceFullInfo} from '../components/shared/city-place';
+import {AuthInfo} from "./AuthInfo.ts";
 
 export const setCity = (city: string): Action => ({
   type: 'setCity',
@@ -22,6 +23,11 @@ export const setAuthorizationStatus = (authorizationStatus: AuthorizationStatus)
   type: 'setAuthorizationStatus',
   payload: authorizationStatus
 });
+
+export const setUserData = (userData: AuthInfo): Action => ({
+  type: "setUserData",
+  payload: userData,
+})
 
 export const setOfferDetail = (offer: PlaceFullInfo | null): Action => ({
   type: 'setOfferDetail',

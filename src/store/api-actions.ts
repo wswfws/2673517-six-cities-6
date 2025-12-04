@@ -2,10 +2,10 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import offersFetcher from '../api/offers-fetcher.ts';
 import {AxiosInstance} from 'axios';
 import {AppDispatch, RootState} from './index.ts';
-import {setAuthorizationStatus, setIsLoadingPlaces, setPlaces} from './action.ts';
+import {setAuthorizationStatus, setIsLoadingPlaces, setPlaces, setUserData} from './action.ts';
 import loginFetch, {AuthData} from '../api/login-fetch.ts';
 import {saveToken} from '../services/token.ts';
-import {AuthorizationStatus} from '../const.ts';
+import {APIRoute, AuthorizationStatus} from '../const.ts';
 
 import {fetchOffer} from '../api/offer-fetcher.ts';
 import {fetchNearbyOffers} from '../api/offers-nearby-fetcher.ts';
@@ -88,6 +88,23 @@ export const postCommentAction = createAsyncThunk<void, {offerId: string; rating
       dispatch(setIsPostingComment(false));
     }
   }
+);
+
+export const checkAuthAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  'user/checkAuth',
+  async (_arg, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.get(APIRoute.Login);
+      dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+      dispatch(setUserData(data));
+    } catch {
+      dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+    }
+  },
 );
 
 export const loginAction = createAsyncThunk<

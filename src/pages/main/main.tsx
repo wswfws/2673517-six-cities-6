@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
 import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
 import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
@@ -9,6 +8,7 @@ import useMain from './use-main.ts';
 import SortOptions from '../../components/widgets/sort-options.tsx';
 import useSorterPlaces, {SortOption} from './use-sorter-places.ts';
 import SimpleLoader from '../../components/shared/loader';
+import CityPlacesList from "../../components/widgets/city-places-list.tsx";
 
 export default function MainPage() {
   const params = useParams();
@@ -31,7 +31,7 @@ export default function MainPage() {
 
   return (
     <div className='page page--gray page--main'>
-      <Header tempLoginStatus={'login'}/>
+      <Header/>
       <main className='page__main page__main--index'>
         <h1 className='visually-hidden'>Cities</h1>
         <LocationsTabs/>
@@ -42,12 +42,8 @@ export default function MainPage() {
               <b className='places__found'>{sortedPlaces.length} places to stay in {currentCity}</b>
 
               <SortOptions current={sortType} onChange={(opt) => setSortType(opt)}/>
+              <CityPlacesList sortedPlaces={sortedPlaces} setSelectedPlaceId={setSelectedPlaceId}/>
 
-              <div className='cities__places-list places__list tabs__content'>
-                {sortedPlaces.map((place) => (
-                  <CityPlaceCard cityPlaceInfo={place} key={place.id} onSelect={setSelectedPlaceId}/>
-                ))}
-              </div>
             </section>
             {selectedPlacePoint && cityInfo &&
               <div className='cities__right-section'>
