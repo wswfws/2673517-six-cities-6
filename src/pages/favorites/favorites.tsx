@@ -1,41 +1,59 @@
+import {useEffect, useMemo, useState} from 'react';
 import Header from '../../components/widgets/header.tsx';
 import Footer from '../../components/widgets/footer.tsx';
 import useAppRoutes from '../../components/app/use-app-routes.ts';
 import CityPlaceCardFavorites from '../../components/widgets/city-place-card-favorites.tsx';
 import {Link} from 'react-router-dom';
-import {useCities, usePlacesByCity} from '../../store/hooks.ts';
-import {City} from '../../components/shared/map-types.ts';
+import {useCities} from '../../store/hooks.ts';
 import {CityPlaceInfo} from '../../components/shared/city-place';
-
-function CityFavoritesBlock({city, getCityPath}: {city: City; getCityPath: (name: string) => string}) {
-  const places = usePlacesByCity(city.name);
-  const favoritePlaces = places.filter((place: CityPlaceInfo) => place.isFavorite);
-  if (favoritePlaces.length === 0) {
-    return null;
-  }
-
-  return (
-    <li className='favorites__locations-items'>
-      <div className='favorites__locations locations locations--current'>
-        <div className='locations__item'>
-          <Link className='locations__item-link' to={getCityPath(city.name)}>
-            <span>{city.name}</span>
-          </Link>
-        </div>
-      </div>
-      <div className='favorites__places'>
-        {favoritePlaces.map((place) => (
-          <CityPlaceCardFavorites key={place.id} cityPlaceInfo={place} />
-        ))}
-      </div>
-    </li>
-  );
-}
+import {api} from '../../store';
+import {toast} from 'react-toastify';
 
 export default function FavoritesPage() {
-
   const {getCityPath} = useAppRoutes();
   const cities = useCities();
+
+  const [favorites, setFavorites] = useState<CityPlaceInfo[] | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      setIsLoading(true);
+      try {
+        const response = await api.get<CityPlaceInfo[]>('/favorite');
+        if (mounted) {
+          setFavorites(response.data);
+        }
+      } catch (e) {
+        toast.error('Failed to load favorite places.');
+        if (mounted) {
+          setFavorites([]);
+        }
+      } finally {
+        if (mounted) {
+          setIsLoading(false);
+        }
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const favoritesByCity = useMemo(() => {
+    if (!favorites) {
+      return new Map<string, CityPlaceInfo[]>();
+    }
+    const map = new Map<string, CityPlaceInfo[]>();
+    favorites.forEach((place) => {
+      const cityName = place.city.name;
+      const arr = map.get(cityName) ?? [];
+      arr.push(place);
+      map.set(cityName, arr);
+    });
+    return map;
+  }, [favorites]);
 
   return (
     <div className='page'>
@@ -45,9 +63,29 @@ export default function FavoritesPage() {
           <section className='favorites'>
             <h1 className='favorites__title'>Saved listing</h1>
             <ul className='favorites__list'>
-              {cities.map((city) => (
-                <CityFavoritesBlock key={city.name} city={city} getCityPath={getCityPath} />
-              ))}
+              {isLoading && <li>Loading favorites...</li>}
+              {!isLoading && cities.map((city) => {
+                const favoritePlaces = favoritesByCity.get(city.name) ?? [];
+                if (favoritePlaces.length === 0) {
+                  return null;
+                }
+                return (
+                  <li className='favorites__locations-items' key={city.name}>
+                    <div className='favorites__locations locations locations--current'>
+                      <div className='locations__item'>
+                        <Link className='locations__item-link' to={getCityPath(city.name)}>
+                          <span>{city.name}</span>
+                        </Link>
+                      </div>
+                    </div>
+                    <div className='favorites__places'>
+                      {favoritePlaces.map((place) => (
+                        <CityPlaceCardFavorites key={place.id} cityPlaceInfo={place} />
+                      ))}
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </section>
         </div>

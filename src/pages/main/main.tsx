@@ -4,20 +4,20 @@ import {useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
 import Header from '../../components/widgets/header.tsx';
 import MapCities from '../../components/shared/map-cities.tsx';
-import useMain from './use-main.ts';
 import SortOptions from '../../components/widgets/sort-options.tsx';
 import useSorterPlaces, {SortOption} from './use-sorter-places.ts';
 import SimpleLoader from '../../components/shared/loader';
 import CityPlacesList from '../../components/widgets/city-places-list.tsx';
+import useMain from './use-main.ts';
 
 export default function MainPage() {
   const params = useParams();
-  const {isLoadingPlaces, currentCity, places, selectedPlacePoint, setSelectedPlaceId, cityInfo} = useMain(params.city);
-
+  const cityParam = params.city;
+  const {isLoadingPlaces, currentCity, places, selectedPlacePoint, setSelectedPlaceId, cityInfo, mapPoints} = useMain(cityParam);
   const [sortType, setSortType] = useState<SortOption>('Popular');
   const sortedPlaces = useSorterPlaces(places, sortType);
 
-  if (!params.city) {
+  if (!cityParam) {
     return <h1> Город не найден</h1>;
   }
 
@@ -50,11 +50,7 @@ export default function MainPage() {
                 <MapCities
                   key={currentCity}
                   city={cityInfo}
-                  points={places.map((t) => ({
-                    id: t.id,
-                    latitude: t.location.latitude,
-                    longitude: t.location.longitude,
-                  }))}
+                  points={mapPoints}
                   selectedPoint={selectedPlacePoint}
                 />
               </div>}

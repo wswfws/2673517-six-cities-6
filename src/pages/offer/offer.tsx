@@ -4,9 +4,12 @@ import {useParams} from 'react-router-dom';
 import Error404Page from '../404.tsx';
 import ReviewList from '../../components/widgets/reviews/review-list.tsx';
 import MapOffer from '../../components/shared/map-offer.tsx';
-import {useAppDispatch, useAppSelector} from '../../store/hooks.ts';
+import {useAppDispatch, useAppSelector, useAuthorizationStatus} from '../../store/hooks.ts';
 import {useEffect} from 'react';
-import {fetchOfferAction} from '../../store/api-actions.ts';
+import {fetchOfferAction, postFavoriteAction} from '../../store/api-actions.ts';
+import {useNavigate} from 'react-router-dom';
+import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
+import {AuthorizationStatus} from '../../const.ts';
 
 export default function OfferPage() {
   const params = useParams();
@@ -24,6 +27,20 @@ export default function OfferPage() {
       dispatch(fetchOfferAction(offerId));
     }
   }, [dispatch, offerId]);
+
+  const authorizationStatus = useAuthorizationStatus();
+  const navigate = useNavigate();
+
+  const handleFavoriteClick = () => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
+      navigate(ROUTE_CONFIG.LOGIN);
+      return;
+    }
+    const status = offerDetail?.isFavorite ? 0 : 1;
+    if (offerDetail) {
+      dispatch(postFavoriteAction({offerId: offerDetail.id, status}));
+    }
+  };
 
   if (!offerId) {
     return <Error404Page/>;
@@ -61,7 +78,7 @@ export default function OfferPage() {
                 <h1 className='offer__name'>
                   {offerDetail.title}
                 </h1>
-                <button className='offer__bookmark-button button' type='button'>
+                <button className='offer__bookmark-button button' type='button' onClick={handleFavoriteClick}>
                   <svg className='offer__bookmark-icon' width='31' height='33'>
                     <use xlinkHref='#icon-bookmark'></use>
                   </svg>

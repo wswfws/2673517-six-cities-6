@@ -1,7 +1,8 @@
 import {memo, NamedExoticComponent} from 'react';
-import useAppRoutes from '../app/use-app-routes.ts';
 import {Link} from 'react-router-dom';
 import {CityPlaceInfo} from '../shared/city-place';
+import useHandleFavoriteClick from '../hooks/use-handle-favorite-click.ts';
+import useAppRoutes from '../app/use-app-routes.ts';
 
 type CityPlaceCardProps = {
   cityPlaceInfo: CityPlaceInfo;
@@ -10,6 +11,7 @@ type CityPlaceCardProps = {
 
 function CityPlaceCard({cityPlaceInfo, onSelect}: CityPlaceCardProps) {
 
+  const handleFavoriteClick = useHandleFavoriteClick(cityPlaceInfo);
   const {getOfferPath} = useAppRoutes();
 
   return (
@@ -33,6 +35,7 @@ function CityPlaceCard({cityPlaceInfo, onSelect}: CityPlaceCardProps) {
           </div>
           <button
             type='button'
+            onClick={handleFavoriteClick}
             className={`place-card__bookmark-button ${cityPlaceInfo.isFavorite ? 'place-card__bookmark-button--active' : ''} button`}
           >
             <svg className='place-card__bookmark-icon' width='18' height='19'>

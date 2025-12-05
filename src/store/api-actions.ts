@@ -10,8 +10,9 @@ import {APIRoute, AuthorizationStatus} from '../const.ts';
 import {fetchOffer} from '../api/offer-fetcher.ts';
 import {fetchNearbyOffers} from '../api/offers-nearby-fetcher.ts';
 import {fetchComments, postComment} from '../api/comments-api.ts';
-import {setOfferDetail, setNeighbors, setComments, setIsLoadingOffer, setOfferNotFound, setIsPostingComment} from './action.ts';
+import {setOfferDetail, setNeighbors, setComments, setIsLoadingOffer, setOfferNotFound, setIsPostingComment, updatePlace} from './action.ts';
 import {AuthInfo} from './AuthInfo.ts';
+import changeFavoriteStatus from '../api/favorite-api.ts';
 
 export const fetchOffersAction = createAsyncThunk<void, void,
   {
@@ -89,6 +90,26 @@ export const postCommentAction = createAsyncThunk<void, {offerId: string; rating
       dispatch(setIsPostingComment(false));
     }
   }
+);
+
+export const postFavoriteAction = createAsyncThunk<void, {offerId: string; status: 0 | 1},
+  {
+    dispatch: AppDispatch;
+    state: RootState;
+    extra: AxiosInstance;
+  }
+>(
+  'data/postFavorite',
+  async ({offerId, status}, {dispatch, extra: api, rejectWithValue}) => {
+    try {
+      const updatedOffer = await changeFavoriteStatus(api, offerId, status);
+
+      // Update updated offer across the store
+      dispatch(updatePlace(updatedOffer));
+    } catch (e) {
+      return rejectWithValue('Failed to update favorite');
+    }
+  },
 );
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
