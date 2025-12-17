@@ -1,10 +1,13 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
+import {act, renderHook} from '@testing-library/react';
 import useHandleFavoriteClick from './use-handle-favorite-click';
 import * as storeHooks from '../../store/hooks';
+import type {NavigateFunction} from 'react-router-dom';
 import * as reactRouter from 'react-router-dom';
-import { AuthorizationStatus } from '../../const';
-import type { CityPlaceInfo } from '../shared/city-place';
+import {AuthorizationStatus} from '../../const';
+import type {CityPlaceInfo} from '../shared/city-place';
+import type {AppDispatch} from '../../store';
+import React from 'react';
 
 vi.mock('../../store/hooks');
 vi.mock('react-router-dom');
@@ -20,9 +23,9 @@ describe('useHandleFavoriteClick', () => {
     price: 100,
     city: {
       name: 'Paris',
-      location: { latitude: 48.8566, longitude: 2.3522, zoom: 10 },
+      location: {latitude: 48.8566, longitude: 2.3522, zoom: 10},
     },
-    location: { latitude: 48.8566, longitude: 2.3522, zoom: 10 },
+    location: {latitude: 48.8566, longitude: 2.3522, zoom: 10},
     isFavorite: false,
     isPremium: false,
     rating: 4,
@@ -36,29 +39,29 @@ describe('useHandleFavoriteClick', () => {
   });
 
   it('should return a function that handles favorite click', () => {
-    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as any);
+    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as AppDispatch);
     vi.mocked(storeHooks.useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
-    vi.mocked(reactRouter.useNavigate).mockReturnValue(mockNavigate as any);
+    vi.mocked(reactRouter.useNavigate).mockReturnValue(mockNavigate as NavigateFunction);
 
-    const { result } = renderHook(() => useHandleFavoriteClick(mockCityPlaceInfo));
+    const {result} = renderHook(() => useHandleFavoriteClick(mockCityPlaceInfo));
 
     expect(typeof result.current).toBe('function');
   });
 
   it('should navigate to login when user is not authenticated', () => {
-    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as any);
+    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as AppDispatch);
     vi.mocked(storeHooks.useAuthorizationStatus).mockReturnValue(AuthorizationStatus.NoAuth);
-    vi.mocked(reactRouter.useNavigate).mockReturnValue(mockNavigate as any);
+    vi.mocked(reactRouter.useNavigate).mockReturnValue(mockNavigate as NavigateFunction);
 
-    const { result } = renderHook(() => useHandleFavoriteClick(mockCityPlaceInfo));
+    const {result} = renderHook(() => useHandleFavoriteClick(mockCityPlaceInfo));
 
     const mockEvent = {
       preventDefault: vi.fn(),
-    } as any;
+      stopPropagation: vi.fn(),
+      currentTarget: document.createElement('button'),
+    } as unknown as React.MouseEvent<HTMLButtonElement>;
 
-    act(() => {
-      result.current(mockEvent);
-    });
+    act(() => result.current(mockEvent));
 
     expect(mockEvent.preventDefault).toHaveBeenCalled();
     expect(mockNavigate).toHaveBeenCalledWith('/login');
@@ -66,60 +69,60 @@ describe('useHandleFavoriteClick', () => {
   });
 
   it('should dispatch action with status 1 when adding favorite', () => {
-    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as any);
+    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as AppDispatch);
     vi.mocked(storeHooks.useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
-    vi.mocked(reactRouter.useNavigate).mockReturnValue(mockNavigate as any);
+    vi.mocked(reactRouter.useNavigate).mockReturnValue(mockNavigate as NavigateFunction);
 
-    const { result } = renderHook(() => useHandleFavoriteClick(mockCityPlaceInfo));
+    const {result} = renderHook(() => useHandleFavoriteClick(mockCityPlaceInfo));
 
     const mockEvent = {
       preventDefault: vi.fn(),
-    } as any;
+      stopPropagation: vi.fn(),
+      currentTarget: document.createElement('button'),
+    } as unknown as React.MouseEvent<HTMLButtonElement>;
 
-    act(() => {
-      result.current(mockEvent);
-    });
+    act(() => result.current(mockEvent));
 
     expect(mockEvent.preventDefault).toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalled();
-    const dispatchedAction = mockDispatch.mock.calls[0][0];
-    expect(dispatchedAction).toBeDefined();
+    expect(mockDispatch.mock.calls).toHaveLength(1);
+    expect(mockDispatch.mock.calls[0]).toBeDefined();
   });
 
   it('should dispatch action with status 0 when removing favorite', () => {
-    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as any);
+    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as AppDispatch);
     vi.mocked(storeHooks.useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
-    vi.mocked(reactRouter.useNavigate).mockReturnValue(mockNavigate as any);
+    vi.mocked(reactRouter.useNavigate).mockReturnValue(mockNavigate as NavigateFunction);
 
-    const favoritePlace: CityPlaceInfo = { ...mockCityPlaceInfo, isFavorite: true };
-    const { result } = renderHook(() => useHandleFavoriteClick(favoritePlace));
+    const favoritePlace: CityPlaceInfo = {...mockCityPlaceInfo, isFavorite: true};
+    const {result} = renderHook(() => useHandleFavoriteClick(favoritePlace));
 
     const mockEvent = {
       preventDefault: vi.fn(),
-    } as any;
+      stopPropagation: vi.fn(),
+      currentTarget: document.createElement('button'),
+    } as unknown as React.MouseEvent<HTMLButtonElement>;
 
-    act(() => {
-      result.current(mockEvent);
-    });
+    act(() => result.current(mockEvent));
 
     expect(mockEvent.preventDefault).toHaveBeenCalled();
     expect(mockDispatch).toHaveBeenCalled();
   });
 
   it('should not navigate when user is authenticated', () => {
-    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as any);
+    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as AppDispatch);
     vi.mocked(storeHooks.useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
-    vi.mocked(reactRouter.useNavigate).mockReturnValue(mockNavigate as any);
+    vi.mocked(reactRouter.useNavigate).mockReturnValue(mockNavigate as NavigateFunction);
 
-    const { result } = renderHook(() => useHandleFavoriteClick(mockCityPlaceInfo));
+    const {result} = renderHook(() => useHandleFavoriteClick(mockCityPlaceInfo));
 
     const mockEvent = {
       preventDefault: vi.fn(),
-    } as any;
+      stopPropagation: vi.fn(),
+      currentTarget: document.createElement('button'),
+    } as unknown as React.MouseEvent<HTMLButtonElement>;
 
-    act(() => {
-      result.current(mockEvent);
-    });
+    act(() => result.current(mockEvent));
 
     expect(mockNavigate).not.toHaveBeenCalled();
   });

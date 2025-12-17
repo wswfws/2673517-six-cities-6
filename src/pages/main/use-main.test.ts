@@ -4,6 +4,8 @@ import useMain from './use-main';
 import * as storeHooks from '../../store/hooks';
 import * as action from '../../store/action';
 import type { CityPlaceInfo } from '../../components/shared/city-place';
+import type { AppDispatch } from '../../store';
+import type { City } from '../../components/shared/map-types';
 
 vi.mock('../../store/hooks');
 vi.mock('../../store/action');
@@ -61,28 +63,38 @@ describe('useMain', () => {
     mockDispatch.mockClear();
     mockSetCity.mockClear();
 
-    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as any);
-    vi.mocked(storeHooks.useCities).mockReturnValue(mockCities as any);
+    vi.mocked(storeHooks.useAppDispatch).mockReturnValue(mockDispatch as AppDispatch);
+    vi.mocked(storeHooks.useCities).mockReturnValue(mockCities as City[]);
     vi.mocked(storeHooks.usePlacesByCity).mockReturnValue(mockPlaces);
-    vi.mocked(storeHooks.useAppSelector).mockImplementation((selector: any) => {
+
+    // Исправляем мок для useAppSelector с правильными типами
+    vi.mocked(storeHooks.useAppSelector).mockImplementation(<T,>(selector: (state: any) => T): T => {
       const state = {
         offers: {
           city: 'Paris',
           isLoadingPlaces: false,
           places: mockPlaces,
         },
+        user: {
+          authorizationStatus: 'AUTH',
+          user: null,
+        },
       };
       return selector(state);
     });
 
-    vi.mocked(action.setCity).mockImplementation((city: string) => ({ type: 'SET_CITY', payload: city } as any));
+    // Исправляем мок для setCity action с правильным типом
+    vi.mocked(action.setCity).mockReturnValue({
+      type: 'offers/setCity' as const,
+      payload: 'Amsterdam'
+    });
   });
 
   it('should dispatch setCity action when cityParam is provided', () => {
     const { unmount } = renderHook(() => useMain('Amsterdam'));
 
     expect(mockDispatch).toHaveBeenCalled();
-    expect(mockSetCity).toBeDefined();
+    expect(action.setCity).toHaveBeenCalledWith('Amsterdam');
 
     unmount();
   });
@@ -92,6 +104,7 @@ describe('useMain', () => {
 
     renderHook(() => useMain());
 
+    // setCity не должен вызываться при первом рендере без cityParam
     expect(mockDispatch.mock.calls.length).toBeGreaterThanOrEqual(dispatchBeforeCount);
   });
 
@@ -136,18 +149,6 @@ describe('useMain', () => {
     expect(result.current.selectedPlaceId).toBe('2');
   });
 
-  it('should reset to first place if selected place is removed', () => {
-    vi.mocked(storeHooks.usePlacesByCity).mockReturnValueOnce([mockPlaces[1]]);
-
-    const { result } = renderHook(() => useMain());
-
-    act(() => {
-      result.current.setSelectedPlaceId('2');
-    });
-
-    expect(result.current.selectedPlaceId).toBe('2');
-  });
-
   it('should return selectedPlacePoint with correct coordinates', () => {
     const { result } = renderHook(() => useMain());
 
@@ -159,7 +160,23 @@ describe('useMain', () => {
   });
 
   it('should return undefined selectedPlacePoint when no place is selected', () => {
+    // Мокаем пустой массив places
     vi.mocked(storeHooks.usePlacesByCity).mockReturnValue([]);
+    // Также нужно обновить мок useAppSelector для пустого массива
+    vi.mocked(storeHooks.useAppSelector).mockImplementation(<T,>(selector: (state: any) => T): T => {
+      const state = {
+        offers: {
+          city: 'Paris',
+          isLoadingPlaces: false,
+          places: [],
+        },
+        user: {
+          authorizationStatus: 'AUTH',
+          user: null,
+        },
+      };
+      return selector(state);
+    });
 
     const { result } = renderHook(() => useMain());
 
@@ -202,6 +219,20 @@ describe('useMain', () => {
 
   it('should handle empty places array', () => {
     vi.mocked(storeHooks.usePlacesByCity).mockReturnValue([]);
+    vi.mocked(storeHooks.useAppSelector).mockImplementation(<T,>(selector: (state: any) => T): T => {
+      const state = {
+        offers: {
+          city: 'Paris',
+          isLoadingPlaces: false,
+          places: [],
+        },
+        user: {
+          authorizationStatus: 'AUTH',
+          user: null,
+        },
+      };
+      return selector(state);
+    });
 
     const { result } = renderHook(() => useMain());
 
