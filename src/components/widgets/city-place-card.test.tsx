@@ -65,7 +65,7 @@ describe('CityPlaceCard Component', () => {
   it('should render place card with image', () => {
     renderWithRouter(<CityPlaceCard cityPlaceInfo={mockCityPlace} />);
 
-    const image = screen.getByAltText('Place image') ;
+    const image: HTMLImageElement = screen.getByAltText('Place image') ;
     expect(image).toBeInTheDocument();
     expect(image.src).toContain('/img/apartment.jpg');
     expect(image).toHaveAttribute('width', '260');

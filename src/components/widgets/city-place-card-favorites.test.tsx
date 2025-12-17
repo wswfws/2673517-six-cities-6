@@ -1,9 +1,9 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import {describe, expect, it, vi} from 'vitest';
+import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import CityPlaceCardFavorites from './city-place-card-favorites.tsx';
-import { CityPlaceInfo } from '../shared/city-place';
+import {CityPlaceInfo} from '../shared/city-place';
 
 vi.mock('../hooks/use-handle-favorite-click.ts', () => ({
   default: vi.fn(() => vi.fn()),
@@ -44,28 +44,28 @@ describe('CityPlaceCardFavorites Component', () => {
     render(<BrowserRouter>{component}</BrowserRouter>);
 
   it('should render favorites card with title', () => {
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     expect(screen.getByText('Cozy studio in downtown')).toBeInTheDocument();
   });
 
   it('should render favorites card with price', () => {
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     expect(screen.getByText('€85')).toBeInTheDocument();
     expect(screen.getByText('/ night')).toBeInTheDocument();
   });
 
   it('should render favorites card with type', () => {
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     expect(screen.getByText('Studio')).toBeInTheDocument();
   });
 
   it('should render favorites card with image', () => {
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
-    const image = screen.getByAltText('Place image') ;
+    const image: HTMLImageElement = screen.getByAltText('Place image');
     expect(image).toBeInTheDocument();
     expect(image.src).toContain('/img/studio.jpg');
     expect(image).toHaveAttribute('width', '260');
@@ -73,20 +73,20 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should render premium badge when place is premium', () => {
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     expect(screen.getByText('Premium')).toBeInTheDocument();
   });
 
   it('should not render premium badge when place is not premium', () => {
-    const nonPremiumPlace = { ...mockCityPlace, isPremium: false };
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={nonPremiumPlace} />);
+    const nonPremiumPlace = {...mockCityPlace, isPremium: false};
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={nonPremiumPlace}/>);
 
     expect(screen.queryByText('Premium')).not.toBeInTheDocument();
   });
 
   it('should render favorite button', () => {
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
@@ -94,15 +94,15 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should add active class to favorite button when place is favorite', () => {
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const button = screen.getByRole('button');
     expect(button).toHaveClass('place-card__bookmark-button--active');
   });
 
   it('should not add active class to favorite button when place is not favorite', () => {
-    const nonFavoritePlace = { ...mockCityPlace, isFavorite: false };
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={nonFavoritePlace} />);
+    const nonFavoritePlace = {...mockCityPlace, isFavorite: false};
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={nonFavoritePlace}/>);
 
     const button = screen.getByRole('button');
     expect(button).not.toHaveClass('place-card__bookmark-button--active');
@@ -115,7 +115,7 @@ describe('CityPlaceCardFavorites Component', () => {
     const useHandleFavoriteClick = await import('../hooks/use-handle-favorite-click.ts');
     vi.mocked(useHandleFavoriteClick.default).mockReturnValue(mockHandleFavoriteClick);
 
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const button = screen.getByRole('button');
     await user.click(button);
@@ -124,14 +124,14 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should render correct rating stars width', () => {
-    const { container } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    const {container} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const ratingSpan = container.querySelector('.place-card__stars span') as HTMLElement;
-    expect(ratingSpan).toHaveStyle({ width: '96%' }); // 4.8 * 20 = 96%
+    expect(ratingSpan).toHaveStyle({width: '96%'}); // 4.8 * 20 = 96%
   });
 
   it('should render links to offer page', () => {
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(2); // Image link and title link
@@ -142,7 +142,7 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should have correct CSS classes for favorites', () => {
-    const { container } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    const {container} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const article = container.querySelector('article');
     expect(article).toHaveClass('favorites__card');
@@ -150,7 +150,7 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should have favorites-specific image wrapper class', () => {
-    const { container } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    const {container} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const imageWrapper = container.querySelector('.favorites__image-wrapper');
     expect(imageWrapper).toBeInTheDocument();
@@ -158,7 +158,7 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should have favorites-specific card info class', () => {
-    const { container } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    const {container} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const cardInfo = container.querySelector('.favorites__card-info');
     expect(cardInfo).toBeInTheDocument();
@@ -166,7 +166,7 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should render rating section with correct classes', () => {
-    const { container } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    const {container} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const rating = container.querySelector('.place-card__rating');
     expect(rating).toBeInTheDocument();
@@ -174,36 +174,36 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should handle zero rating', () => {
-    const zeroRatingPlace = { ...mockCityPlace, rating: 0 };
-    const { container } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={zeroRatingPlace} />);
+    const zeroRatingPlace = {...mockCityPlace, rating: 0};
+    const {container} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={zeroRatingPlace}/>);
 
     const ratingSpan = container.querySelector('.place-card__stars span') as HTMLElement;
-    expect(ratingSpan).toHaveStyle({ width: '0%' });
+    expect(ratingSpan).toHaveStyle({width: '0%'});
   });
 
   it('should handle max rating', () => {
-    const maxRatingPlace = { ...mockCityPlace, rating: 5 };
-    const { container } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={maxRatingPlace} />);
+    const maxRatingPlace = {...mockCityPlace, rating: 5};
+    const {container} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={maxRatingPlace}/>);
 
     const ratingSpan = container.querySelector('.place-card__stars span') as HTMLElement;
-    expect(ratingSpan).toHaveStyle({ width: '100%' });
+    expect(ratingSpan).toHaveStyle({width: '100%'});
   });
 
   it('should render bookmark icon', () => {
-    const { container } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    const {container} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const icon = container.querySelector('.place-card__bookmark-icon');
     expect(icon).toBeInTheDocument();
   });
 
   it('should have accessible button text', () => {
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     expect(screen.getByText('In bookmarks')).toBeInTheDocument();
   });
 
   it('should render price wrapper with correct structure', () => {
-    const { container } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    const {container} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const priceWrapper = container.querySelector('.place-card__price-wrapper');
     expect(priceWrapper).toBeInTheDocument();
@@ -213,15 +213,15 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should render different place types correctly', () => {
-    const hotelPlace = { ...mockCityPlace, type: 'Hotel' };
-    const { rerender } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={hotelPlace} />);
+    const hotelPlace = {...mockCityPlace, type: 'Hotel'};
+    const {rerender} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={hotelPlace}/>);
 
     expect(screen.getByText('Hotel')).toBeInTheDocument();
 
-    const apartmentPlace = { ...mockCityPlace, type: 'Apartment' };
+    const apartmentPlace = {...mockCityPlace, type: 'Apartment'};
     rerender(
       <BrowserRouter>
-        <CityPlaceCardFavorites cityPlaceInfo={apartmentPlace} />
+        <CityPlaceCardFavorites cityPlaceInfo={apartmentPlace}/>
       </BrowserRouter>
     );
 
@@ -229,8 +229,8 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should use correct offer path from hook', () => {
-    const place = { ...mockCityPlace, id: 'unique-id-456' };
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={place} />);
+    const place = {...mockCityPlace, id: 'unique-id-456'};
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={place}/>);
 
     const links = screen.getAllByRole('link');
     links.forEach((link) => {
@@ -239,7 +239,7 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should render all essential card sections', () => {
-    const { container } = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    const {container} = renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     expect(container.querySelector('.place-card__image')).toBeInTheDocument();
     expect(container.querySelector('.place-card__price-wrapper')).toBeInTheDocument();
@@ -249,7 +249,7 @@ describe('CityPlaceCardFavorites Component', () => {
   });
 
   it('should render button with correct type attribute', () => {
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     const button = screen.getByRole('button');
     expect(button).toHaveAttribute('type', 'button');
@@ -260,7 +260,7 @@ describe('CityPlaceCardFavorites Component', () => {
     const mockHandler = vi.fn();
     vi.mocked(useHandleFavoriteClick.default).mockReturnValue(mockHandler);
 
-    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
+    renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace}/>);
 
     expect(useHandleFavoriteClick.default).toHaveBeenCalledWith(mockCityPlace);
   });
