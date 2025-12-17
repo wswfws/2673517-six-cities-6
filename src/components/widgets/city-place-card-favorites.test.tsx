@@ -65,7 +65,7 @@ describe('CityPlaceCardFavorites Component', () => {
   it('should render favorites card with image', () => {
     renderWithRouter(<CityPlaceCardFavorites cityPlaceInfo={mockCityPlace} />);
 
-    const image = screen.getByAltText('Place image') as HTMLImageElement;
+    const image = screen.getByAltText('Place image') ;
     expect(image).toBeInTheDocument();
     expect(image.src).toContain('/img/studio.jpg');
     expect(image).toHaveAttribute('width', '260');

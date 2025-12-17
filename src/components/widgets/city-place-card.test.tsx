@@ -65,7 +65,7 @@ describe('CityPlaceCard Component', () => {
   it('should render place card with image', () => {
     renderWithRouter(<CityPlaceCard cityPlaceInfo={mockCityPlace} />);
 
-    const image = screen.getByAltText('Place image') as HTMLImageElement;
+    const image = screen.getByAltText('Place image') ;
     expect(image).toBeInTheDocument();
     expect(image.src).toContain('/img/apartment.jpg');
     expect(image).toHaveAttribute('width', '260');
@@ -111,7 +111,7 @@ describe('CityPlaceCard Component', () => {
   it('should call favorite click handler when button is clicked', async () => {
     const user = userEvent.setup();
     const mockHandleFavoriteClick = vi.fn();
-    
+
     const useHandleFavoriteClick = await import('../hooks/use-handle-favorite-click.ts');
     vi.mocked(useHandleFavoriteClick.default).mockReturnValue(mockHandleFavoriteClick);
 
@@ -135,7 +135,7 @@ describe('CityPlaceCard Component', () => {
 
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(2); // Image link and title link
-    
+
     links.forEach((link) => {
       expect(link).toHaveAttribute('href', '/offer/1');
     });

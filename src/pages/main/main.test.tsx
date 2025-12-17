@@ -4,7 +4,7 @@ import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {configureStore} from '@reduxjs/toolkit';
 import MainPage from './main.tsx';
-import React from "react";
+import React from 'react';
 
 vi.mock('./use-main.ts', () => ({
   default: vi.fn(() => ({
@@ -48,7 +48,7 @@ vi.mock('./use-main.ts', () => ({
 }));
 
 vi.mock('./use-sorter-places.ts', () => ({
-  default: vi.fn((places) => places),
+  default: vi.fn((places: object[]) => places),
 }));
 
 vi.mock('../../components/widgets/header.tsx', () => ({

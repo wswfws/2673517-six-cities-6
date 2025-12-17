@@ -1,4 +1,4 @@
-import {describe, it, expect, vi, beforeEach} from 'vitest';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {MemoryRouter} from 'react-router-dom';
@@ -6,19 +6,19 @@ import OfferPage from './offer.tsx';
 import {AuthorizationStatus} from '../../const.ts';
 import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
 
-const fetchOfferActionMock = vi.fn();
-const postFavoriteActionMock = vi.fn();
+const fetchOfferActionMock = vi.fn<[string], void>();
+const postFavoriteActionMock = vi.fn<[{offerId: string; status: 0 | 1}], void>();
 const dispatchMock = vi.fn();
-const useAppSelectorMock = vi.fn();
+const useAppSelectorMock = vi.fn<[selector: (state: typeof mockState) => unknown], unknown>();
 const useAppDispatchMock = vi.fn(() => dispatchMock);
-const useAuthorizationStatusMock = vi.fn();
-const useParamsMock = vi.fn();
+const useAuthorizationStatusMock = vi.fn<[], AuthorizationStatus>();
+const useParamsMock = vi.fn<[], object>();
 const navigateMock = vi.fn();
 const useNavigateMock = vi.fn(() => navigateMock);
 
 vi.mock('../../store/api-actions.ts', () => ({
-  fetchOfferAction: (...args: unknown[]) => fetchOfferActionMock(...args),
-  postFavoriteAction: (...args: unknown[]) => postFavoriteActionMock(...args),
+  fetchOfferAction: (id: string) => fetchOfferActionMock(id),
+  postFavoriteAction: (args: { offerId: string; status: 0 | 1 }) => postFavoriteActionMock(args),
 }));
 
 vi.mock('../../store/hooks.ts', () => ({
@@ -40,7 +40,7 @@ vi.mock('../../components/shared/map-offer.tsx', () => ({
 }));
 
 vi.mock('../../components/widgets/city-place-card.tsx', () => ({
-  default: ({cityPlaceInfo}: {cityPlaceInfo: {id: string}}) => (
+  default: ({cityPlaceInfo}: { cityPlaceInfo: { id: string } }) => (
     <div data-testid='neighbor-card'>{cityPlaceInfo.id}</div>
   ),
 }));
@@ -90,7 +90,7 @@ let mockState: OffersState;
 const renderPage = () =>
   render(
     <MemoryRouter>
-      <OfferPage />
+      <OfferPage/>
     </MemoryRouter>
   );
 
@@ -134,7 +134,7 @@ describe('OfferPage', () => {
     useNavigateMock.mockReturnValue(navigateMock);
 
     fetchOfferActionMock.mockImplementation((id: string) => ({type: 'FETCH_OFFER', meta: id}));
-    postFavoriteActionMock.mockImplementation((payload: {offerId: string; status: number}) => ({
+    postFavoriteActionMock.mockImplementation((payload: { offerId: string; status: number }) => ({
       type: 'POST_FAVORITE',
       meta: payload,
     }));

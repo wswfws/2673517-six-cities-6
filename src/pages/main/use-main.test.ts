@@ -4,8 +4,10 @@ import useMain from './use-main';
 import * as storeHooks from '../../store/hooks';
 import * as action from '../../store/action';
 import type { CityPlaceInfo } from '../../components/shared/city-place';
-import type { AppDispatch } from '../../store';
+import type { AppDispatch, RootState } from '../../store';
 import type { City } from '../../components/shared/map-types';
+import type { OffersState, UserState } from '../../store/reducer';
+import {AuthorizationStatus} from '../../const.ts';
 
 vi.mock('../../store/hooks');
 vi.mock('../../store/action');
@@ -58,6 +60,27 @@ describe('useMain', () => {
     },
   ];
 
+  // Создаем тип для мокового состояния
+  const createMockState = (places: CityPlaceInfo[]): RootState => ({
+    offers: {
+      city: 'Paris',
+      isLoadingPlaces: false,
+      places,
+      offerDetail: null,
+      neighbors: [],
+      comments: [],
+      isLoadingOffer: false,
+      isLoadingComment: false,
+      activePlaceId: null,
+      isPostingComment: true,
+      offerNotFound: false,
+    } as OffersState,
+    user: {
+      authorizationStatus: AuthorizationStatus.Auth,
+      userData: null,
+    } as UserState
+  } as RootState);
+
   beforeEach(() => {
     vi.clearAllMocks();
     mockDispatch.mockClear();
@@ -67,19 +90,9 @@ describe('useMain', () => {
     vi.mocked(storeHooks.useCities).mockReturnValue(mockCities as City[]);
     vi.mocked(storeHooks.usePlacesByCity).mockReturnValue(mockPlaces);
 
-    // Исправляем мок для useAppSelector с правильными типами
-    vi.mocked(storeHooks.useAppSelector).mockImplementation(<T,>(selector: (state: any) => T): T => {
-      const state = {
-        offers: {
-          city: 'Paris',
-          isLoadingPlaces: false,
-          places: mockPlaces,
-        },
-        user: {
-          authorizationStatus: 'AUTH',
-          user: null,
-        },
-      };
+    // Мокаем useAppSelector
+    vi.mocked(storeHooks.useAppSelector).mockImplementation((selector) => {
+      const state = createMockState(mockPlaces);
       return selector(state);
     });
 
@@ -162,19 +175,10 @@ describe('useMain', () => {
   it('should return undefined selectedPlacePoint when no place is selected', () => {
     // Мокаем пустой массив places
     vi.mocked(storeHooks.usePlacesByCity).mockReturnValue([]);
-    // Также нужно обновить мок useAppSelector для пустого массива
-    vi.mocked(storeHooks.useAppSelector).mockImplementation(<T,>(selector: (state: any) => T): T => {
-      const state = {
-        offers: {
-          city: 'Paris',
-          isLoadingPlaces: false,
-          places: [],
-        },
-        user: {
-          authorizationStatus: 'AUTH',
-          user: null,
-        },
-      };
+
+    // Обновляем мок useAppSelector для пустого массива
+    vi.mocked(storeHooks.useAppSelector).mockImplementation((selector) => {
+      const state = createMockState([]);
       return selector(state);
     });
 
@@ -219,18 +223,9 @@ describe('useMain', () => {
 
   it('should handle empty places array', () => {
     vi.mocked(storeHooks.usePlacesByCity).mockReturnValue([]);
-    vi.mocked(storeHooks.useAppSelector).mockImplementation(<T,>(selector: (state: any) => T): T => {
-      const state = {
-        offers: {
-          city: 'Paris',
-          isLoadingPlaces: false,
-          places: [],
-        },
-        user: {
-          authorizationStatus: 'AUTH',
-          user: null,
-        },
-      };
+
+    vi.mocked(storeHooks.useAppSelector).mockImplementation((selector) => {
+      const state = createMockState([]);
       return selector(state);
     });
 

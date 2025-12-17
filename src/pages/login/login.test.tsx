@@ -1,11 +1,11 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
+import {render, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import {BrowserRouter} from 'react-router-dom';
+import {Provider} from 'react-redux';
+import {configureStore} from '@reduxjs/toolkit';
 import LoginPage from './login.tsx';
-import { loginAction } from '../../store/api-actions';
+import {loginAction} from '../../store/api-actions';
 
 // Mock dependencies
 vi.mock('../../store/api-actions', () => ({
@@ -36,7 +36,7 @@ describe('LoginPage Component', () => {
     });
 
     mockNavigate = vi.fn();
-    const { useNavigate } = await import('react-router-dom');
+    const {useNavigate} = await import('react-router-dom');
     vi.mocked(useNavigate).mockReturnValue(mockNavigate);
   });
 
@@ -48,25 +48,25 @@ describe('LoginPage Component', () => {
     );
 
   it('should render login page with form', () => {
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
-    expect(screen.getByRole('heading', { name: /sign in/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', {name: /sign in/i})).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', {name: /sign in/i})).toBeInTheDocument();
   });
 
   it('should render header component', () => {
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
     expect(screen.getByTestId('header')).toBeInTheDocument();
   });
 
   it('should have email and password inputs with correct attributes', () => {
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
-    const emailInput = screen.getByPlaceholderText('Email') as HTMLInputElement;
-    const passwordInput = screen.getByPlaceholderText('Password') as HTMLInputElement;
+    const emailInput = screen.getByPlaceholderText('Email');
+    const passwordInput = screen.getByPlaceholderText('Password');
 
     expect(emailInput).toHaveAttribute('type', 'email');
     expect(emailInput).toHaveAttribute('name', 'email');
@@ -79,10 +79,10 @@ describe('LoginPage Component', () => {
 
   it('should allow typing in email and password fields', async () => {
     const user = userEvent.setup();
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
-    const emailInput = screen.getByPlaceholderText('Email') as HTMLInputElement;
-    const passwordInput = screen.getByPlaceholderText('Password') as HTMLInputElement;
+    const emailInput: HTMLInputElement = screen.getByPlaceholderText('Email');
+    const passwordInput: HTMLInputElement = screen.getByPlaceholderText('Password');
 
     await user.type(emailInput, 'test@example.com');
     await user.type(passwordInput, 'password123');
@@ -98,11 +98,11 @@ describe('LoginPage Component', () => {
     }));
     vi.mocked(loginAction).mockReturnValue(mockLoginAction as never);
 
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
     const emailInput = screen.getByPlaceholderText('Email');
     const passwordInput = screen.getByPlaceholderText('Password');
-    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    const submitButton = screen.getByRole('button', {name: /sign in/i});
 
     await user.type(emailInput, 'user@test.com');
     await user.type(passwordInput, 'secret123');
@@ -119,15 +119,16 @@ describe('LoginPage Component', () => {
   it('should show loading state during form submission', async () => {
     const user = userEvent.setup();
     const mockLoginAction = vi.fn(() => ({
-      unwrap: vi.fn().mockImplementation(() => new Promise(() => {})), // Never resolves
+      unwrap: vi.fn().mockImplementation(() => new Promise(() => {
+      })), // Never resolves
     }));
     vi.mocked(loginAction).mockReturnValue(mockLoginAction as never);
 
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
     const emailInput = screen.getByPlaceholderText('Email');
     const passwordInput = screen.getByPlaceholderText('Password');
-    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    const submitButton = screen.getByRole('button', {name: /sign in/i});
 
     await user.type(emailInput, 'user@test.com');
     await user.type(passwordInput, 'secret123');
@@ -146,11 +147,11 @@ describe('LoginPage Component', () => {
     }));
     vi.mocked(loginAction).mockReturnValue(mockLoginAction as never);
 
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
     const emailInput = screen.getByPlaceholderText('Email');
     const passwordInput = screen.getByPlaceholderText('Password');
-    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    const submitButton = screen.getByRole('button', {name: /sign in/i});
 
     await user.type(emailInput, 'user@test.com');
     await user.type(passwordInput, 'secret123');
@@ -169,11 +170,11 @@ describe('LoginPage Component', () => {
     }));
     vi.mocked(loginAction).mockReturnValue(mockLoginAction as never);
 
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
     const emailInput = screen.getByPlaceholderText('Email');
     const passwordInput = screen.getByPlaceholderText('Password');
-    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    const submitButton = screen.getByRole('button', {name: /sign in/i});
 
     await user.type(emailInput, 'wrong@test.com');
     await user.type(passwordInput, 'wrongpass');
@@ -191,18 +192,18 @@ describe('LoginPage Component', () => {
     }));
     vi.mocked(loginAction).mockReturnValue(mockLoginAction as never);
 
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
     const emailInput = screen.getByPlaceholderText('Email');
     const passwordInput = screen.getByPlaceholderText('Password');
-    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    const submitButton = screen.getByRole('button', {name: /sign in/i});
 
     await user.type(emailInput, 'user@test.com');
     await user.type(passwordInput, 'secret123');
     await user.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByRole('heading', { name: /sign in/i })).toBeInTheDocument();
+      expect(screen.getByRole('heading', {name: /sign in/i})).toBeInTheDocument();
       expect(submitButton).not.toBeDisabled();
     });
   });
@@ -214,15 +215,15 @@ describe('LoginPage Component', () => {
     }));
     vi.mocked(loginAction).mockReturnValue(mockLoginAction as never);
 
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
-    const form = screen.getByRole('button', { name: /sign in/i }).closest('form');
-    const handleSubmit = vi.fn((e) => e.preventDefault());
+    const form = screen.getByRole('button', {name: /sign in/i}).closest('form');
+    const handleSubmit = vi.fn((e: SubmitEvent) => e.preventDefault());
     form?.addEventListener('submit', handleSubmit);
 
     const emailInput = screen.getByPlaceholderText('Email');
     const passwordInput = screen.getByPlaceholderText('Password');
-    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    const submitButton = screen.getByRole('button', {name: /sign in/i});
 
     await user.type(emailInput, 'user@test.com');
     await user.type(passwordInput, 'secret123');
@@ -232,13 +233,13 @@ describe('LoginPage Component', () => {
   });
 
   it('should render location section', () => {
-    renderWithProviders(<LoginPage />);
+    renderWithProviders(<LoginPage/>);
 
     expect(screen.getByText('Amsterdam')).toBeInTheDocument();
   });
 
   it('should have correct page classes', () => {
-    const { container } = renderWithProviders(<LoginPage />);
+    const {container} = renderWithProviders(<LoginPage/>);
 
     const pageDiv = container.querySelector('.page--login');
     expect(pageDiv).toBeInTheDocument();

@@ -151,7 +151,7 @@ describe('ReviewForm Component', () => {
     const user = userEvent.setup();
     renderWithProviders(<ReviewForm/>);
 
-    const textarea = screen.getByTestId('review-textarea') as HTMLTextAreaElement;
+    const textarea: HTMLInputElement = screen.getByTestId('review-textarea');
     await user.type(textarea, 'Great place to stay!');
 
     expect(textarea.value).toContain('Great place to stay!');
@@ -204,7 +204,7 @@ describe('ReviewForm Component', () => {
     const ratingButton = screen.getByText('5 stars');
     await user.click(ratingButton);
 
-    const textarea = screen.getByTestId('review-textarea') as HTMLTextAreaElement;
+    const textarea: HTMLInputElement = screen.getByTestId('review-textarea');
     const reviewText = 'A'.repeat(50);
     await user.clear(textarea);
     await user.type(textarea, reviewText);
@@ -251,7 +251,7 @@ describe('ReviewForm Component', () => {
     });
   });
 
-  it('should show "Posting..." text when submitting', async () => {
+  it('should show "Posting..." text when submitting', () => {
     // const user = userEvent.setup();
     const mockPostComment = vi.fn(() => ({
       unwrap: vi.fn().mockImplementation(() => new Promise(() => {
