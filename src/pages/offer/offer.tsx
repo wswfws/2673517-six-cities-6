@@ -61,7 +61,7 @@ export default function OfferPage() {
         <section className='offer'>
           <div className='offer__gallery-container container'>
             <div className='offer__gallery'>
-              {(offerDetail.images ?? ['/img/room.jpg']).map((src) => (
+              {(offerDetail.images.slice(0, 6) ?? ['/img/room.jpg']).map((src) => (
                 <div className='offer__image-wrapper' key={src}>
                   <img className='offer__image' src={src} alt='Photo studio'/>
                 </div>
@@ -87,7 +87,7 @@ export default function OfferPage() {
               </div>
               <div className='offer__rating rating'>
                 <div className='offer__stars rating__stars'>
-                  <span style={{width: `${offerDetail.rating * 20}%`}}></span>
+                  <span style={{width: `${Math.round(offerDetail.rating) * 20}%`}}></span>
                   <span className='visually-hidden'>Rating</span>
                 </div>
                 <span className='offer__rating-value rating__value'>{offerDetail.rating}</span>
