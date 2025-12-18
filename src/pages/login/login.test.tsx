@@ -29,6 +29,7 @@ describe('LoginPage Component', () => {
   let mockNavigate: ReturnType<typeof vi.fn>;
 
   beforeEach(async () => {
+    vi.clearAllMocks();
     store = configureStore({
       reducer: {
         offers: () => ({}),
@@ -179,11 +180,34 @@ describe('LoginPage Component', () => {
     const submitButton = screen.getByRole('button', {name: /sign in/i});
 
     await user.type(emailInput, 'wrong@test.com');
-    await user.type(passwordInput, 'wrongpass');
+    // Provide a syntactically valid password (contains letter and digit) so validation passes
+    await user.type(passwordInput, 'wrong123');
     await user.click(submitButton);
 
     await waitFor(() => {
       expect(screen.getByText(errorMessage)).toBeInTheDocument();
+    });
+  });
+
+  it('should validate password format and not submit when invalid', async () => {
+    const user = userEvent.setup();
+    const mockLoginAction = vi.fn(() => ({ unwrap: vi.fn().mockResolvedValue({}) }));
+    vi.mocked(loginAction).mockReturnValue(mockLoginAction as never);
+
+    renderWithProviders(<LoginPage/>);
+
+    const emailInput = screen.getByPlaceholderText('Email');
+    const passwordInput = screen.getByPlaceholderText('Password');
+    const submitButton = screen.getByRole('button', {name: /sign in/i});
+
+    await user.type(emailInput, 'user@test.com');
+    // invalid password: no digit or no letter
+    await user.type(passwordInput, 'invalid');
+    await user.click(submitButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/password must contain at least one letter and one digit/i)).toBeInTheDocument();
+      expect(loginAction).not.toHaveBeenCalled();
     });
   });
 

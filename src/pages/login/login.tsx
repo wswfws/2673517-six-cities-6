@@ -21,6 +21,8 @@ export default function LoginPage() {
     }
   }, [authorizationStatus, navigate]);
 
+  const isValidPassword = (pwd: string) => /(?=.*[A-Za-z])(?=.*\d)/.test(pwd);
+
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     setIsLoading(true);
@@ -31,6 +33,12 @@ export default function LoginPage() {
       email: formData.get('email') as string,
       password: formData.get('password') as string,
     };
+
+    if (!isValidPassword(authData.password)) {
+      setError('Password must contain at least one letter and one digit');
+      setIsLoading(false);
+      return;
+    }
 
     dispatch(loginAction(authData)).unwrap()
       .then(() => {
