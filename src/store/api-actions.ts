@@ -106,6 +106,10 @@ export const postFavoriteAction = createAsyncThunk<void, {offerId: string; statu
 
       // Update updated offer across the store
       dispatch(updatePlace(updatedOffer));
+if (typeof window !== 'undefined' && typeof (window as any).dispatchEvent === 'function') {
+        const ev = new CustomEvent('favoritesChanged', {detail: updatedOffer});
+        window.dispatchEvent(ev);
+      }
     } catch (e) {
       return rejectWithValue('Failed to update favorite');
     }
