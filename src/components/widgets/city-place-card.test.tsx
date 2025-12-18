@@ -127,7 +127,7 @@ describe('CityPlaceCard Component', () => {
     const { container } = renderWithRouter(<CityPlaceCard cityPlaceInfo={mockCityPlace} />);
 
     const ratingSpan = container.querySelector('.place-card__stars span') as HTMLElement;
-    expect(ratingSpan).toHaveStyle({ width: '90%' }); // 4.5 * 20 = 90%
+    expect(ratingSpan).toHaveStyle({ width: '100%' }); //rounded 4.5 -> 5 * 20 = 100%
   });
 
   it('should render links to offer page', () => {

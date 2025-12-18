@@ -32,6 +32,8 @@ describe('LoginPage Component', () => {
     store = configureStore({
       reducer: {
         offers: () => ({}),
+        // Provide minimal user slice so useAuthorizationStatus can read state.user.authorizationStatus
+        user: () => ({ authorizationStatus: 'NO_AUTH', userData: null }),
       },
     });
 
