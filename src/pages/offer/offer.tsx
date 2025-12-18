@@ -1,13 +1,12 @@
 import Header from '../../components/widgets/header.tsx';
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import Error404Page from '../404.tsx';
 import ReviewList from '../../components/widgets/reviews/review-list.tsx';
 import MapOffer from '../../components/shared/map-offer.tsx';
 import {useAppDispatch, useAppSelector, useAuthorizationStatus} from '../../store/hooks.ts';
 import {useEffect} from 'react';
 import {fetchOfferAction, postFavoriteAction} from '../../store/api-actions.ts';
-import {useNavigate} from 'react-router-dom';
 import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
 import {AuthorizationStatus} from '../../const.ts';
 
@@ -17,7 +16,7 @@ export default function OfferPage() {
   const offerId = params.id ?? '';
 
   const offerDetail = useAppSelector((state) => state.offers.offerDetail);
-  const neighborsPlaces = useAppSelector((state) => state.offers.neighbors);
+  const neighborsPlaces = useAppSelector((state) => state.offers.neighbors.slice(0, 3));
   const comments = useAppSelector((state) => state.offers.comments);
   const isLoadingOffer = useAppSelector((state) => state.offers.isLoadingOffer);
   const offerNotFound = useAppSelector((state) => state.offers.offerNotFound);
@@ -97,10 +96,10 @@ export default function OfferPage() {
                   {offerDetail.type}
                 </li>
                 <li className='offer__feature offer__feature--bedrooms'>
-                  {offerDetail.bedrooms} Bedrooms
+                  {offerDetail.bedrooms} {offerDetail.bedrooms === 1 ? `Bedroom` : `Bedrooms`}
                 </li>
                 <li className='offer__feature offer__feature--adults'>
-                  Max {offerDetail.maxAdults} adults
+                  Max {offerDetail.maxAdults} {offerDetail.maxAdults === 1 ? `adult` : `adults`}
                 </li>
               </ul>
               <div className='offer__price'>

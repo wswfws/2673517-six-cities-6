@@ -24,7 +24,9 @@ export default function ReviewItem({review}: { review: Review }) {
         <p className='reviews__text'>
           {review.comment}
         </p>
-        <time className='reviews__time' dateTime={review.date}>{review.date}</time>
+        <time className='reviews__time' dateTime={review.date}>
+          {new Date(review.date).toLocaleString('en-US', {month: 'long', year: 'numeric'})}
+        </time>
       </div>
     </li>
   );
