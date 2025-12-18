@@ -38,9 +38,10 @@ const HeaderNavigationAuth = () => {
         </li>
         <li className="header__nav-item">
           <a className='header__nav-link'
-             type='button'
-             onClick={handleSignOut}
-             aria-busy={isLoggingOut}>
+            type='button'
+            onClick={handleSignOut}
+            aria-busy={isLoggingOut}
+          >
             <span className="header__signout">{isLoggingOut ? 'Signing out...' : 'Sign out'}</span>
           </a>
         </li>

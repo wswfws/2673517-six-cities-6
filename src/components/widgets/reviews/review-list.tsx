@@ -26,7 +26,7 @@ function ReviewsContentComponent({reviews}: { reviews: Review[] }) {
 }
 
 const ReviewsContent: NamedExoticComponent<{
-  reviews: Review[]
+  reviews: Review[];
 }> = memo(ReviewsContentComponent, (prevProps, nextProps) => {
   if (prevProps.reviews.length !== nextProps.reviews.length) {
     return false;

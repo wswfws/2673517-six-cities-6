@@ -62,7 +62,7 @@ describe('ReviewItem Component', () => {
   it('should render review date with correct dateTime attribute', () => {
     render(<ReviewItem review={mockReview} />);
 
-    const time = document.querySelector('.reviews__time') as HTMLElement | null;
+    const time = document.querySelector('.reviews__time') ;
     expect(time).toBeTruthy();
     expect(time).toHaveAttribute('dateTime', '2024-01-15');
   });

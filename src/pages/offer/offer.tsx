@@ -96,10 +96,10 @@ export default function OfferPage() {
                   {offerDetail.type}
                 </li>
                 <li className='offer__feature offer__feature--bedrooms'>
-                  {offerDetail.bedrooms} {offerDetail.bedrooms === 1 ? `Bedroom` : `Bedrooms`}
+                  {offerDetail.bedrooms} {offerDetail.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
                 </li>
                 <li className='offer__feature offer__feature--adults'>
-                  Max {offerDetail.maxAdults} {offerDetail.maxAdults === 1 ? `adult` : `adults`}
+                  Max {offerDetail.maxAdults} {offerDetail.maxAdults === 1 ? 'adult' : 'adults'}
                 </li>
               </ul>
               <div className='offer__price'>

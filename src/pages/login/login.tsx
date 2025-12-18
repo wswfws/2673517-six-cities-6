@@ -5,7 +5,8 @@ import Header from '../../components/widgets/header.tsx';
 import {FormEvent, useEffect, useState} from 'react';
 import {AppDispatch} from '../../store';
 import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
-import {useAuthorizationStatus} from "../../store/hooks.ts";
+import {useAuthorizationStatus} from '../../store/hooks.ts';
+import { AuthorizationStatus } from '../../const.ts';
 
 export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,7 +17,7 @@ export default function LoginPage() {
   const authorizationStatus = useAuthorizationStatus();
 
   useEffect(() => {
-    if (authorizationStatus === 'AUTH') {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
       navigate(ROUTE_CONFIG.ROOT);
     }
   }, [authorizationStatus, navigate]);

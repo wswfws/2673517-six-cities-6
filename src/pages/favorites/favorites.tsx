@@ -8,7 +8,7 @@ import {useCities} from '../../store/hooks.ts';
 import {CityPlaceInfo} from '../../components/shared/city-place';
 import {api} from '../../store';
 import {toast} from 'react-toastify';
-import EmptyFavoritesPage from "./empty-page.tsx";
+import EmptyFavoritesPage from './empty-page.tsx';
 
 export default function FavoritesPage() {
   const {getCityPath} = useAppRoutes();
@@ -41,7 +41,9 @@ export default function FavoritesPage() {
     const onFavoritesChanged = (ev: Event) => {
       const detail = (ev as CustomEvent).detail as CityPlaceInfo;
       setFavorites((prev) => {
-        if (!prev) return prev;
+        if (!prev) {
+          return prev;
+        }
         // if updated item isFavorite === false => remove from list
         if (!detail.isFavorite) {
           return prev.filter((p) => p.id !== detail.id);
@@ -76,8 +78,8 @@ export default function FavoritesPage() {
     return map;
   }, [favorites]);
 
-  if (favorites &&favorites.length === 0) {
-    return <EmptyFavoritesPage />
+  if (favorites && favorites.length === 0) {
+    return <EmptyFavoritesPage />;
   }
 
   return (
