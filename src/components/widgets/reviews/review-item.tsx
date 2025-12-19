@@ -17,14 +17,16 @@ export default function ReviewItem({review}: { review: Review }) {
       <div className='reviews__info'>
         <div className='reviews__rating rating'>
           <div className='reviews__stars rating__stars'>
-            <span style={{width: `${review.rating * 20}%`}}></span>
+            <span style={{width: `${Math.round(review.rating) * 20}%`}}></span>
             <span className='visually-hidden'>Rating</span>
           </div>
         </div>
         <p className='reviews__text'>
           {review.comment}
         </p>
-        <time className='reviews__time' dateTime={review.date}>{review.date}</time>
+        <time className='reviews__time' dateTime={review.date}>
+          {new Date(review.date).toLocaleString('en-US', {month: 'long', year: 'numeric'})}
+        </time>
       </div>
     </li>
   );

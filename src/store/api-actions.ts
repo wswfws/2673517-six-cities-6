@@ -4,7 +4,7 @@ import {AxiosInstance} from 'axios';
 import {AppDispatch, RootState} from './index.ts';
 import {setAuthorizationStatus, setIsLoadingPlaces, setPlaces, setUserData} from './action.ts';
 import loginFetch, {AuthData} from '../api/login-fetch.ts';
-import {saveToken} from '../services/token.ts';
+import {saveToken, removeToken} from '../services/token.ts';
 import {APIRoute, AuthorizationStatus} from '../const.ts';
 
 import {fetchOffer} from '../api/offer-fetcher.ts';
@@ -106,6 +106,10 @@ export const postFavoriteAction = createAsyncThunk<void, {offerId: string; statu
 
       // Update updated offer across the store
       dispatch(updatePlace(updatedOffer));
+      if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function') {
+        const ev = new CustomEvent('favoritesChanged', {detail: updatedOffer});
+        window.dispatchEvent(ev);
+      }
     } catch (e) {
       return rejectWithValue('Failed to update favorite');
     }
@@ -149,4 +153,22 @@ export const loginAction = createAsyncThunk<
       return rejectWithValue(error.response?.data?.message || 'Login failed');
     }
   },
+);
+
+export const logoutAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  'user/logout',
+  async (_arg, {dispatch, extra: api, rejectWithValue}) => {
+    try {
+      await api.delete(APIRoute.Logout);
+      removeToken();
+      dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+      dispatch(setUserData(null));
+    } catch (e) {
+      return rejectWithValue('Failed to logout');
+    }
+  }
 );

@@ -1,18 +1,23 @@
-import { memo, NamedExoticComponent, useMemo } from 'react';
+import {memo, NamedExoticComponent, useMemo} from 'react';
 import ReviewForm from '../review-form';
 import {Review} from './review-types.ts';
 import ReviewItem from './review-item.tsx';
 import {useAuthorizationStatus} from '../../../store/hooks.ts';
 import {AuthorizationStatus} from '../../../const.ts';
 
-function ReviewsContentComponent({ reviews }: { reviews: Review[] }) {
+function ReviewsContentComponent({reviews}: { reviews: Review[] }) {
+  const sortedReviews = useMemo(
+    () => [...reviews].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+    [reviews]
+  );
+
   return (
     <>
       <h2 className='reviews__title'>
-          Reviews &middot; <span className='reviews__amount'>{reviews.length}</span>
+        Reviews &middot; <span className='reviews__amount'>{reviews.length}</span>
       </h2>
       <ul className='reviews__list'>
-        {reviews.map((review) => (
+        {sortedReviews.slice(0, 10).map((review) => (
           <ReviewItem review={review} key={review.id}/>
         ))}
       </ul>
@@ -20,7 +25,9 @@ function ReviewsContentComponent({ reviews }: { reviews: Review[] }) {
   );
 }
 
-const ReviewsContent: NamedExoticComponent<{ reviews: Review[] }> = memo(ReviewsContentComponent, (prevProps, nextProps) => {
+const ReviewsContent: NamedExoticComponent<{
+  reviews: Review[];
+}> = memo(ReviewsContentComponent, (prevProps, nextProps) => {
   if (prevProps.reviews.length !== nextProps.reviews.length) {
     return false;
   }
@@ -46,7 +53,7 @@ AuthReviewForm.displayName = 'AuthReviewForm';
 
 function ReviewListComponent({reviews}: { reviews: Review[] }) {
   const reviewsContent = useMemo(
-    () => <ReviewsContent reviews={reviews} />,
+    () => <ReviewsContent reviews={reviews}/>,
     [reviews]
   );
 

@@ -8,6 +8,7 @@ import {useCities} from '../../store/hooks.ts';
 import {CityPlaceInfo} from '../../components/shared/city-place';
 import {api} from '../../store';
 import {toast} from 'react-toastify';
+import EmptyFavoritesPage from './empty-page.tsx';
 
 export default function FavoritesPage() {
   const {getCityPath} = useAppRoutes();
@@ -36,8 +37,30 @@ export default function FavoritesPage() {
         }
       }
     })();
+
+    const onFavoritesChanged = (ev: Event) => {
+      const detail = (ev as CustomEvent).detail as CityPlaceInfo;
+      setFavorites((prev) => {
+        if (!prev) {
+          return prev;
+        }
+        // if updated item isFavorite === false => remove from list
+        if (!detail.isFavorite) {
+          return prev.filter((p) => p.id !== detail.id);
+        }
+        // if isFavorite === true => add or replace
+        const exists = prev.find((p) => p.id === detail.id);
+        if (exists) {
+          return prev.map((p) => p.id === detail.id ? detail : p);
+        }
+        return [...prev, detail];
+      });
+    };
+    window.addEventListener('favoritesChanged', onFavoritesChanged as EventListener);
+
     return () => {
       mounted = false;
+      window.removeEventListener('favoritesChanged', onFavoritesChanged as EventListener);
     };
   }, []);
 
@@ -54,6 +77,10 @@ export default function FavoritesPage() {
     });
     return map;
   }, [favorites]);
+
+  if (favorites && favorites.length === 0) {
+    return <EmptyFavoritesPage />;
+  }
 
   return (
     <div className='page'>

@@ -2,15 +2,27 @@ import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {loginAction} from '../../store/api-actions';
 import Header from '../../components/widgets/header.tsx';
-import {FormEvent, useState} from 'react';
+import {FormEvent, useEffect, useState} from 'react';
 import {AppDispatch} from '../../store';
 import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
+import {useAuthorizationStatus} from '../../store/hooks.ts';
+import { AuthorizationStatus } from '../../const.ts';
 
 export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const authorizationStatus = useAuthorizationStatus();
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(ROUTE_CONFIG.ROOT);
+    }
+  }, [authorizationStatus, navigate]);
+
+  const isValidPassword = (pwd: string) => /(?=.*[A-Za-z])(?=.*\d)/.test(pwd);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -22,6 +34,12 @@ export default function LoginPage() {
       email: formData.get('email') as string,
       password: formData.get('password') as string,
     };
+
+    if (!isValidPassword(authData.password)) {
+      setError('Password must contain at least one letter and one digit');
+      setIsLoading(false);
+      return;
+    }
 
     dispatch(loginAction(authData)).unwrap()
       .then(() => {

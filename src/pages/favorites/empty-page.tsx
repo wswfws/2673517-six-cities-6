@@ -1,6 +1,6 @@
 import Header from '../../components/widgets/header.tsx';
 
-export default function EmptyMainPage() {
+export default function EmptyFavoritesPage() {
   return (
     <div className="page page--favorites-empty">
       <Header />

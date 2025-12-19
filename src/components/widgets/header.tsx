@@ -1,12 +1,30 @@
 import {memo, NamedExoticComponent} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {ROUTE_CONFIG} from '../app/use-app-routes.ts';
-import {useAuthorizationStatus, useAppSelector} from '../../store/hooks.ts';
+import {useAuthorizationStatus, useAppSelector, useAppDispatch} from '../../store/hooks.ts';
 import {AuthorizationStatus} from '../../const.ts';
+import {useState} from 'react';
+import {logoutAction} from '../../store/api-actions.ts';
 
 const HeaderNavigationAuth = () => {
   const userData = useAppSelector((state) => state.user.userData);
   const favoriteCount = useAppSelector((state) => state.offers.places.filter((p) => p.isFavorite).length);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleSignOut = () => {
+    setIsLoggingOut(true);
+    dispatch(logoutAction()).unwrap()
+      .then(() => {
+        navigate(ROUTE_CONFIG.ROOT);
+      })
+      .catch(() => {
+        // optionally handle error (show toast)
+      })
+      .finally(() => setIsLoggingOut(false));
+  };
+
   return (
     <nav className='header__nav'>
       <ul className='header__nav-list'>
@@ -18,10 +36,14 @@ const HeaderNavigationAuth = () => {
             <span className='header__favorite-count'>{favoriteCount}</span>
           </Link>
         </li>
-        <li className='header__nav-item'>
-          <Link className='header__nav-link' to={ROUTE_CONFIG.LOGIN}>
-            <span className='header__signout'>Sign out</span>
-          </Link>
+        <li className="header__nav-item">
+          <a className='header__nav-link'
+            type='button'
+            onClick={handleSignOut}
+            aria-busy={isLoggingOut}
+          >
+            <span className="header__signout">{isLoggingOut ? 'Signing out...' : 'Sign out'}</span>
+          </a>
         </li>
       </ul>
     </nav>

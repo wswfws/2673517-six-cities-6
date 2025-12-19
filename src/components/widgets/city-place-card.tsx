@@ -46,7 +46,7 @@ function CityPlaceCard({cityPlaceInfo, onSelect}: CityPlaceCardProps) {
         </div>
         <div className='place-card__rating rating'>
           <div className='place-card__stars rating__stars'>
-            <span style={{width: `${cityPlaceInfo.rating * 20}%`}}></span>
+            <span style={{width: `${Math.round(cityPlaceInfo.rating) * 20}%`}}></span>
             <span className='visually-hidden'>Rating</span>
           </div>
         </div>
