@@ -37,6 +37,7 @@ const HeaderNavigationAuth = () => {
           </Link>
         </li>
         <li className="header__nav-item">
+          {/* not React Link because not real link? but has role link to sign out  */}
           <a className='header__nav-link'
             type='button'
             onClick={handleSignOut}
