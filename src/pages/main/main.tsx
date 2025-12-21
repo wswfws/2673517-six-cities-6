@@ -1,16 +1,16 @@
 import {useState} from 'react';
-import LocationsTabs from '../../components/widgets/locations-tabs.tsx';
+import LocationsTabs from '../../components/widgets/locations-tabs/locations-tabs.tsx';
 import {useNavigate, useParams} from 'react-router-dom';
 import EmptyMainPage from './empty-page.tsx';
-import Header from '../../components/widgets/header.tsx';
-import MapCities from '../../components/shared/map-cities.tsx';
-import SortOptions from '../../components/widgets/sort-options.tsx';
+import Header from '../../components/widgets/header/header.tsx';
+import SortOptions from '../../components/widgets/sort-options/sort-options.tsx';
 import useSorterPlaces, {SortOption} from './use-sorter-places.ts';
 import SimpleLoader from '../../components/shared/loader';
-import CityPlacesList from '../../components/widgets/city-places-list.tsx';
+import CityPlacesList from '../../components/widgets/city-places-list/city-places-list.tsx';
 import useMain from './use-main.ts';
 import {STATIC_CITIES} from '../../const.ts';
 import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
+import {MapCities} from '../../components/shared/maps';
 
 export default function MainPage() {
   const params = useParams();

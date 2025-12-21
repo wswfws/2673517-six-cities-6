@@ -7,7 +7,7 @@ type MapProps = {
   selectedPoint?: Point;
 };
 
-export default function MapCities({city, points, selectedPoint}: MapProps) {
+export function MapCities({city, points, selectedPoint}: MapProps) {
   return (
     <MapGeneric
       city={city}

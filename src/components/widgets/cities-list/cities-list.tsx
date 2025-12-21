@@ -1,4 +1,4 @@
-import TabList, {ITabList} from '../shared/tab-list.tsx';
+import TabList, {ITabList} from '../../shared/tab-list/tab-list.tsx';
 
 type Props = {
   cities: string[];

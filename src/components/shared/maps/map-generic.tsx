@@ -1,9 +1,9 @@
 import {useEffect, useRef} from 'react';
 import {Icon, layerGroup, Marker} from 'leaflet';
-import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const';
+import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../../const.ts';
 import 'leaflet/dist/leaflet.css';
 import {City, Point, Points} from './map-types.ts';
-import useMap from '../hooks/use-map.tsx';
+import useMap from '../../hooks/use-map/use-map.tsx';
 
 type MapGenericProps = {
   city: City;

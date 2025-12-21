@@ -1,14 +1,14 @@
-import Header from '../../components/widgets/header.tsx';
-import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
+import Header from '../../components/widgets/header/header.tsx';
+import CityPlaceCard from '../../components/widgets/city-place-card/city-place-card.tsx';
 import {useNavigate, useParams} from 'react-router-dom';
 import Error404Page from '../404/404.tsx';
-import ReviewList from '../../components/widgets/reviews/review-list.tsx';
-import MapOffer from '../../components/shared/map-offer.tsx';
 import {useAppDispatch, useAppSelector, useAuthorizationStatus} from '../../store/hooks.ts';
 import {useEffect} from 'react';
 import {fetchOfferAction, postFavoriteAction} from '../../store/api-actions.ts';
 import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
 import {AuthorizationStatus, ViewNeighborsPlacesCount, ViewOfferDetailImagesCount} from '../../const.ts';
+import {MapOffer} from '../../components/shared/maps';
+import ReviewList from '../../components/widgets/reviews';
 
 export default function OfferPage() {
   const params = useParams();

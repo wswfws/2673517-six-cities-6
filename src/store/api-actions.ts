@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import offersFetcher from '../api/offers-fetcher.ts';
+import fetcheOffers from '../api/fetche-offers.ts';
 import {AxiosInstance} from 'axios';
 import {AppDispatch, RootState} from './index.ts';
 import {setAuthorizationStatus, setIsLoadingPlaces, setPlaces, setUserData} from './action.ts';
@@ -25,7 +25,7 @@ export const fetchOffersAction = createAsyncThunk<void, void,
   async (_, {dispatch, extra: api}) => {
     try {
       dispatch(setIsLoadingPlaces(true));
-      const data = await offersFetcher(api);
+      const data = await fetcheOffers(api);
       dispatch(setPlaces(data));
     } finally {
       dispatch(setIsLoadingPlaces(false));

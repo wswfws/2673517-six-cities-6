@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import CityPlaceCard from './city-place-card.tsx';
-import { CityPlaceInfo } from '../shared/city-place';
+import { CityPlaceInfo } from '../../shared/city-place/city-place.ts';
 
 vi.mock('../hooks/use-handle-favorite-click.ts', () => ({
   default: vi.fn(() => vi.fn()),
@@ -112,7 +112,7 @@ describe('CityPlaceCard Component', () => {
     const user = userEvent.setup();
     const mockHandleFavoriteClick = vi.fn();
 
-    const useHandleFavoriteClick = await import('../hooks/use-handle-favorite-click.ts');
+    const useHandleFavoriteClick = await import('../../hooks/use-handle-favorite-click/use-handle-favorite-click.ts');
     vi.mocked(useHandleFavoriteClick.default).mockReturnValue(mockHandleFavoriteClick);
 
     renderWithRouter(<CityPlaceCard cityPlaceInfo={mockCityPlace} />);

@@ -1,5 +1,5 @@
 import {AxiosInstance} from 'axios';
-import {CityPlaceInfo} from '../components/shared/city-place';
+import {CityPlaceInfo} from '../components/shared/city-place/city-place.ts';
 
 /**
  * Change favorite status of an offer on the server.

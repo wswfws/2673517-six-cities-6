@@ -1,5 +1,5 @@
-import Header from '../../components/widgets/header.tsx';
-import Footer from '../../components/widgets/footer.tsx';
+import Header from '../../components/widgets/header/header.tsx';
+import Footer from '../../components/widgets/footer/footer.tsx';
 
 export default function EmptyFavoritesPage() {
   return (

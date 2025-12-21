@@ -1,7 +1,7 @@
-import MapGeneric from './map-generic';
+import MapGeneric from './map-generic.tsx';
 import {City, Point, Points} from './map-types.ts';
 import {Icon} from 'leaflet';
-import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../const';
+import {URL_MARKER_CURRENT, URL_MARKER_DEFAULT} from '../../../const.ts';
 
 type MapProps = {
   city: City;
@@ -21,7 +21,7 @@ const mainIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-export default function MapOffer({city, mainPoint, neighborPoint}: MapProps) {
+export function MapOffer({city, mainPoint, neighborPoint}: MapProps) {
   return (
     <MapGeneric
       city={city}

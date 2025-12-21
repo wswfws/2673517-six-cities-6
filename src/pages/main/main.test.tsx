@@ -10,7 +10,7 @@ vi.mock('./use-main.ts', () => ({
   default: vi.fn(() => ({
     isLoadingPlaces: false,
     currentCity: 'Amsterdam',
-    places: [ // <- измените с cityPlaces на places
+    places: [
       {
         id: '1',
         title: 'Place 1',

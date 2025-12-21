@@ -1,10 +1,10 @@
 import {memo, NamedExoticComponent} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {ROUTE_CONFIG} from '../app/use-app-routes.ts';
-import {useAuthorizationStatus, useAppSelector, useAppDispatch} from '../../store/hooks.ts';
-import {AuthorizationStatus} from '../../const.ts';
+import {ROUTE_CONFIG} from '../../app/use-app-routes.ts';
+import {useAuthorizationStatus, useAppSelector, useAppDispatch} from '../../../store/hooks.ts';
+import {AuthorizationStatus} from '../../../const.ts';
 import {useState} from 'react';
-import {logoutAction} from '../../store/api-actions.ts';
+import {logoutAction} from '../../../store/api-actions.ts';
 
 const HeaderNavigationAuth = () => {
   const userData = useAppSelector((state) => state.user.userData);

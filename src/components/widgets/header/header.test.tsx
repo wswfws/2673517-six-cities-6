@@ -4,10 +4,10 @@ import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {configureStore} from '@reduxjs/toolkit';
 import Header from './header.tsx';
-import {AuthorizationStatus} from '../../const.ts';
+import {AuthorizationStatus} from '../../../const.ts';
 
 vi.mock('../../store/hooks.ts', async () => {
-  const actual: typeof import('../../store/hooks.ts') = await vi.importActual('../../store/hooks.ts');
+  const actual: typeof import('../../../store/hooks.ts') = await vi.importActual('../../store/hooks.ts');
   return {
     ...actual,
     useAuthorizationStatus: vi.fn(),
@@ -35,7 +35,7 @@ describe('Header Component', () => {
   });
 
   it('should render header with logo', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.NoAuth);
     vi.mocked(useAppSelector).mockReturnValue(null);
 
@@ -49,7 +49,7 @@ describe('Header Component', () => {
   });
 
   it('should render logo link with correct href', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.NoAuth);
     vi.mocked(useAppSelector).mockReturnValue(null);
 
@@ -61,7 +61,7 @@ describe('Header Component', () => {
   });
 
   it('should render "Sign in" link when not authenticated', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.NoAuth);
     vi.mocked(useAppSelector).mockReturnValue(null);
 
@@ -71,7 +71,7 @@ describe('Header Component', () => {
   });
 
   it('should render user email when authenticated', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
 
     let callCount = 0;
@@ -89,7 +89,7 @@ describe('Header Component', () => {
   });
 
   it('should render "Sign out" link when authenticated', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
 
     let callCount = 0;
@@ -107,7 +107,7 @@ describe('Header Component', () => {
   });
 
   it('should display favorite count when authenticated', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
 
     let callCount = 0;
@@ -125,7 +125,7 @@ describe('Header Component', () => {
   });
 
   it('should calculate favorite count correctly', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
 
     let callCount = 0;
@@ -154,7 +154,7 @@ describe('Header Component', () => {
   });
 
   it('should render link to favorites when authenticated', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
 
     let callCount = 0;
@@ -174,7 +174,7 @@ describe('Header Component', () => {
   });
 
   it('should render link to login when not authenticated', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.NoAuth);
     vi.mocked(useAppSelector).mockReturnValue(null);
 
@@ -186,7 +186,7 @@ describe('Header Component', () => {
   });
 
   it('should render nothing when authorization status is unknown', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Unknown);
     vi.mocked(useAppSelector).mockReturnValue(null);
 
@@ -197,7 +197,7 @@ describe('Header Component', () => {
   });
 
   it('should have correct header structure', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.NoAuth);
     vi.mocked(useAppSelector).mockReturnValue(null);
 
@@ -211,7 +211,7 @@ describe('Header Component', () => {
   });
 
   it('should render avatar wrapper when authenticated', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
 
     let callCount = 0;
@@ -230,7 +230,7 @@ describe('Header Component', () => {
   });
 
   it('should render avatar wrapper when not authenticated', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.NoAuth);
     vi.mocked(useAppSelector).mockReturnValue(null);
 
@@ -241,7 +241,7 @@ describe('Header Component', () => {
   });
 
   it('should display empty string when user data is null', async () => {
-    const {useAuthorizationStatus, useAppSelector} = await import('../../store/hooks.ts');
+    const {useAuthorizationStatus, useAppSelector} = await import('../../../store/hooks.ts');
     vi.mocked(useAuthorizationStatus).mockReturnValue(AuthorizationStatus.Auth);
 
     let callCount = 0;

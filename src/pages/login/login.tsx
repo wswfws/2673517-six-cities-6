@@ -1,7 +1,7 @@
 import {useDispatch} from 'react-redux';
 import {Link, useNavigate} from 'react-router-dom';
 import {loginAction} from '../../store/api-actions';
-import Header from '../../components/widgets/header.tsx';
+import Header from '../../components/widgets/header/header.tsx';
 import {FormEvent, useEffect, useMemo, useState} from 'react';
 import {AppDispatch} from '../../store';
 import useAppRoutes, {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';

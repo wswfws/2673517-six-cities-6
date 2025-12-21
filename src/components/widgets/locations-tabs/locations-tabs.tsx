@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
-import CitiesList from './cities-list.tsx';
-import useAppRoutes from '../app/use-app-routes.ts';
-import {STATIC_CITIES} from '../../const.ts';
+import CitiesList from '../cities-list/cities-list.tsx';
+import useAppRoutes from '../../app/use-app-routes.ts';
+import {STATIC_CITIES} from '../../../const.ts';
 
 
 function LocationsTabsComponent() {

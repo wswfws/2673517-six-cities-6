@@ -1,11 +1,11 @@
 import {useEffect, useMemo, useState} from 'react';
-import Header from '../../components/widgets/header.tsx';
-import Footer from '../../components/widgets/footer.tsx';
+import Header from '../../components/widgets/header/header.tsx';
+import Footer from '../../components/widgets/footer/footer.tsx';
 import useAppRoutes from '../../components/app/use-app-routes.ts';
-import CityPlaceCardFavorites from '../../components/widgets/city-place-card-favorites.tsx';
+import CityPlaceCardFavorites from '../../components/widgets/city-place-card-favorites/city-place-card-favorites.tsx';
 import {Link} from 'react-router-dom';
 import {useCities} from '../../store/hooks.ts';
-import {CityPlaceInfo} from '../../components/shared/city-place';
+import {CityPlaceInfo} from '../../components/shared/city-place/city-place.ts';
 import {api} from '../../store';
 import {toast} from 'react-toastify';
 import EmptyFavoritesPage from './empty-page.tsx';

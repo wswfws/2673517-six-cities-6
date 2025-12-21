@@ -1,6 +1,6 @@
 import { Dispatch, memo, NamedExoticComponent, SetStateAction } from 'react';
-import {CityPlaceInfo} from '../shared/city-place';
-import CityPlaceCard from './city-place-card.tsx';
+import {CityPlaceInfo} from '../../shared/city-place/city-place.ts';
+import CityPlaceCard from '../city-place-card/city-place-card.tsx';
 
 type CityPlacesListProps = {
   sortedPlaces: CityPlaceInfo[];
