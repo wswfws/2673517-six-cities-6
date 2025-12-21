@@ -3,7 +3,7 @@ import { AuthorizationStatus } from '../const.ts';
 import { offersActions, offersReducer, initialOffersState, type OffersState, userActions, userReducer, initialUserState, type UserState } from './reducer.ts';
 import type { CityPlaceInfo, PlaceFullInfo } from '../components/shared/city-place';
 import type { Review } from '../components/widgets/reviews/review-types';
-import type { AuthInfo } from './AuthInfo.ts';
+import type { AuthInfo } from './auth-info.ts';
 
 const createCityPlace = (overrides: Partial<CityPlaceInfo> = {}): CityPlaceInfo => ({
   id: 'place-1',

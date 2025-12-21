@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import {ROUTE_CONFIG} from "../../components/app/use-app-routes.ts";
+import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
 
 export default function Error404Page() {
   return (

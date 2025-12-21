@@ -11,7 +11,7 @@ import {fetchOffer} from '../api/offer-fetcher.ts';
 import {fetchNearbyOffers} from '../api/offers-nearby-fetcher.ts';
 import {fetchComments, postComment} from '../api/comments-api.ts';
 import {setOfferDetail, setNeighbors, setComments, setIsLoadingOffer, setOfferNotFound, setIsPostingComment, updatePlace} from './action.ts';
-import {AuthInfo} from './AuthInfo.ts';
+import {AuthInfo} from './auth-info.ts';
 import changeFavoriteStatus from '../api/favorite-api.ts';
 
 export const fetchOffersAction = createAsyncThunk<void, void,
