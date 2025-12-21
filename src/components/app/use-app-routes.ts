@@ -4,7 +4,7 @@ const ROUTE_CONFIG = {
   LOGIN: '/login',
   OFFER: '/offer/:id',
   CITY: '/:city',
-  WILDCARD: '*',
+  WILDCARD: '/*',
 } as const;
 
 const APP_CONFIG = {
