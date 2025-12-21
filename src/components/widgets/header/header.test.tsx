@@ -6,12 +6,13 @@ import {configureStore} from '@reduxjs/toolkit';
 import Header from './header.tsx';
 import {AuthorizationStatus} from '../../../const.ts';
 
-vi.mock('../../store/hooks.ts', async () => {
-  const actual: typeof import('../../../store/hooks.ts') = await vi.importActual('../../store/hooks.ts');
+vi.mock('../../../store/hooks.ts', async () => {
+  const actual: typeof import('../../../store/hooks.ts') = await vi.importActual('../../../store/hooks.ts');
   return {
     ...actual,
     useAuthorizationStatus: vi.fn(),
     useAppSelector: vi.fn(),
+    useAppDispatch: vi.fn(),
   };
 });
 

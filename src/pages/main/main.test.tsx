@@ -51,25 +51,25 @@ vi.mock('./use-sorter-places.ts', () => ({
   default: vi.fn((places: object[]) => places),
 }));
 
-vi.mock('../../components/widgets/header.tsx', () => ({
+vi.mock('../../components/widgets/header/header.tsx', () => ({
   default: () => <header data-testid="header">Header</header>,
 }));
 
-vi.mock('../../components/widgets/locations-tabs.tsx', () => ({
+vi.mock('../../components/widgets/locations-tabs/locations-tabs.tsx', () => ({
   default: () => <div data-testid="locations-tabs">Locations</div>,
 }));
 
-vi.mock('../../components/widgets/sort-options.tsx', () => ({
+vi.mock('../../components/widgets/sort-options/sort-options.tsx', () => ({
   default: ({current}: { current: string }) => (
     <div data-testid="sort-options"><span>{current}</span></div>
   ),
 }));
 
-vi.mock('../../components/shared/map-cities.tsx', () => ({
-  default: () => <div data-testid="map-cities">Map</div>,
+vi.mock('../../components/shared/maps', () => ({
+  MapCities: () => <div data-testid="map-cities">Map</div>,
 }));
 
-vi.mock('../../components/widgets/city-places-list.tsx', () => ({
+vi.mock('../../components/widgets/city-places-list/city-places-list.tsx', () => ({
   default: ({sortedPlaces}: { sortedPlaces: never[] }) => (
     <div data-testid="city-places-list">{sortedPlaces.length} places</div>
   ),

@@ -5,7 +5,7 @@ import {BrowserRouter} from 'react-router-dom';
 import CityPlaceCardFavorites from './city-place-card-favorites.tsx';
 import {CityPlaceInfo} from '../../shared/city-place/city-place.ts';
 
-vi.mock('../hooks/use-handle-favorite-click.ts', () => ({
+vi.mock('../../hooks/use-handle-favorite-click/use-handle-favorite-click.ts', () => ({
   default: vi.fn(() => vi.fn()),
 }));
 

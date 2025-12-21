@@ -35,9 +35,9 @@ const HeaderNavigationAuth = () => {
         <li className="header__nav-item">
           {/* not React Link because not real link? but has role link to sign out  */}
           <a className='header__nav-link'
-             type='button'
-             onClick={handleSignOut}
-             aria-busy={isLoggingOut}
+            type='button'
+            onClick={handleSignOut}
+            aria-busy={isLoggingOut}
           >
             <span className="header__signout">{isLoggingOut ? 'Signing out...' : 'Sign out'}</span>
           </a>

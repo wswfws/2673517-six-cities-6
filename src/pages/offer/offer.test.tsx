@@ -27,7 +27,7 @@ vi.mock('../../store/hooks.ts', () => ({
   useAuthorizationStatus: () => useAuthorizationStatusMock(),
 }));
 
-vi.mock('../../components/widgets/header.tsx', () => ({
+vi.mock('../../components/widgets/header/header.tsx', () => ({
   default: () => <div data-testid='header'>Header</div>,
 }));
 
@@ -35,11 +35,11 @@ vi.mock('../../components/widgets/reviews/review-list.tsx', () => ({
   default: () => <div data-testid='review-list'>Reviews</div>,
 }));
 
-vi.mock('../../components/shared/map-offer.tsx', () => ({
-  default: () => <div data-testid='map-offer'>Map</div>,
+vi.mock('../../components/shared/maps', () => ({
+  MapOffer: () => <div data-testid='map-offer'>Map</div>,
 }));
 
-vi.mock('../../components/widgets/city-place-card.tsx', () => ({
+vi.mock('../../components/widgets/city-place-card/city-place-card.tsx', () => ({
   default: ({cityPlaceInfo}: { cityPlaceInfo: { id: string } }) => (
     <div data-testid='neighbor-card'>{cityPlaceInfo.id}</div>
   ),
@@ -54,7 +54,7 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
-vi.mock('../404.tsx', () => ({
+vi.mock('../404/404.tsx', () => ({
   default: () => <div data-testid='error-404'>Not Found</div>,
 }));
 

@@ -12,7 +12,7 @@ vi.mock('../../store/api-actions', () => ({
   loginAction: vi.fn(),
 }));
 
-vi.mock('../../components/widgets/header.tsx', () => ({
+vi.mock('../../components/widgets/header/header.tsx', () => ({
   default: () => <header data-testid="header">Header</header>,
 }));
 
@@ -30,6 +30,9 @@ describe('LoginPage Component', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks();
+    // Make random selection deterministic for tests
+    vi.spyOn(Math, 'random').mockReturnValue(0);
+
     store = configureStore({
       reducer: {
         offers: () => ({}),
@@ -261,7 +264,7 @@ describe('LoginPage Component', () => {
   it('should render location section', () => {
     renderWithProviders(<LoginPage/>);
 
-    expect(screen.getByText('Amsterdam')).toBeInTheDocument();
+    expect(screen.getByText('Paris')).toBeInTheDocument();
   });
 
   it('should have correct page classes', () => {

@@ -9,8 +9,18 @@ import type {CityPlaceInfo} from '../../shared/city-place/city-place.ts';
 import type {AppDispatch} from '../../../store';
 import React from 'react';
 
-vi.mock('../../store/hooks');
-vi.mock('react-router-dom');
+vi.mock('../../../store/hooks.ts', () => ({
+  useAppDispatch: vi.fn(),
+  useAuthorizationStatus: vi.fn(),
+  useAppSelector: vi.fn(),
+}));
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+  };
+});
 
 describe('useHandleFavoriteClick', () => {
   const mockDispatch = vi.fn();
