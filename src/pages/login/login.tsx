@@ -13,7 +13,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const randomCity = useMemo(() => STATIC_CITIES[Math.floor(Math.random() * 6)], []);
+  const randomCity = useMemo(() => STATIC_CITIES[Math.floor(Math.random() * STATIC_CITIES.length)], []);
   const {getCityPath} = useAppRoutes();
 
   const authorizationStatus = useAuthorizationStatus();

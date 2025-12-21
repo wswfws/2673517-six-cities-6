@@ -3,7 +3,7 @@ import ReviewForm from '../review-form';
 import {Review} from './review-types.ts';
 import ReviewItem from './review-item.tsx';
 import {useAuthorizationStatus} from '../../../store/hooks.ts';
-import {AuthorizationStatus} from '../../../const.ts';
+import {AuthorizationStatus, ViewCommentsCount} from '../../../const.ts';
 
 function ReviewsContentComponent({reviews}: { reviews: Review[] }) {
   const sortedReviews = useMemo(
@@ -17,7 +17,7 @@ function ReviewsContentComponent({reviews}: { reviews: Review[] }) {
         Reviews &middot; <span className='reviews__amount'>{reviews.length}</span>
       </h2>
       <ul className='reviews__list'>
-        {sortedReviews.slice(0, 10).map((review) => (
+        {sortedReviews.slice(0, ViewCommentsCount).map((review) => (
           <ReviewItem review={review} key={review.id}/>
         ))}
       </ul>

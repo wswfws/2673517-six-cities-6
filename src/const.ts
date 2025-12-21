@@ -18,3 +18,7 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
 }
+
+export const ViewCommentsCount = 10;
+export const ViewNeighborsPlacesCount = 3;
+export const ViewOfferDetailImagesCount = 6;

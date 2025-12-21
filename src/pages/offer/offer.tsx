@@ -1,14 +1,14 @@
 import Header from '../../components/widgets/header.tsx';
 import CityPlaceCard from '../../components/widgets/city-place-card.tsx';
 import {useNavigate, useParams} from 'react-router-dom';
-import Error404Page from '../404.tsx';
+import Error404Page from '../404/404.tsx';
 import ReviewList from '../../components/widgets/reviews/review-list.tsx';
 import MapOffer from '../../components/shared/map-offer.tsx';
 import {useAppDispatch, useAppSelector, useAuthorizationStatus} from '../../store/hooks.ts';
 import {useEffect} from 'react';
 import {fetchOfferAction, postFavoriteAction} from '../../store/api-actions.ts';
 import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
-import {AuthorizationStatus} from '../../const.ts';
+import {AuthorizationStatus, ViewNeighborsPlacesCount, ViewOfferDetailImagesCount} from '../../const.ts';
 
 export default function OfferPage() {
   const params = useParams();
@@ -16,7 +16,7 @@ export default function OfferPage() {
   const offerId = params.id ?? '';
 
   const offerDetail = useAppSelector((state) => state.offers.offerDetail);
-  const neighborsPlaces = useAppSelector((state) => state.offers.neighbors.slice(0, 3));
+  const neighborsPlaces = useAppSelector((state) => state.offers.neighbors.slice(0, ViewNeighborsPlacesCount));
   const comments = useAppSelector((state) => state.offers.comments);
   const isLoadingOffer = useAppSelector((state) => state.offers.isLoadingOffer);
   const offerNotFound = useAppSelector((state) => state.offers.offerNotFound);
@@ -60,7 +60,7 @@ export default function OfferPage() {
         <section className='offer'>
           <div className='offer__gallery-container container'>
             <div className='offer__gallery'>
-              {(offerDetail.images.slice(0, 6) ?? ['/img/room.jpg']).map((src) => (
+              {(offerDetail.images.slice(0, ViewOfferDetailImagesCount) ?? ['/img/room.jpg']).map((src) => (
                 <div className='offer__image-wrapper' key={src}>
                   <img className='offer__image' src={src} alt='Photo studio'/>
                 </div>

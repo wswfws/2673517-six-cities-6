@@ -19,9 +19,6 @@ const HeaderNavigationAuth = () => {
       .then(() => {
         navigate(ROUTE_CONFIG.ROOT);
       })
-      .catch(() => {
-        // optionally handle error (show toast)
-      })
       .finally(() => setIsLoggingOut(false));
   };
 
@@ -29,7 +26,7 @@ const HeaderNavigationAuth = () => {
     <nav className='header__nav'>
       <ul className='header__nav-list'>
         <li className='header__nav-item user'>
-          <Link className='header__nav-link header__nav-link--profile' to='/favorites'>
+          <Link className='header__nav-link header__nav-link--profile' to={ROUTE_CONFIG.FAVORITES}>
             <div className='header__avatar-wrapper user__avatar-wrapper'>
             </div>
             <span className='header__user-name user__name'>{userData?.email ?? ''}</span>
@@ -81,7 +78,7 @@ function HeaderComponent() {
       <div className='container'>
         <div className='header__wrapper'>
           <div className='header__left'>
-            <Link className='header__logo-link header__logo-link--active' to={'/'}>
+            <Link className='header__logo-link header__logo-link--active' to={ROUTE_CONFIG.ROOT}>
               <img className='header__logo' src='/img/logo.svg' alt='6 cities logo' width='81' height='41'/>
             </Link>
           </div>
