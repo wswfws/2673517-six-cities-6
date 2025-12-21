@@ -53,7 +53,7 @@ export default function MainPage() {
               <b className='places__found'>{sortedPlaces.length} places to stay in {currentCity}</b>
 
               <SortOptions current={sortType} onChange={(opt) => setSortType(opt)}/>
-              <CityPlacesList sortedPlaces={sortedPlaces} setSelectedPlaceId={setSelectedPlaceId}/>
+              <CityPlacesList sortedPlaces={sortedPlaces} onSelectPlaceId={setSelectedPlaceId}/>
 
             </section>
             {selectedPlacePoint && cityInfo &&
