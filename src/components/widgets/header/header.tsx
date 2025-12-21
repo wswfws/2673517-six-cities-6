@@ -1,9 +1,8 @@
-import {memo, NamedExoticComponent} from 'react';
+import {memo, NamedExoticComponent, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {ROUTE_CONFIG} from '../../app/use-app-routes.ts';
-import {useAuthorizationStatus, useAppSelector, useAppDispatch} from '../../../store/hooks.ts';
+import {useAppDispatch, useAppSelector, useAuthorizationStatus} from '../../../store/hooks.ts';
 import {AuthorizationStatus} from '../../../const.ts';
-import {useState} from 'react';
 import {logoutAction} from '../../../store/api-actions.ts';
 
 const HeaderNavigationAuth = () => {
@@ -36,9 +35,9 @@ const HeaderNavigationAuth = () => {
         <li className="header__nav-item">
           {/* not React Link because not real link? but has role link to sign out  */}
           <a className='header__nav-link'
-            type='button'
-            onClick={handleSignOut}
-            aria-busy={isLoggingOut}
+             type='button'
+             onClick={handleSignOut}
+             aria-busy={isLoggingOut}
           >
             <span className="header__signout">{isLoggingOut ? 'Signing out...' : 'Sign out'}</span>
           </a>
@@ -52,7 +51,7 @@ function HeaderNavigation() {
   const authorizationStatus = useAuthorizationStatus();
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
-    return <HeaderNavigationAuth />;
+    return <HeaderNavigationAuth/>;
   }
   if (authorizationStatus === AuthorizationStatus.NoAuth) {
     return (
@@ -72,7 +71,9 @@ function HeaderNavigation() {
   return null;
 }
 
-function HeaderComponent() {
+type HeaderProps = { showNav?: boolean };
+
+function HeaderComponent({showNav = true}: HeaderProps) {
   return (
     <header className='header'>
       <div className='container'>
@@ -82,14 +83,14 @@ function HeaderComponent() {
               <img className='header__logo' src='/img/logo.svg' alt='6 cities logo' width='81' height='41'/>
             </Link>
           </div>
-          <HeaderNavigation/>
+          {showNav && <HeaderNavigation/>}
         </div>
       </div>
     </header>
   );
 }
 
-const Header: NamedExoticComponent = memo(HeaderComponent);
+const Header: NamedExoticComponent<HeaderProps> = memo(HeaderComponent);
 Header.displayName = 'Header';
 
 export default Header;
