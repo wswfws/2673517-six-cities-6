@@ -1,11 +1,11 @@
 import TabList, {ITabList} from '../../shared/tab-list/tab-list.tsx';
 
-type Props = {
+export type CitiesListProps = {
   cities: string[];
   getCityPath: (city: string) => string;
 };
 
-export default function CitiesList({cities, getCityPath}: Props) {
+export default function CitiesList({cities, getCityPath}: CitiesListProps) {
   const locations: ITabList = cities.map((city) => ({text: city, href: getCityPath(city)}));
 
   return (

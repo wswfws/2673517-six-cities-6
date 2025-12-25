@@ -4,7 +4,7 @@ import {CityPlaceInfo} from '../../shared/city-place/city-place.ts';
 import useHandleFavoriteClick from '../../hooks/use-handle-favorite-click/use-handle-favorite-click.ts';
 import useAppRoutes from '../../app/use-app-routes.ts';
 
-type CityPlaceCardProps = {
+export type CityPlaceCardProps = {
   cityPlaceInfo: CityPlaceInfo;
   onSelect?: (id: string) => void;
 };

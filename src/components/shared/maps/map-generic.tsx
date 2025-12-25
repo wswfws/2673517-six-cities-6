@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import {City, Point, Points} from './map-types.ts';
 import useMap from '../../hooks/use-map/use-map.tsx';
 
-type MapGenericProps = {
+export type MapGenericProps = {
   city: City;
   points: Points;
   activeId?: Point['id'];

@@ -2,7 +2,7 @@ import { Dispatch, memo, NamedExoticComponent, SetStateAction } from 'react';
 import {CityPlaceInfo} from '../../shared/city-place/city-place.ts';
 import CityPlaceCard from '../city-place-card/city-place-card.tsx';
 
-type CityPlacesListProps = {
+export type CityPlacesListProps = {
   sortedPlaces: CityPlaceInfo[];
   onSelectPlaceId: Dispatch<SetStateAction<string | undefined>>;
 };
