@@ -3,7 +3,7 @@ import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import FavoritesPage from '../../pages/favorites/favorites.tsx';
 import LoginPage from '../../pages/login/login.tsx';
 import OfferPage from '../../pages/offer/offer.tsx';
-import Error404Page from '../../pages/404.tsx';
+import Error404Page from '../../pages/404/404.tsx';
 import PrivateRoute from './private-route.tsx';
 import useAppRoutes, {ROUTE_CONFIG} from './use-app-routes.ts';
 import {useAuthorizationStatus} from '../../store/hooks.ts';

@@ -1,4 +1,4 @@
-type CityPlaceInfo = {
+export type CityPlaceInfo = {
   id: string;
   title: string;
   type: string;

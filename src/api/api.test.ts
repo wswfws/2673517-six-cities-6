@@ -5,10 +5,10 @@ import { fetchComments, postComment } from './comments-api.ts';
 import changeFavoriteStatus from './favorite-api.ts';
 import loginFetch, { type AuthData } from './login-fetch.ts';
 import { fetchOffer } from './offer-fetcher.ts';
-import offersFetcher from './offers-fetcher.ts';
+import fetcheOffers from './fetche-offers.ts';
 import { fetchNearbyOffers } from './offers-nearby-fetcher.ts';
 import { APIRoute } from '../const.ts';
-import type { CityPlaceInfo, PlaceFullInfo } from '../components/shared/city-place';
+import type { CityPlaceInfo, PlaceFullInfo } from '../components/shared/city-place/city-place.ts';
 import type { Review } from '../components/widgets/reviews/review-types';
 import type { UserData } from './login-fetch.ts';
 
@@ -42,7 +42,7 @@ describe('API functions', () => {
 
       mockAdapter.onGet(APIRoute.Offers).reply(200, mockOffers);
 
-      const result = await offersFetcher(api);
+      const result = await fetcheOffers(api);
 
       expect(result).toEqual(mockOffers);
     });

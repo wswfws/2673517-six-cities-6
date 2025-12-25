@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import offersFetcher from '../api/offers-fetcher.ts';
+import fetcheOffers from '../api/fetche-offers.ts';
 import {AxiosInstance} from 'axios';
 import {AppDispatch, RootState} from './index.ts';
 import {setAuthorizationStatus, setIsLoadingPlaces, setPlaces, setUserData} from './action.ts';
@@ -11,7 +11,7 @@ import {fetchOffer} from '../api/offer-fetcher.ts';
 import {fetchNearbyOffers} from '../api/offers-nearby-fetcher.ts';
 import {fetchComments, postComment} from '../api/comments-api.ts';
 import {setOfferDetail, setNeighbors, setComments, setIsLoadingOffer, setOfferNotFound, setIsPostingComment, updatePlace} from './action.ts';
-import {AuthInfo} from './AuthInfo.ts';
+import {AuthInfo} from './auth-info.ts';
 import changeFavoriteStatus from '../api/favorite-api.ts';
 
 export const fetchOffersAction = createAsyncThunk<void, void,
@@ -25,7 +25,7 @@ export const fetchOffersAction = createAsyncThunk<void, void,
   async (_, {dispatch, extra: api}) => {
     try {
       dispatch(setIsLoadingPlaces(true));
-      const data = await offersFetcher(api);
+      const data = await fetcheOffers(api);
       dispatch(setPlaces(data));
     } finally {
       dispatch(setIsLoadingPlaces(false));

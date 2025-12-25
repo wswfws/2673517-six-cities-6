@@ -1,4 +1,5 @@
-import Header from '../../components/widgets/header.tsx';
+import Header from '../../components/widgets/header/header.tsx';
+import Footer from '../../components/widgets/footer/footer.tsx';
 
 export default function EmptyFavoritesPage() {
   return (
@@ -18,11 +19,7 @@ export default function EmptyFavoritesPage() {
           </section>
         </div>
       </main>
-      <footer className="footer">
-        <a className="footer__logo-link" href="/">
-          <img className="footer__logo" src="/img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 }

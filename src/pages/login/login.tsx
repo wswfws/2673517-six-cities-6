@@ -1,18 +1,20 @@
 import {useDispatch} from 'react-redux';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {loginAction} from '../../store/api-actions';
-import Header from '../../components/widgets/header.tsx';
-import {FormEvent, useEffect, useState} from 'react';
+import Header from '../../components/widgets/header/header.tsx';
+import {FormEvent, useEffect, useMemo, useState} from 'react';
 import {AppDispatch} from '../../store';
-import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
+import useAppRoutes, {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
 import {useAuthorizationStatus} from '../../store/hooks.ts';
-import { AuthorizationStatus } from '../../const.ts';
+import {AuthorizationStatus, STATIC_CITIES} from '../../const.ts';
 
 export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const randomCity = useMemo(() => STATIC_CITIES[Math.floor(Math.random() * STATIC_CITIES.length)], []);
+  const {getCityPath} = useAppRoutes();
 
   const authorizationStatus = useAuthorizationStatus();
 
@@ -54,7 +56,7 @@ export default function LoginPage() {
 
   return (
     <div className='page page--gray page--login'>
-      <Header/>
+      <Header showNav={false}/>
 
       <main className='page__main page__main--login'>
         <div className='page__login-container container'>
@@ -97,9 +99,9 @@ export default function LoginPage() {
           </section>
           <section className='locations locations--login locations--current'>
             <div className='locations__item'>
-              <a className='locations__item-link' href='#'>
-                <span>Amsterdam</span>
-              </a>
+              <Link className='locations__item-link' to={getCityPath(randomCity)}>
+                <span>{randomCity}</span>
+              </Link>
             </div>
           </section>
         </div>

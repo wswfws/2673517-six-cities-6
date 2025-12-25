@@ -1,16 +1,26 @@
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {act, renderHook} from '@testing-library/react';
-import useHandleFavoriteClick from './use-handle-favorite-click';
-import * as storeHooks from '../../store/hooks';
+import useHandleFavoriteClick from './use-handle-favorite-click.ts';
+import * as storeHooks from '../../../store/hooks.ts';
 import type {NavigateFunction} from 'react-router-dom';
 import * as reactRouter from 'react-router-dom';
-import {AuthorizationStatus} from '../../const';
-import type {CityPlaceInfo} from '../shared/city-place';
-import type {AppDispatch} from '../../store';
+import {AuthorizationStatus} from '../../../const.ts';
+import type {CityPlaceInfo} from '../../shared/city-place/city-place.ts';
+import type {AppDispatch} from '../../../store';
 import React from 'react';
 
-vi.mock('../../store/hooks');
-vi.mock('react-router-dom');
+vi.mock('../../../store/hooks.ts', () => ({
+  useAppDispatch: vi.fn(),
+  useAuthorizationStatus: vi.fn(),
+  useAppSelector: vi.fn(),
+}));
+vi.mock('react-router-dom', async () => {
+  const actual: typeof import('react-router-dom') = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+  };
+});
 
 describe('useHandleFavoriteClick', () => {
   const mockDispatch = vi.fn();

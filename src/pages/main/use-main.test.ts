@@ -3,9 +3,9 @@ import { renderHook, act } from '@testing-library/react';
 import useMain from './use-main';
 import * as storeHooks from '../../store/hooks';
 import * as action from '../../store/action';
-import type { CityPlaceInfo } from '../../components/shared/city-place';
+import type { CityPlaceInfo } from '../../components/shared/city-place/city-place.ts';
 import type { AppDispatch, RootState } from '../../store';
-import type { City } from '../../components/shared/map-types';
+import type { City } from '../../components/shared/maps';
 import type { OffersState, UserState } from '../../store/reducer';
 import {AuthorizationStatus} from '../../const.ts';
 

@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import {ROUTE_CONFIG} from '../../components/app/use-app-routes.ts';
 
 export default function Error404Page() {
   return (
@@ -8,7 +9,7 @@ export default function Error404Page() {
     >
       <h1>Страница не найдена</h1>
       <Link
-        className='header__nav-link header__nav-link--profile' to='/'
+        className='header__nav-link header__nav-link--profile' to={ROUTE_CONFIG.ROOT}
         style={{fontSize: 32}}
       >
         Домой

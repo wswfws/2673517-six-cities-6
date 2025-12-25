@@ -1,10 +1,9 @@
-import {memo, NamedExoticComponent} from 'react';
+import {memo, NamedExoticComponent, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {ROUTE_CONFIG} from '../app/use-app-routes.ts';
-import {useAuthorizationStatus, useAppSelector, useAppDispatch} from '../../store/hooks.ts';
-import {AuthorizationStatus} from '../../const.ts';
-import {useState} from 'react';
-import {logoutAction} from '../../store/api-actions.ts';
+import {ROUTE_CONFIG} from '../../app/use-app-routes.ts';
+import {useAppDispatch, useAppSelector, useAuthorizationStatus} from '../../../store/hooks.ts';
+import {AuthorizationStatus} from '../../../const.ts';
+import {logoutAction} from '../../../store/api-actions.ts';
 
 const HeaderNavigationAuth = () => {
   const userData = useAppSelector((state) => state.user.userData);
@@ -19,9 +18,6 @@ const HeaderNavigationAuth = () => {
       .then(() => {
         navigate(ROUTE_CONFIG.ROOT);
       })
-      .catch(() => {
-        // optionally handle error (show toast)
-      })
       .finally(() => setIsLoggingOut(false));
   };
 
@@ -29,7 +25,7 @@ const HeaderNavigationAuth = () => {
     <nav className='header__nav'>
       <ul className='header__nav-list'>
         <li className='header__nav-item user'>
-          <Link className='header__nav-link header__nav-link--profile' to='/favorites'>
+          <Link className='header__nav-link header__nav-link--profile' to={ROUTE_CONFIG.FAVORITES}>
             <div className='header__avatar-wrapper user__avatar-wrapper'>
             </div>
             <span className='header__user-name user__name'>{userData?.email ?? ''}</span>
@@ -37,6 +33,7 @@ const HeaderNavigationAuth = () => {
           </Link>
         </li>
         <li className="header__nav-item">
+          {/* not React Link because not real link? but has role link to sign out  */}
           <a className='header__nav-link'
             type='button'
             onClick={handleSignOut}
@@ -54,7 +51,7 @@ function HeaderNavigation() {
   const authorizationStatus = useAuthorizationStatus();
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
-    return <HeaderNavigationAuth />;
+    return <HeaderNavigationAuth/>;
   }
   if (authorizationStatus === AuthorizationStatus.NoAuth) {
     return (
@@ -74,24 +71,26 @@ function HeaderNavigation() {
   return null;
 }
 
-function HeaderComponent() {
+type HeaderProps = { showNav?: boolean };
+
+function HeaderComponent({showNav = true}: HeaderProps) {
   return (
     <header className='header'>
       <div className='container'>
         <div className='header__wrapper'>
           <div className='header__left'>
-            <Link className='header__logo-link header__logo-link--active' to={'/'}>
+            <Link className='header__logo-link header__logo-link--active' to={ROUTE_CONFIG.ROOT}>
               <img className='header__logo' src='/img/logo.svg' alt='6 cities logo' width='81' height='41'/>
             </Link>
           </div>
-          <HeaderNavigation/>
+          {showNav && <HeaderNavigation/>}
         </div>
       </div>
     </header>
   );
 }
 
-const Header: NamedExoticComponent = memo(HeaderComponent);
+const Header: NamedExoticComponent<HeaderProps> = memo(HeaderComponent);
 Header.displayName = 'Header';
 
 export default Header;

@@ -11,7 +11,7 @@ import {
   postFavoriteAction,
 } from './api-actions.ts';
 import {offersReducer, OffersState, userReducer, UserState} from './reducer.ts';
-import type {CityPlaceInfo, PlaceFullInfo} from '../components/shared/city-place';
+import type {CityPlaceInfo, PlaceFullInfo} from '../components/shared/city-place/city-place.ts';
 import type {Review} from '../components/widgets/reviews/review-types';
 import type {UserData} from '../api/login-fetch.ts';
 import {APIRoute, AuthorizationStatus} from '../const.ts';

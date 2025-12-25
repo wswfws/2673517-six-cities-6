@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../const.ts';
 import type { Review } from '../components/widgets/reviews/review-types.ts';
-import { CityPlaceInfo, PlaceFullInfo } from '../components/shared/city-place';
-import { AuthInfo } from './AuthInfo.ts';
+import { CityPlaceInfo, PlaceFullInfo } from '../components/shared/city-place/city-place.ts';
+import { AuthInfo } from './auth-info.ts';
 
 export type OffersState = {
   city: string;

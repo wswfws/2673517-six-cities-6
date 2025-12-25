@@ -1,10 +1,10 @@
-import {CityPlaceInfo} from '../shared/city-place';
-import {useAppDispatch, useAuthorizationStatus} from '../../store/hooks.ts';
+import {CityPlaceInfo} from '../../shared/city-place/city-place.ts';
+import {useAppDispatch, useAuthorizationStatus} from '../../../store/hooks.ts';
 import {useNavigate} from 'react-router-dom';
 import React from 'react';
-import {AuthorizationStatus} from '../../const.ts';
-import {ROUTE_CONFIG} from '../app/use-app-routes.ts';
-import {postFavoriteAction} from '../../store/api-actions.ts';
+import {AuthorizationStatus} from '../../../const.ts';
+import {ROUTE_CONFIG} from '../../app/use-app-routes.ts';
+import {postFavoriteAction} from '../../../store/api-actions.ts';
 
 const useHandleFavoriteClick = (cityPlaceInfo: CityPlaceInfo) => {
   const dispatch = useAppDispatch();

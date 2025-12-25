@@ -1,33 +1,29 @@
-import {memo, NamedExoticComponent} from 'react';
-import {Link} from 'react-router-dom';
-import {CityPlaceInfo} from '../shared/city-place';
-import useHandleFavoriteClick from '../hooks/use-handle-favorite-click.ts';
-import useAppRoutes from '../app/use-app-routes.ts';
+import {CityPlaceInfo} from '../../shared/city-place/city-place.ts';
+import useHandleFavoriteClick from '../../hooks/use-handle-favorite-click/use-handle-favorite-click.ts';
+import useAppRoutes from '../../app/use-app-routes.ts';
+import { Link } from 'react-router-dom';
 
-type CityPlaceCardProps = {
+export default function CityPlaceCardFavorites({cityPlaceInfo}: {
   cityPlaceInfo: CityPlaceInfo;
-  onSelect?: (id: string) => void;
-};
+}) {
 
-function CityPlaceCard({cityPlaceInfo, onSelect}: CityPlaceCardProps) {
-
-  const handleFavoriteClick = useHandleFavoriteClick(cityPlaceInfo);
   const {getOfferPath} = useAppRoutes();
+  const handleFavoriteClick = useHandleFavoriteClick(cityPlaceInfo);
 
   return (
-    <article className='cities__card place-card' onMouseEnter={() => onSelect && onSelect(cityPlaceInfo.id)}>
+    <article className='favorites__card place-card'>
       {cityPlaceInfo.isPremium &&
         <div className='place-card__mark'>
           <span>Premium</span>
         </div>}
-      <div className='cities__image-wrapper place-card__image-wrapper'>
+      <div className='favorites__image-wrapper place-card__image-wrapper'>
         <Link to={getOfferPath(cityPlaceInfo.id)}>
           <img className='place-card__image' src={cityPlaceInfo.previewImage} width='260' height='200'
             alt='Place image'
           />
         </Link>
       </div>
-      <div className='place-card__info'>
+      <div className='favorites__card-info place-card__info'>
         <div className='place-card__price-wrapper'>
           <div className='place-card__price'>
             <b className='place-card__price-value'>&euro;{cityPlaceInfo.price} </b>
@@ -58,8 +54,3 @@ function CityPlaceCard({cityPlaceInfo, onSelect}: CityPlaceCardProps) {
     </article>
   );
 }
-
-const MemoizedCityPlaceCard: NamedExoticComponent<CityPlaceCardProps> = memo(CityPlaceCard);
-MemoizedCityPlaceCard.displayName = 'CityPlaceCard';
-
-export default MemoizedCityPlaceCard;

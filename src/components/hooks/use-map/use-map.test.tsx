@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import useMap from './use-map';
-import type { City } from '../shared/map-types';
+import useMap from './use-map.tsx';
+import type { City } from '../../shared/maps/map-types.ts';
 import { Map, TileLayer } from 'leaflet';
 
 vi.mock('leaflet');

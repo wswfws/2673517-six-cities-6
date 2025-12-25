@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useState} from 'react';
 import {useAppDispatch, useAppSelector, useCities, usePlacesByCity} from '../../store/hooks.ts';
 import {setCity} from '../../store/action.ts';
-import type {Point} from '../../components/shared/map-types.ts';
+import type {Point} from '../../components/shared/maps';
 
 export default function useMain(cityParam?: string) {
   const dispatch = useAppDispatch();

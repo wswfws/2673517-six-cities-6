@@ -1,6 +1,6 @@
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import type {AppDispatch, RootState} from './index';
-import {City} from '../components/shared/map-types.ts';
+import {City} from '../components/shared/maps';
 import {useMemo} from 'react';
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
